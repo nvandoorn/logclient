@@ -28,6 +28,11 @@ exports.levels = {
     DEBUG: 4
 };
 
+exports.callType = {
+    VIEW: 0,
+    JSON: 1
+};
+
 
 /**
  * Models a given LogFile
@@ -46,14 +51,12 @@ class LogFile extends events.EventEmitter{
      *  CSS class string
      */
     static getClass(level){
-        let levelStr;
+        let keys = Object.keys(exports.levels);
+        let levelInt = level;
         if(helpers.isUndefined(level)){
-            levelStr = 'debug';
+            levelInt = exports.levels.DEBUG;
         }
-        else{
-            levelStr = level;
-        }
-        return util.format('logline-%s', levelStr.toLowerCase());
+        return util.format('logline-%s', keys[levelInt].toLowerCase());
     }
 
     /**
@@ -86,7 +89,10 @@ class LogFile extends events.EventEmitter{
                                 isoTime = parts[0].substring(1, parts[0].length - 1);
                                 timestamp = new Date(isoTime).getTime();
                                 levelKey = parts[1].substring(1, parts[1].length - 2);
-                                level = helpers.isUndefined(levelKey) ? undefined : self.levels[levelKey];
+                                let validLevel = Object.keys(exports.levels).indexOf(levelKey) > 0;
+                                if(validLevel){
+                                    level = exports.levels[levelKey]
+                                }
                             }
                             catch(err){
 
@@ -95,7 +101,7 @@ class LogFile extends events.EventEmitter{
                                 text: logEntry,
                                 time: timestamp,
                                 level: level,
-                                classStr: LogFile.getClass(levelKey),
+                                classStr: LogFile.getClass(level),
                                 line: ++index
                             });
                         }
@@ -136,7 +142,6 @@ class LogFile extends events.EventEmitter{
         return a.line - b.line;
     }
 
-
     /**
      * Constructor generates a list of logEntries
      * for a given log file
@@ -154,13 +159,16 @@ class LogFile extends events.EventEmitter{
     }
 
     paginate(pageSize){
-        let toPaginate = clone(this.logEntries);
+        let toPaginate = this.logEntries.clone();
         let pages = new Heap((a, b) => {
-            return a.peek().line - b.peek().line;
+            let aLine = a.peek().line;
+            let bLine = b.peek().line;
+            return aLine - bLine;
         });
+
         while(!toPaginate.empty()){
             let page = new Heap(LogFile.heapOrder);
-            while(page.size() <= pageSize){
+            while(page.size() <= pageSize && !toPaginate.empty()){
                 page.push(toPaginate.pop());
             }
             pages.push(page);
@@ -208,7 +216,6 @@ class LogFile extends events.EventEmitter{
         return this.logEntries;
     }
 
-
 }
 
 /**
@@ -217,19 +224,27 @@ class LogFile extends events.EventEmitter{
 router.get('/:logfile', (req, res, next) => {
     let logFile = new LogFile(req.params.logfile);
     logFile.on('ready', () => {
-        // let promises = [
-        //     logFile.query(req.query),
-        //     LogFile.getLogFileNames(LOG_DIR)
-        // ];
-        // Promise.all(promises).then((values) => {
-        //    res.render('logs', {
-        //        title: req.params.logfile,
-        //        logEntries: values[0],
-        //        logFiles: values[1]
-        //    });
-        // });
-        res.json(logFile.paginate(5)[0]);
+        let promises = [
+            logFile.query(req.query),
+            LogFile.getLogFileNames(LOG_DIR)
+        ];
+        Promise.all(promises).then((values) => {
+           res.render('logs', {
+               title: req.params.logfile,
+               logEntries: values[0],
+               logFiles: values[1]
+           });
+        });
+    });
+});
 
+router.get('/:logfile/:pageNum', (req, res, next) => {
+    let logFile = new LogFile(req.params.logfile);
+    logFile.on('ready', () => {
+        logFile.query(req.query).then((value) => {
+
+        });
+       res.json(logFile.paginate(10)[parseInt(req.params.pageNum)])
     });
 });
 
