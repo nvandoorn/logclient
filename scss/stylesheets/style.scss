@@ -1,0 +1,37 @@
+$loglines-bg: lighten(#000, 90%);
+
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.logline-error{
+  color: #d9534f;
+}
+
+.logline-warn{
+  color: #f0ad4e;
+}
+
+.logline-info{
+  color: #5bc0de;
+}
+
+.logline-verbose{
+  color: #428bca;
+}
+
+.logline-debug{
+  color: #5cb85c;
+}
+
+#loglines{
+  border-radius: 5px;
+  background: $loglines-bg;
+  padding: 20px;
+  overflow: scroll;
+}
