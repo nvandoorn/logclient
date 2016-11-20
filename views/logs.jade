@@ -1,8 +1,11 @@
 extends layout
 
 block content
-
+    p.hidden#page-current= currentPage
+    p.hidden#pages-total= nPages
+    p.hidden#log-file= title
     .row
         include sidebar
         include loglines
+        include pagination
 

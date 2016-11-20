@@ -1,27 +1,87 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
+#pagination {
+  float: right;
+  line-height: 25px; }
+  #pagination ul > li {
+    display: inline-block;
+    margin-right: 1.5em; }
 
-a {
-  color: #00B7FF; }
+#sidebar ul {
+  margin: 0;
+  padding: 10px;
+  font-size: 12px;
+  list-style-type: none;
+  background: #262a32;
+  height: calc(100vh - 200px);
+  border-radius: 6px;
+  color: #f35656; }
+  #sidebar ul h3 {
+    color: #ffffff;
+    margin: 3px;
+    padding: 0; }
+  #sidebar ul li a {
+    margin-left: 20px; }
+
+#sidebar h2 {
+  height: 60px;
+  margin: auto;
+  padding: 0; }
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  padding: 30px;
+  background: #40454e;
+  color: #ffffff; }
+  body select, body input {
+    color: #000000;
+    padding: 0;
+    margin: 0; }
+  body label {
+    padding: 0;
+    margin: 0;
+    display: block; }
+  body a {
+    color: inherit;
+    text-decoration: none;
+    font-size: 1.1em; }
+  body a:hover {
+    color: #fca158; }
 
 .logline-error {
-  color: #d9534f; }
+  color: #f35656; }
 
 .logline-warn {
-  color: #f0ad4e; }
+  color: #f0c850; }
 
 .logline-info {
-  color: #5bc0de; }
+  color: #58b3fc; }
 
 .logline-verbose {
-  color: #428bca; }
+  color: #9ee655; }
 
 .logline-debug {
-  color: #5cb85c; }
+  color: #51f2c7; }
+
+#controls {
+  height: 60px;
+  margin: auto;
+  overflow: hidden; }
 
 #loglines {
-  border-radius: 5px;
-  background: #e6e6e6;
+  animation-duration: 3s;
+  animation-name: slidein;
+  border-radius: 6px;
+  background: #262a32;
   padding: 20px;
-  overflow: scroll; }
+  overflow-y: scroll;
+  height: calc(100vh - 200px);
+  background: #262a32; }
+  #loglines .logline {
+    padding: 0;
+    margin: 0;
+    line-height: 35px; }
+  #loglines span {
+    line-height: 35px; }
+
+.hidden {
+  display: none; }

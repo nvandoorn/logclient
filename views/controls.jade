@@ -1,0 +1,30 @@
+#controls
+    .row
+        .two.columns
+            label(for='levels') Log Levels
+            select#levels
+                option(value=0) Error
+                option(value=1) Warning
+                option(value=2) Info
+                option(value=3) Verbose
+                option(value=4) Debug
+
+        .two.columns
+            label(for='page-size') Page Size
+            input(type='number', name='page-size', id='page-size', min=1, max=100)
+
+        .two.columns
+            label(for='start-line') Start Line
+            input(type='number', name='start-line', id='start-line', min=1, max=nLines)
+
+        .two.columns
+            label(for='end-line') End Line
+            input(type='number', name='end-line', id='end-line', min=1, max=nLines)
+
+        .two.columns
+            label(for='start-dt') Start Date
+            input(type='text', name='start-dt', id='start-dt')
+
+        .two.columns
+            label(for='end-dt') End Date
+            input(type='text', name='end-dt', id='end-dt')

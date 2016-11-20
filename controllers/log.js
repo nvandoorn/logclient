@@ -13,8 +13,8 @@ const clone = require('clone');
 const router = express.Router();
 
 const LOG_DIR = '/var/log/clientlog';
-const DEFAULT_START_TIME_HR = 300;
-
+const SYS_NAME = 'System SN99';
+const DEFAULT_PAGE_SIZE = 10;
 /**
  *  Enum for log levels
  *
@@ -69,6 +69,8 @@ class LogFile extends events.EventEmitter{
      */
     static generateLogEntries(logPath){
         let index = 0;
+        let isoDtExp = /(\[\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z\])/;
+        let isoDtExpMatch = /\[(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z)\]/;
         const self = this;
         return new Promise((resolve, reject) => {
             async.waterfall([
@@ -78,30 +80,47 @@ class LogFile extends events.EventEmitter{
                         });
                     },
                     (data, next) => {
-                        next(null, data.split('\n'));
+                        let split = data.split(isoDtExp);
+                        let lines = [];
+                        for(let i = 1; i < split.length; i += 2){
+                            lines.push(split[i] + split[i+1]);
+                        }
+                        next(null, lines);
                     },
                     (data, done) => {
-                        let logEntries = new Heap(LogFile.heapOrder);
+                        let logEntries = new Heap((a, b) => {
+                            return a.line - b.line;
+                        });
                         for(let logEntry of data){
-                            let parts = logEntry.split(/[+ ]+/);
-                            let isoTime, timestamp, levelKey, level;
+                            let timeRegex = new RegExp(isoDtExpMatch);
+                            let levelRegex = new RegExp(/\[(\w+)\]/);
+                            let timeStr, levelStr, timestamp, level, classStr;
                             try{
-                                isoTime = parts[0].substring(1, parts[0].length - 1);
-                                timestamp = new Date(isoTime).getTime();
-                                levelKey = parts[1].substring(1, parts[1].length - 2);
-                                let validLevel = Object.keys(exports.levels).indexOf(levelKey) > 0;
-                                if(validLevel){
-                                    level = exports.levels[levelKey]
-                                }
+                                timeStr = timeRegex.exec(logEntry)[1];
+                                timestamp = new Date(timeStr).getTime();
                             }
                             catch(err){
-
+                                LogFile.getTime(logEntries);
                             }
+
+                            try{
+                                levelStr = levelRegex.exec(logEntry)[1];
+                                let keys = Object.keys(exports.levels);
+                                level = keys.indexOf(levelStr);
+                                if(level < 0){
+                                    throw new Error('Invalid level');
+                                }
+                            }
+
+                            catch(err){
+                                level = LogFile.getLevel(logEntries);
+                            }
+                            classStr = LogFile.getClass(level);
                             logEntries.push({
                                 text: logEntry,
                                 time: timestamp,
                                 level: level,
-                                classStr: LogFile.getClass(level),
+                                classStr: classStr,
                                 line: ++index
                             });
                         }
@@ -112,6 +131,28 @@ class LogFile extends events.EventEmitter{
                 }
             );
         });
+    }
+
+    static getLevel(logEntries){
+        let logEntriesCopy = logEntries.clone();
+        while(!logEntriesCopy.empty()){
+            let logEntry = logEntriesCopy.pop();
+            if(!helpers.isUndefined(logEntry.level)){
+                return logEntry.level;
+            }
+        }
+        return exports.levels.DEBUG;
+    }
+
+    static getTime(logEntries){
+        let logEntriesCopy = logEntries.clone();
+        while(!logEntriesCopy.empty()){
+            let logEntry = logEntriesCopy.pop();
+            if(!helpers.isUndefined(logEntry.time)){
+                return logEntry.time;
+            }
+        }
+        return new Date().getTime();
     }
 
     /**
@@ -138,9 +179,31 @@ class LogFile extends events.EventEmitter{
 
     }
 
-    static heapOrder(a, b){
-        return a.line - b.line;
+    static paginate(toPaginate, pageSize){
+        pageSize = parseInt(pageSize) || DEFAULT_PAGE_SIZE;
+        let toPaginateHeap = LogFile.lineEntryHeapSort(toPaginate);
+        let toReturn = [];
+        while(!toPaginateHeap.empty()){
+            let chunk = [];
+            while(chunk.length < pageSize && !toPaginateHeap.empty()){
+                chunk.push(toPaginateHeap.pop());
+            }
+            toReturn.push(chunk);
+        }
+        return toReturn;
     }
+
+    static lineEntryHeapSort(lineEntries){
+        let heap = new Heap((a, b) => {
+            return a.line - b.line;
+        });
+        while(lineEntries.length > 0){
+            heap.push(lineEntries.pop());
+        }
+        heap.heapify();
+        return heap;
+    }
+
 
     /**
      * Constructor generates a list of logEntries
@@ -158,23 +221,6 @@ class LogFile extends events.EventEmitter{
         });
     }
 
-    paginate(pageSize){
-        let toPaginate = this.logEntries.clone();
-        let pages = new Heap((a, b) => {
-            let aLine = a.peek().line;
-            let bLine = b.peek().line;
-            return aLine - bLine;
-        });
-
-        while(!toPaginate.empty()){
-            let page = new Heap(LogFile.heapOrder);
-            while(page.size() <= pageSize && !toPaginate.empty()){
-                page.push(toPaginate.pop());
-            }
-            pages.push(page);
-        }
-        return pages.toArray();
-    }
 
     /**
      * Queries the list this list of fileEntries
@@ -190,19 +236,29 @@ class LogFile extends events.EventEmitter{
     query(reqQuery) {
         const self = this;
         return new Promise((resolve, reject) => {
-            let startTimestamp = helpers.isUndefined(reqQuery.startdt) ? new Date().getTime() - 60 * 60 * 1000 * DEFAULT_START_TIME_HR
-                : new Date(reqQuery.startdt).getTime();
-            let endTimestamp = helpers.isUndefined(reqQuery.enddt) ? new Date().getTime() : new Date(reqQuery.enddt).getTime();
+            let level;
+            try{
+                level = parseInt(reqQuery.level);
+                if(isNaN(level)){
+                    throw new Exception('level must be int')
+                }
+            }
+            catch(err){
+                level = exports.levels.DEBUG;
+            }
             let startLine = parseInt(reqQuery.startline) || 0;
             let endLine = parseInt(reqQuery.endline) || self.logEntries.size();
-            let level = parseInt(reqQuery.level) || exports.levels.DEBUG;
-            let filtered = self.logEntries.toArray().filter((entry) => {
-                let timeMatch = entry.time >= startTimestamp && entry.time <= endTimestamp;
+            let startTimeStr = reqQuery.startdt || 0;
+            let endTimeStr = reqQuery.enddt || new Date().getTime();
+            let startTimestamp = new Date(startTimeStr).getTime();
+            let endTimestamp = new Date(endTimeStr).getTime();
+            let filtered = self.logEntries.clone();
+            resolve(filtered.toArray().filter((entry) => {
                 let levelMatch = entry.level <= level;
-                let lineMatch = entry.line >= startLine && entry.line <= endLine;
-                return timeMatch && levelMatch && lineMatch;
-            });
-            resolve(filtered);
+                let dateMatch = entry.time <= endTimestamp && entry.time >= startTimestamp;
+                let lineMatch = entry.line <= endLine && entry.line >= startLine;
+                return lineMatch && levelMatch && dateMatch;
+            }));
         });
     }
 
@@ -221,7 +277,7 @@ class LogFile extends events.EventEmitter{
 /**
  * Only route so far
  */
-router.get('/:logfile', (req, res, next) => {
+router.get('/view/:logfile/:pageNum', (req, res, next) => {
     let logFile = new LogFile(req.params.logfile);
     logFile.on('ready', () => {
         let promises = [
@@ -229,22 +285,42 @@ router.get('/:logfile', (req, res, next) => {
             LogFile.getLogFileNames(LOG_DIR)
         ];
         Promise.all(promises).then((values) => {
-           res.render('logs', {
-               title: req.params.logfile,
-               logEntries: values[0],
-               logFiles: values[1]
-           });
+            let nLines = logFile.logEntries.size();
+            let records = LogFile.paginate(values[0], req.query.pagesize);
+            res.render('logs', {
+                title: req.params.logfile,
+                logEntries: records[parseInt(req.params.pageNum) - 1],
+                currentPage: parseInt(req.params.pageNum),
+                nPages: records.length,
+                logFiles: values[1],
+                nLines: nLines,
+                sysName: SYS_NAME,
+                logDirec: LOG_DIR
+            });
         });
     });
 });
 
-router.get('/:logfile/:pageNum', (req, res, next) => {
+router.get('/api/:logfile/:pageNum', (req, res, next) => {
     let logFile = new LogFile(req.params.logfile);
     logFile.on('ready', () => {
-        logFile.query(req.query).then((value) => {
-
+        logFile.query(req.query).then((logEntries) => {
+            let nLines = logFile.logEntries.size();
+            let records = LogFile.paginate(logEntries, req.query.pagesize);
+            res.json({
+                title: req.params.logfile,
+                logEntries: records[parseInt(req.params.pageNum) - 1],
+                currentPage: parseInt(req.params.pageNum),
+                nPages: records.length,
+                pageSize: parseInt(req.query.pagesize) || DEFAULT_PAGE_SIZE,
+                nLines: nLines,
+                sysName: SYS_NAME,
+                logDirec: LOG_DIR
+            });
+        })
+        .catch((err) => {
+            console.log(err.message);
         });
-       res.json(logFile.paginate(10)[parseInt(req.params.pageNum)])
     });
 });
 

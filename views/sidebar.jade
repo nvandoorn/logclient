@@ -1,5 +1,10 @@
-#sidebar.columns.three
+#sidebar.columns.two
+    h2=sysName
     ul
+        li
+            h3=logDirec
         each logFileName in logFiles
             li
-                a(href=logFileName)= logFileName
+                a(href=logFileName)
+                    i.fa.fa-book(aria-hidden=true)
+                    span=' ' +  logFileName

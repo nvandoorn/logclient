@@ -1,3 +1,12 @@
-#loglines.columns.nine
-    for logEntry in logEntries
-        p(class=logEntry.classStr)= logEntry.line + ' ' + logEntry.text
+#main.columns.ten
+    include controls
+    #loglines
+
+        if typeof logEntries !== 'undefined'
+            ol(start=logEntries[0].line)
+                for logEntry in logEntries
+                    li(class=logEntry.classStr).logline
+                        span=logEntry.text
+
+        else
+            p No log entries
