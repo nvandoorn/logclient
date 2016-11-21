@@ -4,8 +4,11 @@ block content
     p.hidden#page-current= currentPage
     p.hidden#pages-total= nPages
     p.hidden#log-file= title
-    .row
+    .grid-container
         include sidebar
-        include loglines
+        include logdisplay
         include pagination
+
+block append scripts
+    script(src='/javascripts/logclient.js', type='text/javascript')
 

@@ -1,10 +1,19 @@
-#sidebar.columns.two
+#sidebar.grid-20
     h2=sysName
     ul
         li
             h3=logDirec
+
+        li
+            a.button.button-primary.button-rounded.button-small(href='/live/view') Live
+
+        li
+            a.button.button-primary.button-rounded.button-small(href='/') File
         each logFileName in logFiles
             li
-                a(href=logFileName)
+                -var href = logFileName
+                if typeof currentPage !== 'undefined'
+                    -var href  = '../' + logFileName
+                a(href=href)
                     i.fa.fa-book(aria-hidden=true)
                     span=' ' +  logFileName

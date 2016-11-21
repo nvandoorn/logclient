@@ -1,0 +1,15 @@
+include mixins/loglines
+
+#main.grid-80
+    if typeof currentPage !== 'undefined'
+        include controls_file
+    else
+        include controls_live
+    #loglines
+        -var base = {text: '', classStr: 'logline-base hidden', line: 1}
+        +loglines([base], 'loglines-base', 'hidden')
+        if typeof logEntries !== 'undefined' && logEntries.length > 0
+            +loglines(logEntries, 'loglines-render', '')
+
+        else
+            p#no-matches No log entries

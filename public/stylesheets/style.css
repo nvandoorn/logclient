@@ -19,8 +19,10 @@
     color: #ffffff;
     margin: 3px;
     padding: 0; }
-  #sidebar ul li a {
-    margin-left: 20px; }
+  #sidebar ul li {
+    margin: 10px 0 10px 0; }
+    #sidebar ul li a {
+      margin-left: 20px; }
 
 #sidebar h2 {
   height: 60px;

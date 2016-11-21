@@ -2,11 +2,14 @@ doctype html
 html
   head
     title= title
+    meta(name="viewport",content='width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1')
     link(rel='stylesheet', href='/stylesheets/style.css')
-    link(rel='stylesheet', href='/stylesheets/lib/skeleton.css')
-    link(rel='stylesheet', href='/stylesheets/lib/font-awesome/css/font-awesome.min.css')
-    link(rel='stylesheet', href='/stylesheets/lib/normalize.css')
+    link(rel='stylesheet', href='/unsemantic/assets/stylesheets/unsemantic-grid-responsive.css')
+    link(rel='stylesheet', href='/font-awesome/css/font-awesome.min.css')
+    link(rel='stylesheet', href='/normalize-css/normalize.css')
+    link(rel='stylesheet', href='/Buttons/css/buttons.min.css')
 
   body
     block content
-    script(src='/javascripts/logclient.js', type='text/javascript')
+
+    block scripts

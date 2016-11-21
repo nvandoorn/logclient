@@ -1,28 +1,29 @@
-const LOG_LINE_CLASS = 'logline';
+'use strict';
 
-let pageCurrent = parseInt(document.getElementById('page-current').innerText);
-let logFile = document.getElementById('log-file').innerText;
+var LOG_LINE_CLASS = 'logline';
 
-let levelsSelector = document.getElementById('levels');
-let startLineInput = document.getElementById('start-line');
-let endLineInput = document.getElementById('end-line');
-let startDtInput = document.getElementById('start-dt');
-let endDtInput = document.getElementById('end-dt');
-let pageSizeInput = document.getElementById('page-size');
+var pageCurrent = parseInt(document.getElementById('page-current').innerText);
+var logFile = document.getElementById('log-file').innerText;
 
-function getLogEntries(params){
-    return new Promise((resolve, reject) => {
-        let query = [];
-        let startLine = params.startline || '';
-        let endLine = params.endline || '';
-        let startDt = params.startdt || '';
-        let endDt = params.enddt || '';
-        let pageSize = parseInt(params.pagesize) || '';
-        let level;
-        try{
+var levelsSelector = document.getElementById('levels');
+var startLineInput = document.getElementById('start-line');
+var endLineInput = document.getElementById('end-line');
+var startDtInput = document.getElementById('start-dt');
+var endDtInput = document.getElementById('end-dt');
+var pageSizeInput = document.getElementById('page-size');
+
+function getLogEntries(params) {
+    return new Promise(function (resolve, reject) {
+        var query = [];
+        var startLine = params.startline || '';
+        var endLine = params.endline || '';
+        var startDt = params.startdt || '';
+        var endDt = params.enddt || '';
+        var pageSize = parseInt(params.pagesize) || '';
+        var level = void 0;
+        try {
             level = params.level;
-        }
-        catch(err){
+        } catch (err) {
             level = '';
         }
         query.push('startline=' + startLine);
@@ -31,13 +32,13 @@ function getLogEntries(params){
         query.push('enddt=' + endDt);
         query.push('level=' + level);
         query.push('pagesize=' + pageSize);
-        let formattedQuery = query.join('&');
-        let xhr = new XMLHttpRequest();
-        let route = '/logs/api/' + params.logFile + '/' + params.pageNum + '?' + formattedQuery;
+        var formattedQuery = query.join('&');
+        var xhr = new XMLHttpRequest();
+        var route = '/logs/api/' + params.logFile + '/' + params.pageNum + '?' + formattedQuery;
 
-        xhr.onreadystatechange = function(){
-            if(this.readyState == 4 && this.status == 200) {
-                let payload = JSON.parse(this.responseText);
+        xhr.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var payload = JSON.parse(this.responseText);
                 resolve(payload);
             }
         };
@@ -46,7 +47,7 @@ function getLogEntries(params){
     });
 };
 
-function setLogLines(params){
+function setLogLines(params) {
     pageCurrent = parseInt(document.getElementById('page-current').innerText);
     logFile = document.getElementById('log-file').innerText;
 
@@ -57,34 +58,53 @@ function setLogLines(params){
     endDtInput = document.getElementById('end-dt');
     pageSizeInput = document.getElementById('page-size');
 
-    let logLines = document.getElementById('loglines');
-    let newLogLines = logLines.cloneNode(true);
-    let logLine = newLogLines.querySelectorAll('ol')[0].cloneNode(true);
-    while(newLogLines.firstChild){
-        newLogLines.removeChild(newLogLines.firstChild)
-    }
-    getLogEntries(params).then((data) => {
-        try{
-            for(let logEntry of data.logEntries){
-                let toAppend = logLine.cloneNode(true);
-                toAppend.className = '';
-                toAppend.innerText = logEntry.line + ' ' + logEntry.text;
-                toAppend.classList.add(logEntry.classStr);
-                toAppend.classList.add(LOG_LINE_CLASS);
-                newLogLines.appendChild(toAppend)
-            }
-            console.log(newLogLines);
-            console.log(logLines);
-            logLines.parentNode.replaceChild(newLogLines, logLines);
-        }
-        catch(err){
+    getLogEntries(params).then(function (data) {
+        try {
+            var toReplace = document.getElementById('loglines-render');
+            var logLines = document.getElementById('loglines-base');
+            var newLogLines = logLines.cloneNode(true);
+            var logLine = newLogLines.querySelectorAll('li')[0].cloneNode(true);
 
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                for (var _iterator = data.logEntries[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var logEntry = _step.value;
+
+                    var toAppend = logLine.cloneNode(true);
+                    toAppend.querySelectorAll('span.line')[0].innerText = logEntry.line;
+                    toAppend.querySelectorAll('span.text')[0].innerText = logEntry.text;
+                    toAppend.classList.add(logEntry.classStr);
+                    toAppend.classList.remove('hidden');
+                    newLogLines.appendChild(toAppend);
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
+
+            newLogLines.id = 'loglines-render';
+            newLogLines.classList.remove('hidden');
+            toReplace.parentNode.replaceChild(newLogLines, toReplace);
+        } catch (err) {
+            console.log(err.message);
         }
     });
-
 }
 
-function getParams(){
+function getParams() {
     return {
         level: levelsSelector.value,
         startline: startLineInput.value,
@@ -94,31 +114,29 @@ function getParams(){
         logFile: logFile,
         pageNum: pageCurrent,
         pagesize: pageSizeInput.value
-    }
+    };
 }
 
-
-
-levelsSelector.addEventListener('blur', () => {
+levelsSelector.addEventListener('blur', function () {
     setLogLines(getParams());
 });
 
-startLineInput.addEventListener('change', () => {
+startLineInput.addEventListener('change', function () {
     setLogLines(getParams());
 });
 
-endLineInput.addEventListener('change', () => {
+endLineInput.addEventListener('change', function () {
     setLogLines(getParams());
 });
 
-startDtInput.addEventListener('change', () => {
+startDtInput.addEventListener('change', function () {
     setLogLines(getParams());
 });
 
-endDtInput.addEventListener('change', () => {
+endDtInput.addEventListener('change', function () {
     setLogLines(getParams());
 });
 
-pageSizeInput.addEventListener('change', () => {
+pageSizeInput.addEventListener('change', function () {
     setLogLines(getParams());
 });

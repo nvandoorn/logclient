@@ -1,3 +1,4 @@
+
 exports.isUndefined = (property) => {
   return typeof property === 'undefined';
 };
@@ -5,3 +6,4 @@ exports.isUndefined = (property) => {
 exports.isNumber = (number) => {
   return typeof number === 'number';
 };
+

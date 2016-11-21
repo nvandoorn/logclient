@@ -1,30 +1,30 @@
 #controls
-    .row
-        .two.columns
+    .grid-container
+        .grid-15
             label(for='levels') Log Levels
             select#levels
-                option(value=0) Error
-                option(value=1) Warning
-                option(value=2) Info
-                option(value=3) Verbose
                 option(value=4) Debug
+                option(value=3) Verbose
+                option(value=2) Info
+                option(value=1) Warning
+                option(value=0) Error
 
-        .two.columns
+        .grid-10
             label(for='page-size') Page Size
             input(type='number', name='page-size', id='page-size', min=1, max=100)
 
-        .two.columns
+        .grid-10
             label(for='start-line') Start Line
             input(type='number', name='start-line', id='start-line', min=1, max=nLines)
 
-        .two.columns
+        .grid-10
             label(for='end-line') End Line
             input(type='number', name='end-line', id='end-line', min=1, max=nLines)
 
-        .two.columns
+        .grid-20
             label(for='start-dt') Start Date
             input(type='text', name='start-dt', id='start-dt')
 
-        .two.columns
+        .grid-20
             label(for='end-dt') End Date
             input(type='text', name='end-dt', id='end-dt')
