@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 
 import Loglines from './loglines/loglines';
 
-import './app.css';
-
 class App extends Component {
-
   constructor(props){
     super(props);
     this.state = {
