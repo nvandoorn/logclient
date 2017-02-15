@@ -22,8 +22,6 @@ const folderParser = require('../helpers/folderparser');
  * Models a given LogFile
  */
 class LogFile extends events.EventEmitter{
-
-
     /**
      * Generates JSON object for a given log file
      *
@@ -33,9 +31,7 @@ class LogFile extends events.EventEmitter{
      *  Resolves with a list of JSON objects
      */
     static generateLogEntries(logPath){
-
-        const self = this;
-        return new Promise((resolve, reject) => {
+       return new Promise((resolve, reject) => {
             async.waterfall([
                     (next) => {
                         fs.readFile(path.join(constants.logDir, logPath), (err, data) => {
@@ -85,7 +81,6 @@ class LogFile extends events.EventEmitter{
         return heap;
     }
 
-
     /**
      * Constructor generates a list of logEntries
      * for a given log file
@@ -101,7 +96,6 @@ class LogFile extends events.EventEmitter{
             self.emit('ready');
         });
     }
-
 
     /**
      * Queries the list this list of fileEntries
