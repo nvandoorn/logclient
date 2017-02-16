@@ -1,19 +1,15 @@
 import React from 'react';
+import { Row } from 'react-bootstrap';
 
 import Line from './line/line';
 
-function createLines(loglines){
-  const lines = [];
-  for(let line of loglines){
-    const key = line.line;
-    lines.push(<Line props={line} key={key}/>);
-  }
-  return lines;
-}
+const createLines = loglines => loglines.map(logline => <Line props={logline} key={logline.line}/>);
 
 const Loglines = ({loglines}) =>
-  <ul className="loglines">
-    {loglines ? createLines(loglines) : null}
-  </ul>;
+  <Row>
+    <ul className="loglines">
+      {loglines ? createLines(loglines) : null}
+    </ul>
+  </Row>;
 
 export default Loglines;
