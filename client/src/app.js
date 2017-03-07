@@ -47,8 +47,12 @@ class App extends Component {
 
   handleControlUpdate(e){
     const state = this.state;
-    state.params[e.target.id] = e.target.value;
+    state.params[e.id] = e.value;
     this.setState(state);
+    httpGetJson(BASE_URL, this.state.params).then(data =>{
+      this.setState({loglines: data.logEntries});
+    });
+    console.log(this.state);
   }
 
   render() {
