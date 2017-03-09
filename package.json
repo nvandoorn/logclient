@@ -3,9 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "PORT=4000 node ./bin/www /var/log/clientlog SN-99 & react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
   },
-  "dependencies": {
+  "devDependencies": {
     "async": "^2.1.2",
     "babel": "^6.5.2",
     "babel-cli": "^6.18.0",
@@ -27,6 +30,13 @@
     "socket.io": "^1.6.0",
     "tail": "^1.2.1",
     "walk": "^2.3.9",
-    "winston": "^2.3.0"
-  }
+    "winston": "^2.3.0",
+    "bootstrap": "^3.3.7",
+    "react-bootstrap": "^0.30.7",
+    "react-scripts": "0.9.0"
+  },
+  "dependencies": {
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2"
+  } 
 }
