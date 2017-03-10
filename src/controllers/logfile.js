@@ -149,31 +149,6 @@ class LogFile extends events.EventEmitter{
 
 }
 
-
-router.get('/view/:logfile/:pageNum', (req, res, next) => {
-    let logFile = new LogFile(req.params.logfile);
-    logFile.on('ready', () => {
-        let promises = [
-            logFile.query(req.query),
-            folderParser.getLogFileNames(constants.logDir)
-        ];
-        Promise.all(promises).then((values) => {
-            let nLines = logFile.logEntries.size();
-            let records = LogFile.paginate(values[0], req.query.pagesize);
-            res.render('logfile', {
-                title: req.params.logfile,
-                logEntries: records[parseInt(req.params.pageNum) - 1],
-                currentPage: parseInt(req.params.pageNum),
-                nPages: records.length,
-                logFiles: values[1],
-                nLines: nLines,
-                sysName: constants.sysName,
-                logDirec: constants.logDir
-            });
-        });
-    });
-});
-
 router.get('/api/:logfile/:pageNum', (req, res, next) => {
     let logFile = new LogFile(req.params.logfile);
     logFile.on('ready', () => {
@@ -195,10 +170,6 @@ router.get('/api/:logfile/:pageNum', (req, res, next) => {
             console.log(err.message);
         });
     });
-});
-
-router.get('/view/:logfile', (req, res, next) => {
-   res.redirect(`/logs/view/${req.params.logfile}/1`);
 });
 
 module.exports = router;

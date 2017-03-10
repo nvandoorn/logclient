@@ -35,20 +35,6 @@ io.on('connection', (socket) => {
     }
 });
 
-
-
-router.get('/view/:logfile', (req, res, next) => {
-    folderParser.getLogFileNames(constants.logDir).then((logFiles) => {
-        liveLog = new LiveLog(path.join(constants.logDir, req.params.logfile));
-        res.render('live', {
-            title: req.params.logfile,
-            logFiles: logFiles,
-            sysName: constants.sysName,
-            logDirec: constants.logDir
-        });
-    });
-});
-
 router.get('/view', (req, res, next) => {
     folderParser.getLogFileNames(constants.logDir).then((logFiles) => {
         res.redirect(`/live/view/${logFiles[0]}`)
