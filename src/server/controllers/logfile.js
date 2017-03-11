@@ -149,6 +149,12 @@ class LogFile extends events.EventEmitter{
 
 }
 
+router.get('/api/:logdirec', (req, res, next) => {
+  res.json({
+      logFiles: folderParser.getLogFileNames(constants.logDir) 
+  })
+})
+
 router.get('/api/:logfile/:pageNum', (req, res, next) => {
     let logFile = new LogFile(req.params.logfile);
     logFile.on('ready', () => {
