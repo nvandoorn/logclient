@@ -34,7 +34,7 @@ class LogFile extends events.EventEmitter{
        return new Promise((resolve, reject) => {
             async.waterfall([
                     (next) => {
-                        fs.readFile(path.join(constants.logDir, logPath), (err, data) => {
+                        fs.readFile(logPath, (err, data) => {
                             next(null, data.toString());
                         });
                     },
@@ -90,10 +90,9 @@ class LogFile extends events.EventEmitter{
      */
     constructor(logPath) {
         super();
-        const self = this;
         LogFile.generateLogEntries(logPath).then((data) => {
-            self.logEntries = data;
-            self.emit('ready');
+            this.logEntries = data;
+            this.emit('ready');
         });
     }
 
@@ -109,7 +108,6 @@ class LogFile extends events.EventEmitter{
      *  Resolves to a list of JSON objects
      */
     query(reqQuery) {
-        const self = this;
         return new Promise((resolve, reject) => {
             let level;
             try{
@@ -122,12 +120,12 @@ class LogFile extends events.EventEmitter{
                 level = constants.levels.DEBUG;
             }
             let startLine = parseInt(reqQuery.startline) || 0;
-            let endLine = parseInt(reqQuery.endline) || self.logEntries.size();
+            let endLine = parseInt(reqQuery.endline) || this.logEntries.size();
             let startTimeStr = reqQuery.startdt || 0;
             let endTimeStr = reqQuery.enddt || new Date().getTime();
             let startTimestamp = new Date(startTimeStr).getTime();
             let endTimestamp = new Date(endTimeStr).getTime();
-            let filtered = self.logEntries.clone();
+            let filtered = this.logEntries.clone();
             resolve(filtered.toArray().filter((entry) => {
                 let levelMatch = entry.level <= level;
                 let dateMatch = entry.time <= endTimestamp && entry.time >= startTimestamp;
@@ -149,27 +147,28 @@ class LogFile extends events.EventEmitter{
 
 }
 
-router.get('/api/:logdirec', (req, res, next) => {
-  res.json({
-      logFiles: folderParser.getLogFileNames(constants.logDir) 
-  })
+router.get('/api/directory/', (req, res, next) => {
+    folderParser.getLogFileNames(req.query.logdirec).then(folders => {
+        res.json({
+            logFiles: folders
+        })
+    })
 })
 
-router.get('/api/:logfile/:pageNum', (req, res, next) => {
-    let logFile = new LogFile(req.params.logfile);
+router.get('/api/file/', (req, res, next) => {
+    let logFile = new LogFile(req.query.logfile);
     logFile.on('ready', () => {
         logFile.query(req.query).then((logEntries) => {
             let nLines = logFile.logEntries.size();
             let records = LogFile.paginate(logEntries, req.query.pagesize);
+						debugger;
             res.json({
-                title: req.params.logfile,
-                logEntries: records[parseInt(req.params.pageNum) - 1],
-                currentPage: parseInt(req.params.pageNum),
+                title: req.query.logfile,
+                logEntries: records[parseInt(req.query.page) - 1],
+                currentPage: parseInt(req.query.page),
                 nPages: records.length,
                 pageSize: parseInt(req.query.pagesize) || constants.defaultPageSize,
                 nLines: nLines,
-                sysName: constants.sysName,
-                logDirec: constants.logDir
             });
         })
         .catch((err) => {

@@ -7,7 +7,8 @@ import Loglines from './loglines/loglines';
 import Controls from './controls/controls';
 import Sidebar from './sidebar/sidebar';
 
-const BASE_URL = 'http://localhost:4000/logs/api/debug_debug_livelog.log/1';
+const MOCK_LOG_DIR = '/var/log/clientlog/debug_debug_livelog.log';
+const BASE_URL = 'http://localhost:4000/logs/api/file';
 const DEFAULT_PAGE_SIZE = 50;
 
 const joinUrlParams = (url, params) => `${url}?${Object.keys(params).map(k => `${k}=${params[k]}`).join('&')}`;
@@ -34,6 +35,7 @@ class App extends Component {
     this.state = {
       loglines: [],
       params: {
+        logfile: MOCK_LOG_DIR,
         page: 1,
         pagesize: DEFAULT_PAGE_SIZE,
         startline: '',
