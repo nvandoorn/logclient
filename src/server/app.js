@@ -7,7 +7,6 @@ const bodyParser = require('body-parser');
 const sass = require('node-sass-middleware');
 
 const logfile = require('./controllers/logfile');
-const redirects = require('./controllers/redirects');
 
 const app = express();
 
@@ -25,8 +24,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use('/', redirects);
-app.use('/logs', logfile);
+app.use('/', logfile);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,10 +1,20 @@
 import React, { Component } from 'react';
 
+const SidebarItem = ({name, value, isActive, onClick}) =>
+  <li><a href="#" onClick={onClick} value={value}>{name}</a></li>
 // TODO implement
 class Sidebar extends Component {
+  constructor(props){
+    super(props);
+  }
+
   render(){
-    return <p>Sidebar here yo</p>
-  };
+    return(
+        <div>
+          {this.props.logFiles.map(logFile => <SidebarItem {...logFile}/>)}
+        </div>
+      )
+  }
 }
 
 export default Sidebar;

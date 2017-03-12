@@ -8,7 +8,7 @@ import Controls from './controls/controls';
 import Sidebar from './sidebar/sidebar';
 
 const MOCK_LOG_DIR = '/var/log/clientlog/debug_debug_livelog.log';
-const BASE_URL = 'http://localhost:4000/logs/api/file';
+const BASE_URL = 'http://localhost:4000/api/file';
 const DEFAULT_PAGE_SIZE = 50;
 
 const joinUrlParams = (url, params) => `${url}?${Object.keys(params).map(k => `${k}=${params[k]}`).join('&')}`;
@@ -58,11 +58,12 @@ class App extends Component {
   }
 
   render() {
+    const logFiles = [{name:'hi', value:'nice', isActive: false, onClick:()=>{} }];
     return (
       <Grid>
         <Row>
           <Col sm={3}>
-            <Sidebar />
+            <Sidebar logFiles={logFiles}/>
           </Col>
           <Col sm={9}>
             <Controls onChange={this.handleControlUpdate} values={this.state.params}/>
