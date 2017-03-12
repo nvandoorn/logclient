@@ -161,7 +161,6 @@ router.get('/api/file/', (req, res, next) => {
         logFile.query(req.query).then((logEntries) => {
             let nLines = logFile.logEntries.size();
             let records = LogFile.paginate(logEntries, req.query.pagesize);
-						debugger;
             res.json({
                 title: req.query.logfile,
                 logEntries: records[parseInt(req.query.page) - 1],
