@@ -15,6 +15,16 @@ API desperately needs speed improvements (possibly even database caching TBD), b
 ## Client Side
 Implemented using React and Webpack. Screenshots and details coming soon.
 
+### Prototype Demo
+This prototype is implemented using Express/Jade view rendering and hacked together front end code (but it looks kinda pretty).
+
+#### File Demo [Watch here](https://www.youtube.com/watch?v=JDvBDKce0lI)
+![File Demo](/images/file.png?raw=true "File Demo")
+
+
+#### Live Demo [Watch here](https://www.youtube.com/watch?v=iQANjRNFcqE)
+![Live Demo](/images/live.png?raw=true "Live Demo")
+
 ## Server Side
 ### Routes
 
