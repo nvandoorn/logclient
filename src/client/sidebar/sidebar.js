@@ -11,7 +11,7 @@ class Sidebar extends Component {
   render(){
     return(
         <div>
-          {this.props.logFiles.map(logFile => <SidebarItem {...logFile}/>)}
+          {this.props.logFiles.map(logFile => <SidebarItem key={logFile.value}{...logFile}/>)}
         </div>
       )
   }

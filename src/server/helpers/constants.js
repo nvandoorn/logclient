@@ -4,11 +4,11 @@
  * @type {{ERROR: number, WARN: number, INFO: number, VERBOSE: number, DEBUG: number}}
  */
 exports.levels = {
-    ERROR: 0,
-    WARN: 1,
-    INFO: 2,
-    VERBOSE: 3,
-    DEBUG: 4
+  ERROR: 0,
+  WARN: 1,
+  INFO: 2,
+  VERBOSE: 3,
+  DEBUG: 4
 };
 
 exports.defaultPageSize = 20;

@@ -1,0 +1,8 @@
+{
+  "folders": [
+    {
+      "name": "hello",
+      "directory": "/var/log/clientlog"
+    }
+  ]
+}

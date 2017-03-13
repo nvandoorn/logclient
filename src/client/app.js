@@ -6,29 +6,16 @@ import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Loglines from './loglines/loglines';
 import Controls from './controls/controls';
 import Sidebar from './sidebar/sidebar';
+import Config from './config/config';
+import { httpGetJson, httpPutJson } from './helpers/http';
 
-const MOCK_LOG_DIR = '/var/log/clientlog/debug_debug_livelog.log';
-const BASE_URL = 'http://localhost:4000/api/file';
+const MOCK_LOG_DIR = 'debug_debug_livelog.log';
+const BASE_URL = '//localhost:4000/api/';
+const FILE_URL = `${BASE_URL}file`;
+const DIR_URL = `${BASE_URL}directory`;
 const DEFAULT_PAGE_SIZE = 50;
 
-const joinUrlParams = (url, params) => `${url}?${Object.keys(params).map(k => `${k}=${params[k]}`).join('&')}`;
-
-// TODO handle failure case
-function httpGetJson(url, params){
-  return new Promise((resolve, reject) => {
-    const route = joinUrlParams(url, params);
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', route);
-    xhr.send();
-    xhr.onreadystatechange = function(){
-      if(this.readyState === 4 && this.status === 200) {
-        const data = JSON.parse(this.responseText);
-        resolve(data);
-      }
-    };
-  });
-}
-
+// TODO Better request handling -- likely Redux longterm
 class App extends Component {
   constructor(props){
     super(props);
@@ -42,8 +29,27 @@ class App extends Component {
         endline: '',
         startdt: '',
         enddt: ''
-      }
+      },
+      folders: []
     };
+    httpGetJson(`${BASE_URL}config`, {}).then(config => {
+      this.setState({
+        folders: config.data.folders,
+        hasFolders: config.data.folders.length > 0
+      });
+      if(this.state.hasFolders){
+        const promises = [
+          httpGetJson(DIR_URL, {}),
+          httpGetJson(FILE_URL, this.state.params)
+        ];
+        Promise.all(promises).then(values => {
+          this.setState({
+            files: values[0],
+            loglines: values[1].logEntries
+          });
+        });
+      }
+    }); 
     this.handleControlUpdate = this.handleControlUpdate.bind(this);
   }
 
@@ -51,26 +57,27 @@ class App extends Component {
     const state = this.state;
     state.params[e.id] = e.value;
     this.setState(state);
-    httpGetJson(BASE_URL, this.state.params).then(data =>{
+    httpGetJson(FILE_URL, this.state.params).then(data =>{
       this.setState({loglines: data.logEntries});
     });
-    console.log(this.state);
   }
 
   render() {
-    const logFiles = [{name:'hi', value:'nice', isActive: false, onClick:()=>{} }];
     return (
-      <Grid>
-        <Row>
-          <Col sm={3}>
-            <Sidebar logFiles={logFiles}/>
-          </Col>
-          <Col sm={9}>
-            <Controls onChange={this.handleControlUpdate} values={this.state.params}/>
-            <Loglines loglines={this.state.loglines}/>
-          </Col>
-        </Row>
-      </Grid>
+      <div>
+        <Config folders={this.state.folders} show={!this.state.hasFolders}/>
+        { this.state.hasFolders > 0 ?
+        <Grid>
+          <Row>
+            <Col sm={3}>
+            </Col>
+            <Col sm={9}>
+              <Controls onChange={this.handleControlUpdate} values={this.state.params}/>
+              <Loglines loglines={this.state.loglines}/>
+            </Col>
+          </Row>
+        </Grid> : null }
+      </div>
     );
   }
 }

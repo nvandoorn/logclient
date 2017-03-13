@@ -9,16 +9,16 @@ const walk = require('walk');
  *  Resolves with a list of lognames
  */
 exports.getLogFileNames = (logDir) => {
-    return new Promise((resolve, reject) => {
-        let logFileNames = [];
-        let walker = walk.walk(logDir);
-        walker.on('file', (root, fileStats, next) => {
-            logFileNames.push(fileStats.name);
-            next();
-        });
-
-        walker.on('end', () => {
-            resolve(logFileNames);
-        });
+  return new Promise((resolve, reject) => {
+    let logFileNames = [];
+    let walker = walk.walk(logDir);
+    walker.on('file', (root, fileStats, next) => {
+      logFileNames.push(fileStats.name);
+      next();
     });
+
+    walker.on('end', () => {
+      resolve(logFileNames);
+    });
+  });
 };
