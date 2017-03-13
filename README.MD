@@ -8,8 +8,9 @@ API desperately needs speed improvements (possibly even database caching TBD), b
 2. Finish basic react integration
 3. Eject react-scripts so to add CSS modules
 4. Spend some time making it look pretty
-5. Write some tests (forgive me I have sinned)
-6. Make the API less slow
+5. Rethink routing (Redux/React router)
+6. Write some tests (forgive me I have sinned)
+7. Make the API less slow
 
 ## Client Side
 Implemented using React and Webpack. Screenshots and details coming soon.
