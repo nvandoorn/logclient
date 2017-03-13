@@ -3,27 +3,83 @@ A simple web based client to view and filter logs. This project was originally i
 
 API desperately needs speed improvements (possibly even database caching TBD), but this project is focusing on front end development at the moment.
 
+## TODO
+1. Implement a simple config API
+2. Finish basic react integration
+3. Eject react-scripts so to add CSS modules
+4. Spend some time making it look pretty
+5. Write some tests (forgive me I have sinned)
+6. Make the API less slow
+
 ## Client Side
 Implemented using React and Webpack. Screenshots and details coming soon.
 
 ## Server Side
 ### Routes
 
-`GET /api/file`
+#### `PUT` /api/config
 
-#### Example Request
+##### Example requests body
+```javascript
+{
+	"folders": [
+		{
+			"name": "mylogs",
+			"directory": "/var/log/clientlog"
+		}
+	]
+}
+```
 
-|   Param   |       Type        |           Description            |
-| --------- | ----------------- | -------------------------------- |
-| page      | integer           | Page number                      |
-| pagesize  | integer           | Number of log entries per page   |
-| startline | integer           | Staring log                      |
-| endline   | integer           | Ending line                      |
-| startdt   | ISO 8601 Datetime | Starting datetime                |
-| enddt     | ISO 8601 Datetime | Ending datetime                  |
-| level     | Level Enum        | Log severity level defined below |
+##### Example Response
+```javascript
+{
+	"success": true,
+	"msg": "Config set: true",
+	"data": {
+		"folders": [
+			{
+				"name": "mylogs",
+				"directory": "/var/log/clientlog"
+			}
+		]
+	}
+}
+```
 
-##### Level Enum
+#### `GET` /api/config
+
+##### Example Response
+```javascript
+{
+	"success": true,
+	"msg": "Config read",
+	"data": {
+		"folders": [
+			{
+				"name": "mylogs",
+				"directory": "/var/log/clientlog"
+			}
+		]
+	}
+}
+```
+#### `GET` /api/file
+
+##### Example Request
+
+|   Param   |       Type        |                   Description                    |
+| --------- | ----------------- | ------------------------------------------------ |
+| logfile   | path (string)     | Path to logfile relative to folder set in config |
+| integer   | Page number       | Currenet page number                             |
+| pagesize  | integer           | Number of log entries per page                   |
+| startline | integer           | Staring log                                      |
+| endline   | integer           | Ending line                                      |
+| startdt   | ISO 8601 Datetime | Starting datetime                                |
+| enddt     | ISO 8601 Datetime | Ending datetime                                  |
+| level     | Level Enum        | Log severity level defined below                 |
+
+###### Level Enum
 
 |  Level  | Value |
 | ------- | ----- |
@@ -33,7 +89,7 @@ Implemented using React and Webpack. Screenshots and details coming soon.
 | Verbose | 3     |
 | Debug   | 4     |
 
-#### Example Response
+##### Example Response
 ```javascript
 {
 	"title": "/var/log/clientlog/debug_debug_livelog.log",
@@ -61,15 +117,11 @@ Implemented using React and Webpack. Screenshots and details coming soon.
 }
 ```
 
-`GET /api/directory`
+#### `GET` /api/directory
 
-#### Example Request
+Gets the directory listing for the first folder configured in `config.folders`
 
-|  Param   |        Type        |             Description              |
-| -------- | ------------------ | ------------------------------------ |
-| logdirec | directory (string) | Directory where log files are stored |
-
-#### Example Response
+##### Example Response
 ```javascript
 {
 	"logFiles": [
@@ -83,7 +135,3 @@ Implemented using React and Webpack. Screenshots and details coming soon.
 	]
 }
 ```
-
-`PUT /api/config` (to be implemented)
-
-`POST /api/config` (to be implemented)

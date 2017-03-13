@@ -1,6 +1,0 @@
-include logline
-
-mixin loglines(logEntries, idStr, classStr)
-    ul(id=idStr, class=classStr)
-        for logEntry in logEntries
-            +logline(logEntry.line, logEntry.text, logEntry.classStr)
