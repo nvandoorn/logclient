@@ -24,7 +24,7 @@
     "path": "^0.12.7",
     "process": "^0.11.9",
     "serve-favicon": "~2.3.0",
-    "socket.io": "^1.6.0",
+    "socket.io": "^1.7.3",
     "tail": "^1.2.1",
     "walk": "^2.3.9",
     "winston": "^2.3.0"
