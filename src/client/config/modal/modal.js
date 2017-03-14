@@ -17,6 +17,10 @@ class Modal extends Component{
     this.setState({ showModal: true });
   }
 
+  componentWillReceiveProps(){
+    this.setState({ showModal: this.props.state });
+  }
+
   render() {
     return(
       <div>

@@ -30,7 +30,8 @@ class App extends Component {
         startdt: '',
         enddt: ''
       },
-      folders: []
+      folders: [],
+      hasFolders: false
     };
     httpGetJson(`${BASE_URL}config`, {}).then(config => {
       this.setState({
@@ -49,7 +50,7 @@ class App extends Component {
           });
         });
       }
-    }); 
+    });
     this.handleControlUpdate = this.handleControlUpdate.bind(this);
   }
 
