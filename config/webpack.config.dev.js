@@ -114,6 +114,17 @@ module.exports = {
         }
       },
       {
+        test: /\.css(\.js)?$/,
+        loaders: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.css(\.js)?$/,
+        loader: 'postcss-loader',
+        options: {
+          plugins: () => [require('postcss-nesting')],
+        }
+      },
+      {
         test: /\.css\.js$/,
         loader: 'css-js-loader',
       },
@@ -129,16 +140,7 @@ module.exports = {
           // directory for faster rebuilds.
           cacheDirectory: true
         }
-      },
-      // "postcss" loader applies autoprefixer to our CSS.
-      // "css" loader resolves paths in CSS and adds assets as dependencies.
-      // "style" loader turns CSS into JS modules that inject <style> tags.
-      // In production, we use a plugin to extract that CSS to a file, but
-      // in development "style" loader enables hot editing of CSS.
-      {
-        test: /\.css$/,
-        loader: 'style!css?importLoaders=1!postcss'
-      },
+      }, 
       // JSON is not enabled by default in Webpack but both Node and Browserify
       // allow it implicitly so we also enable it.
       {
