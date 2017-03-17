@@ -7,7 +7,7 @@ API desperately needs speed improvements (possibly even database caching TBD), b
 1. Implement a simple config API
 2. Finish basic react integration
 3. Eject react-scripts so to add CSS modules
-4. Spend some time making it look pretty
+4. Spend some time making it look pretty (Sketch and maybe Invision mockups)
 5. Rethink routing (Redux/React router)
 6. Write some tests (forgive me I have sinned)
 7. Make the API less slow
@@ -15,11 +15,16 @@ API desperately needs speed improvements (possibly even database caching TBD), b
 ## Client Side
 Implemented using React and Webpack. Screenshots and details coming soon.
 
-### Sketch Mockups (so far, not even near complete yet)
+### Sketch Mockups (work in progress)
 
-![File Demo]('/mockup/phone.png' "Phone")
-![File Demo](/images/tablet.png?raw=true "Tablet")
-![File Demo](/images/desktop.png?raw=true "Desktop")
+#### Phone Viewport
+![Phone](/mockup/phone.png "Phone")
+
+#### Tablet Viewport
+![Tablet](/mockup/tablet.png?raw=true "Tablet")
+
+#### Desktop Viewport
+![Desktop](/mockup/desktop.png?raw=true "Desktop")
 
 ### Prototype Demo
 This prototype is implemented using Express/Jade view rendering and hacked together front end code (but it looks kinda pretty).
