@@ -15,6 +15,12 @@ API desperately needs speed improvements (possibly even database caching TBD), b
 ## Client Side
 Implemented using React and Webpack. Screenshots and details coming soon.
 
+### Sketch Mockups (so far, not even near complete yet)
+
+![File Demo]('/mockup/phone.png' "Phone")
+![File Demo](/images/tablet.png?raw=true "Tablet")
+![File Demo](/images/desktop.png?raw=true "Desktop")
+
 ### Prototype Demo
 This prototype is implemented using Express/Jade view rendering and hacked together front end code (but it looks kinda pretty).
 
