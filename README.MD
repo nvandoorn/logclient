@@ -18,13 +18,13 @@ Implemented using React and Webpack. Screenshots and details coming soon.
 ### Sketch Mockups (work in progress)
 
 #### Phone Viewport
-![Phone](/mockup/phone.png "Phone")
+![Phone](/mockup/phone.png?raw=true&dt=17  "Phone")
 
 #### Tablet Viewport
-![Tablet](/mockup/tablet.png?raw=true "Tablet")
+![Tablet](/mockup/tablet.png?raw=true&dt=17  "Tablet")
 
 #### Desktop Viewport
-![Desktop](/mockup/desktop.png?raw=true "Desktop")
+![Desktop](/mockup/desktop.png?raw=true&dt=17 "Desktop")
 
 ### Prototype Demo
 This prototype is implemented using Express/Jade view rendering and hacked together front end code (but it looks kinda pretty).
