@@ -1,4 +1,4 @@
-# logclient
+# Slask
 A simple web based client to view and filter logs. This project was originally implemented using server side view rendering and hacked together XHR requests to update the front-end in real time. Currently transitioning to a React based front-end with a RESTful API.
 
 API desperately needs speed improvements (possibly even database caching TBD), but this project is focusing on front end development at the moment.
@@ -18,13 +18,13 @@ Implemented using React and Webpack. Screenshots and details coming soon.
 ### Sketch Mockups (work in progress)
 
 #### Phone Viewport
-![Phone](/mockup/phone.png?raw=true&dt=17  "Phone")
+![Phone](/mockup/phone.png?raw=true&dt=18  "Phone")
 
 #### Tablet Viewport
-![Tablet](/mockup/tablet.png?raw=true&dt=17  "Tablet")
+![Tablet](/mockup/tablet.png?raw=true&dt=18  "Tablet")
 
 #### Desktop Viewport
-![Desktop](/mockup/desktop.png?raw=true&dt=17 "Desktop")
+![Desktop](/mockup/desktop.png?raw=true&dt=18 "Desktop")
 
 ### Prototype Demo
 This prototype is implemented using Express/Jade view rendering and hacked together front end code (but it looks kinda pretty).
