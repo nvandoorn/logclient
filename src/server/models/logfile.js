@@ -13,6 +13,32 @@ const helpers = require('../helpers/helpers');
 const constants = require('../helpers/constants');
 const lineParser = require('../helpers/lineparser');
 
+function parseLine(line, timePattern, levelPattern){
+  const timeRegex = new RegExp(timePattern);
+  const levelRegex = new RegExp(levelPattern);
+  
+}
+
+const Logfile = {
+  create: function(filepath, config){
+    this.filepath = filepath;
+    this.config = config;
+    return this;
+  },
+  readFile: function(){
+    fs.readFile(this.filepath, (err, data) => {
+      if(err) throw err;
+      this.loglines = parseLines(data, this.timePattern, this.levelPattern);
+    })
+  }
+  query: function(queryParmas){
+
+  },
+  paginate: function(){
+
+  }
+};
+
 /**
  * Models a given LogFile
  */
