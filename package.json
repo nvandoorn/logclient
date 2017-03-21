@@ -60,6 +60,7 @@
     "clone": "^2.0.0",
     "concurrently": "^3.4.0",
     "cookie-parser": "~1.4.3",
+    "dateformat": "^2.0.0",
     "debug": "~2.2.0",
     "events": "^1.1.1",
     "express": "~4.13.4",
