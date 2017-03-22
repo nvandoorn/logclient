@@ -1,13 +1,7 @@
 'use strict';
 
 const fs = require('fs');
-const async = require('async');
-const events = require('events');
 const path = require('path');
-const util = require('util');
-const walk = require('walk');
-const Heap = require('heap');
-const clone = require('clone');
 const dateFormat = require('dateformat');
 
 const helpers = require('../helpers/helpers');
