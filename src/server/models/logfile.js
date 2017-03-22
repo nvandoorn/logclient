@@ -8,26 +8,30 @@ const util = require('util');
 const walk = require('walk');
 const Heap = require('heap');
 const clone = require('clone');
-const dateformat = require('dateformat');
+const dateFormat = require('dateformat');
 
 const helpers = require('../helpers/helpers');
 const constants = require('../helpers/constants');
 const lineParser = require('../helpers/lineparser');
 
-const DEFAULT_LEVEL = constants.DEBUG;
-const DEFAULT_LEVEL_STR = 'debug'; // TODO less jank here
+const DEFAULT_LEVEL = constants.defaultLevel;
+const DEFAULT_LEVEL_STR = constants.defaultLevelStr;
+const DEFAULT_SPLIT_STR = '\n'; // TODO put this in config
 
-function parseLine(line, datetimePattern, levelPattern, datetimeFormatter){
-  const dateSplit = line.split(datetimePattern);
-  const levelSplit = line.split(levelPattern);
-  const levelObj = getLevel(levelSplit[0], constants.levels);
-  const dateObj = new Date(dateSplit[0]);
-  return {
-    text: levelSplit[1],
-    level: levelObj.level,
-    levelStr: levelObj.str,
-    date: dateObj.getTime(),
-    dateStr: dateFormat(dateObj, datetimeFormatter)
+function parseLine(datetimePattern, levelPattern, timeFormatter){
+  return function(line){
+    const dateSplit = line.split(datetimePattern);
+    const levelSplit = dateSplit[2].split(levelPattern);
+    if(levelSplit[1] === undefined) debugger;
+    const levelObj = getLevel(levelSplit[1], constants.levels);
+    const dateObj = new Date(dateSplit[1]);
+    return {
+      text: levelSplit[2],
+      level: levelObj.level,
+      levelStr: levelObj.str,
+      datetime: dateObj.getTime(),
+      datetimeStr: dateFormat(dateObj, timeFormatter)
+    }
   }
 }
 
@@ -51,21 +55,26 @@ const Logfile = {
   create: function(filepath, config){
     this.filepath = filepath;
     this.config = config;
+    this.readFile();
     return this;
   },
   readFile: function(){
-    fs.readFile(this.filepath, (err, data) => {
-      if(err) throw err;
-      this.loglines = parseLines(data, this.config.datetimePattern,
-                      this.config.levelPattern, this.config.timeFormatter);
-    });
-  }
+    const data = fs.readFileSync(this.filepath);
+    // Filter to avoid empty lines
+    const lines = data.toString().split(DEFAULT_SPLIT_STR).filter(k => k.length > 0);
+    this.loglines = lines.map(parseLine(this.config.datetimePattern,
+                    this.config.levelPattern, this.config.timeFormatter));
+  },
   query: function(queryParmas){
 
   },
   paginate: function(){
 
+  },
+  getAll: function(){
+    return this.loglines;
   }
 };
 
-module.exports = Logfile;
+module.exports= Logfile;
+
