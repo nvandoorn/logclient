@@ -5,7 +5,7 @@ const path = require('path');
 const constants = require('../helpers/constants');
 const Logfile = require('../models/logfile');
 
-describe('Logline', function(){
+describe('Logfile', function(){
   describe('#getAll()', function(){
     const logpath = path.join(__dirname, './fixtures/testlog.log');
     const config = {
