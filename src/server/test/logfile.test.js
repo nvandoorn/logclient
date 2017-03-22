@@ -7,7 +7,7 @@ const Logfile = require('../models/logfile');
 
 describe('Logline', function(){
   describe('#getAll()', function(){
-    const logpath = path.join(__dirname, './data/testlog.log');
+    const logpath = path.join(__dirname, './fixtures/testlog.log');
     const config = {
       datetimePattern: constants.defaultDatetimePattern,
       levelPattern: constants.defaultLevelPattern,

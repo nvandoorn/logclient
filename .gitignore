@@ -2,5 +2,5 @@ node_modules/
 .idea/
 .DS_store
 bower_components/
-*.log
+npm-debug.log
 build/
