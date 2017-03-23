@@ -14,9 +14,8 @@ const DEFAULT_SPLIT_STR = '\n'; // TODO put this in config
 
 function parseLine(datetimePattern, levelPattern, timeFormatter){
   return function(line){
-    const dateSplit = line.split(datetimePattern);
-    const levelSplit = dateSplit[2].split(levelPattern);
-    if(levelSplit[1] === undefined) debugger;
+    const dateSplit = line.split(new RegExp(datetimePattern.slice(1,-1)));
+    const levelSplit = dateSplit[2].split(new RegExp(levelPattern.slice(1, -1)));
     const levelObj = getLevel(levelSplit[1], constants.levels);
     const dateObj = new Date(dateSplit[1]);
     return {
@@ -53,11 +52,15 @@ const Logfile = {
     return this;
   },
   readFile: function(){
-    const data = fs.readFileSync(this.filepath);
-    // Filter to avoid empty lines
-    const lines = data.toString().split(DEFAULT_SPLIT_STR).filter(k => k.length > 0);
-    this.loglines = lines.map(parseLine(this.config.datetimePattern,
-                    this.config.levelPattern, this.config.timeFormatter));
+    try{
+      const data = fs.readFileSync(this.filepath);
+      // Filter to avoid empty lines
+      const lines = data.toString().split(DEFAULT_SPLIT_STR).filter(k => k.length > 0);
+      this.loglines = lines.map(parseLine(this.config.datetimePattern,
+                      this.config.levelPattern, this.config.timeFormatter));
+    }
+    catch(err){
+    }
   },
   query: function(queryParmas){
 

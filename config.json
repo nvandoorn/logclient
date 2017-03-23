@@ -1,8 +1,11 @@
 {
+  "datetimePattern": "/\\[(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z)\\]/",
+  "levelPattern": "/\\[([\\w\\s]+|\\w+)\\]:\\s/",
+  "timeFormatter": "h:MM:ss",
   "folders": [
     {
-      "name": "hello",
-      "directory": "/var/log/clientlog"
+      "name": "Test Fixture",
+      "directory": "/Users/nick/Documents/slask/src/server/test/fixtures"
     }
   ]
 }
