@@ -18,7 +18,6 @@ const config = Config.createConfig(CONFIG_PATH);
 
 function failConfig (req, res, next){
     if(!config.blob.folders.length){
-      debugger;
       res.json(buildRes(false, 'Folder config is empty', {}));
     }
     else{
