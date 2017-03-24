@@ -15,7 +15,6 @@ const DEFAULT_SPLIT_STR = '\n'; // TODO put this in config
 
 function parseLine(datetimePattern, levelPattern, timeFormatter){
   return function(line){
-    const datetimeRegExp = new RegExp(datetimePattern.slice(1, -1));
     const dateSplit = line.split(new RegExp(datetimePattern.slice(1,-1)));
     const levelSplit = dateSplit[2].split(new RegExp(levelPattern.slice(1, -1)));
     const levelObj = getLevel(levelSplit[1], constants.levels);
@@ -85,7 +84,6 @@ const Logfile = {
       const levelMatch = logline.level <= queryParams.level;
       return datetimeMatch && levelMatch;
     });
-    debugger
     if(!isValidPagenum(filtered.length, queryParams.pagesize, queryParams.pagenum))
       throw new Error('pagenum out of range');
     // pages go from newest -> oldest so reverse the page chunks
