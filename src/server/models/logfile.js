@@ -3,6 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const dateFormat = require('dateformat');
+const _ = require('lodash');
 
 const helpers = require('../helpers/helpers');
 const constants = require('../helpers/constants');
@@ -14,6 +15,7 @@ const DEFAULT_SPLIT_STR = '\n'; // TODO put this in config
 
 function parseLine(datetimePattern, levelPattern, timeFormatter){
   return function(line){
+    const datetimeRegExp = new RegExp(datetimePattern.slice(1, -1));
     const dateSplit = line.split(new RegExp(datetimePattern.slice(1,-1)));
     const levelSplit = dateSplit[2].split(new RegExp(levelPattern.slice(1, -1)));
     const levelObj = getLevel(levelSplit[1], constants.levels);
@@ -28,7 +30,7 @@ function parseLine(datetimePattern, levelPattern, timeFormatter){
   }
 }
 
-// TODO remove this filthy jank
+// TODO remove this filthy jank (de-jank?)
 function getLevel(levelStr, levelEnum){
   for(let key in levelEnum){
     if(levelStr.trim().toLowerCase().includes(key.toLowerCase())){
@@ -43,6 +45,8 @@ function getLevel(levelStr, levelEnum){
     str: DEFAULT_LEVEL_STR
   }
 }
+
+const isValidPagenum = (nLines, pageSize, pagenum) => Math.ceil(nLines/pageSize) >= pagenum;
 
 const Logfile = {
   create: function(filepath, config){
@@ -62,16 +66,35 @@ const Logfile = {
     catch(err){
     }
   },
-  query: function(queryParmas){
-
-  },
-  paginate: function(){
-
+  /**
+   * queryParams: {
+   *  logfile: path (string),
+   *  pagenum: integer,
+   *  pagesize: integer,
+   *  startdt: datetime string
+   *  enddt: datetime string
+   *  level: one of log level enum
+   * }
+   *
+  */
+  query: function(queryParams){
+    const startdt = new Date(queryParams.startdt).getTime();
+    const enddt = new Date(queryParams.enddt).getTime();
+    const filtered = this.loglines.filter(logline => {
+      const datetimeMatch = logline.datetime <= enddt && logline.datetime >= startdt;
+      const levelMatch = logline.level <= queryParams.level;
+      return datetimeMatch && levelMatch;
+    });
+    debugger
+    if(!isValidPagenum(filtered.length, queryParams.pagesize, queryParams.pagenum))
+      throw new Error('pagenum out of range');
+    // pages go from newest -> oldest so reverse the page chunks
+    return _.chunk(filtered, queryParams.pagesize).reverse()[queryParams.pagenum - 1];
   },
   getAll: function(){
     return this.loglines;
   }
 };
 
-module.exports= Logfile;
+module.exports = Logfile;
 

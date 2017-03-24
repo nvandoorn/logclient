@@ -1,7 +1,11 @@
 const assert = require('assert');
 const isEqual = require('json-is-equal');
 const path = require('path');
-const request = require('request');
+
+const http = require('./lib/http');
+const get = http.get;
+const post = http.post;
+const put = http.put;
 
 const constants = require('../helpers/constants');
 const createServer = require('../../../scripts/www');
@@ -27,29 +31,14 @@ describe('REST API', function(){
       }]
     };
     it('should successfully set the config', function(done){
-      request({
-        url: CONFIG_ROUTE,
-        method: 'PUT',
-        json: config
-      }, function(err, response, body){
-        done(body.success ? null : new Error(`Request failed: ${body.msg}`))
-      })
-    })
+      put(CONFIG_ROUTE, config).then(body => {
+        done(body.success ? null : new Error(`Request failed: ${body.msg}`));
+      });
+    });
   });
 
   describe('#query()', function(){
-    const fileGet = (fileRoute, params) => new Promise((resolve, reject) => {
-      request({
-        url: fileRoute,
-        method: 'GET',
-        qs: { logfile: params.logfile }
-      }, function(err, response, body){
-        const parsedBody = JSON.parse(body);
-        if(err) reject(err);
-        resolve(parsedBody)
-      })
-    });
-    const thisGet = () => fileGet(FILE_ROUTE, { logfile: LOGFILE_NAME });
+    const thisGet = () => get(FILE_ROUTE, { logfile: LOGFILE_NAME });
     it('should correctly parse the first line', function(done){
       const correct = {
         text: `You must be pretty desperate if you're looking at the logs`,
@@ -65,14 +54,15 @@ describe('REST API', function(){
     });
 
     it('should default level on unknown level', function(){
-      thisGet().then(body => {
-        assert.equal(body.data.logentries[4], constants.defaultLevel);
+      return thisGet().then(function(body){
+        assert.strictEqual(body.data.logentries[4].level, constants.defaultLevel, 'level did not default');
       });
     });
 
     it('should default level string on unknown level', function(){
-      thisGet().then(body => {
-        assert.equal(body.data.logentries[4].levelStr, constants.defaultLevelStr);
+      return thisGet().then(function(body){
+        assert.strictEqual(body.data.logentries[4].levelStr, constants.defaultLevelStr,
+            'level string did not defualt');
       })
     });
   });

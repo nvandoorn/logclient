@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom"
+    "test-client": "node scripts/test.js --env=jsdom",
+    "test-server": "mocha src/server/test/api.test.js"
   },
   "devDependencies": {
     "autoprefixer": "6.7.2",
@@ -57,6 +58,7 @@
     "async": "^2.1.2",
     "body-parser": "~1.15.1",
     "bootstrap": "^3.3.7",
+    "chai": "^3.5.0",
     "clone": "^2.0.0",
     "concurrently": "^3.4.0",
     "cookie-parser": "~1.4.3",
