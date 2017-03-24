@@ -29,10 +29,10 @@ function normalizeFileReq(req, res, next){
   req.normalized = {
     logfile: req.query.logfile, // cannot be normalized
     pagenum: req.query.pagenum || 1,
-    pagesize: constants.defaultPageSize,
+    pagesize: parseInt(req.query.pagesize) || constants.defaultPageSize,
     startdt: parseInt(req.query.startdt) || new Date(0).getTime(), // TODO remove parseInt
     enddt: parseInt(req.query.enddt) || Date.now(),
-    level: constants.defaultLevel
+    level: parseInt(req.query.level) || constants.defaultLevel
   }
   next();
 }
