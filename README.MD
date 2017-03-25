@@ -1,16 +1,20 @@
 # Slask
 A simple web based client to view and filter logs. This project was originally implemented using server side view rendering and hacked together XHR requests to update the front-end in real time. Currently transitioning to a React based front-end with a RESTful API.
 
-API desperately needs speed improvements (possibly even database caching TBD), but this project is focusing on front end development at the moment.
-
 ## TODO
-1. Implement a simple config API
-2. Finish basic react integration
-3. Eject react-scripts so to add CSS modules
-4. Spend some time making it look pretty (Sketch and maybe Invision mockups)
-5. Rethink routing (Redux/React router)
-6. Write some tests (forgive me I have sinned)
-7. Make the API less slow
+- Implement a simple config API
+- Finish basic react integration
+- Eject react-scripts so to add CSS modules
+- Spend some time making it look pretty (Sketch and maybe Invision mockups)
+- Rethink routing (Redux/React router)
+- Write front-end tests and increase server test coverage
+- Include more API call examples in server
+
+## Running This Project
+- Running the dev environment: `npm start`
+- Running the backend with a prebuilt front-end: `npm build` (to be implemented)
+- Running server tests: `npm run test-server`
+- Running the client test: `npm run test-client` (to be implemented)
 
 ## Client Side
 Implemented using React and Webpack. Screenshots and details coming soon.
@@ -37,6 +41,7 @@ This prototype is implemented using Express/Jade view rendering and hacked toget
 ![Live Demo](/images/live.png?raw=true "Live Demo")
 
 ## Server Side
+
 ### Routes
 
 #### `PUT` /api/config
@@ -44,10 +49,13 @@ This prototype is implemented using Express/Jade view rendering and hacked toget
 ##### Example requests body
 ```javascript
 {
+	"datetimePattern": "/\\[(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z)\\]/",
+	"levelPattern": "/\\[([\\w\\s]+|\\w+)\\]:\\s/",
+	"timeFormatter": "h:MM:ss",
 	"folders": [
 		{
-			"name": "mylogs",
-			"directory": "/var/log/clientlog"
+			"name": "Test Fixture",
+			"directory": "/Users/nick/Documents/slask/src/server/test/fixtures"
 		}
 	]
 }
@@ -59,10 +67,13 @@ This prototype is implemented using Express/Jade view rendering and hacked toget
 	"success": true,
 	"msg": "Config set: true",
 	"data": {
+		"datetimePattern": "/\\[(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z)\\]/",
+		"levelPattern": "/\\[([\\w\\s]+|\\w+)\\]:\\s/",
+		"timeFormatter": "h:MM:ss",
 		"folders": [
 			{
-				"name": "mylogs",
-				"directory": "/var/log/clientlog"
+				"name": "Test Fixture",
+				"directory": "/Users/nick/Documents/slask/src/server/test/fixtures"
 			}
 		]
 	}
@@ -77,10 +88,13 @@ This prototype is implemented using Express/Jade view rendering and hacked toget
 	"success": true,
 	"msg": "Config read",
 	"data": {
+		"datetimePattern": "/\\[(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z)\\]/",
+		"levelPattern": "/\\[([\\w\\s]+|\\w+)\\]:\\s/",
+		"timeFormatter": "h:MM:ss",
 		"folders": [
 			{
-				"name": "mylogs",
-				"directory": "/var/log/clientlog"
+				"name": "Test Fixture",
+				"directory": "/Users/nick/Documents/slask/src/server/test/fixtures"
 			}
 		]
 	}
@@ -90,16 +104,16 @@ This prototype is implemented using Express/Jade view rendering and hacked toget
 
 ##### Example Request
 
-|   Param   |       Type        |                   Description                    |
-| --------- | ----------------- | ------------------------------------------------ |
-| logfile   | path (string)     | Path to logfile relative to folder set in config |
-| integer   | Page number       | Currenet page number                             |
-| pagesize  | integer           | Number of log entries per page                   |
-| startline | integer           | Staring log                                      |
-| endline   | integer           | Ending line                                      |
-| startdt   | ISO 8601 Datetime | Starting datetime                                |
-| enddt     | ISO 8601 Datetime | Ending datetime                                  |
-| level     | Level Enum        | Log severity level defined below                 |
+`GET` `http://localhost:4000/api/file?logfile=testlog.log&startdt=1489387840000&enddt=1490333975974&level=4&pagesize=20&pagenum=1`
+
+|  Param   |       Type        |                   Description                    |
+| -------- | ----------------- | ------------------------------------------------ |
+| logfile  | path (string)     | Path to logfile relative to folder set in config |
+| pagenum  | integer           | Current page number                             |
+| pagesize | integer           | Number of log entries per page                   |
+| startdt  | datetime string   | Starting datetime                                |
+| enddt    | datetime string   | Ending datetime                                  |
+| level    | One of Level Enum | Log severity level defined below                 |
 
 ###### Level Enum
 
@@ -114,28 +128,47 @@ This prototype is implemented using Express/Jade view rendering and hacked toget
 ##### Example Response
 ```javascript
 {
-	"title": "/var/log/clientlog/debug_debug_livelog.log",
-	"logEntries": [
-		{
-			"text": "[2016-11-22T23:19:06Z] [DEBUG]: That's all for now folks\n",
-			"time": 1489285446660,
-			"level": 4,
-			"classStr": "logline-debug",
-			"line": 84319
-		},
-		{
-			"text": "[2016-11-22T23:19:06Z] [INFO]: You must be pretty desperate if you're looking at the logs\n",
-			"time": 1489285446660,
-			"level": 2,
-			"classStr": "logline-info",
-			"line": 84320
-		},
-		...
-	],
-	"currentPage": 1,
-	"nPages": 1688,
-	"pageSize": 50,
-	"nLines": 84368
+	"success": true,
+	"msg": "Queried logfile",
+	"data": {
+		"logentries": [
+			{
+				"text": "You must be pretty desperate if you're looking at the logs",
+				"level": 2,
+				"levelStr": "info",
+				"datetime": 1489387840000,
+				"datetimeStr": "11:50:40"
+			},
+			{
+				"text": "Hello world",
+				"level": 0,
+				"levelStr": "error",
+				"datetime": 1489387841000,
+				"datetimeStr": "11:50:41"
+			},
+			{
+				"text": "Lovely weather we're having",
+				"level": 1,
+				"levelStr": "warn",
+				"datetime": 1489387841000,
+				"datetimeStr": "11:50:41"
+			},
+			{
+				"text": "That's all for now folks",
+				"level": 4,
+				"levelStr": "debug",
+				"datetime": 1489387841000,
+				"datetimeStr": "11:50:41"
+			},
+			{
+				"text": "You must be pretty desperate if you're looking at the logs",
+				"level": 4,
+				"levelStr": "debug",
+				"datetime": 1489387840000,
+				"datetimeStr": "11:50:40"
+			}
+		]
+	}
 }
 ```
 

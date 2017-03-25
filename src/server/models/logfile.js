@@ -1,145 +1,98 @@
 'use strict';
 
 const fs = require('fs');
-const async = require('async');
-const events = require('events');
 const path = require('path');
-const util = require('util');
-const walk = require('walk');
-const Heap = require('heap');
-const clone = require('clone');
+const dateFormat = require('dateformat');
+const _ = require('lodash');
 
 const helpers = require('../helpers/helpers');
 const constants = require('../helpers/constants');
 const lineParser = require('../helpers/lineparser');
 
-/**
- * Models a given LogFile
- */
-class LogFile extends events.EventEmitter{
-  /**
-   * Generates JSON object for a given log file
-   *
-   * @param logPath: string
-   *  Path to log file
-   * @returns: {Promise}
-   *  Resolves with a list of JSON objects
-   */
-  static generateLogEntries(logPath){
-     return new Promise((resolve, reject) => {
-      async.waterfall([
-          (next) => {
-            fs.readFile(logPath, (err, data) => {
-              next(null, data.toString());
-            });
-          },
-          (data, next) => {
-            let split = data.split(constants.isoDtExp);
-            let lines = [];
-            for(let i = 1; i < split.length; i += 2){
-              lines.push(split[i] + split[i+1]);
-            }
-            next(null, lines);
-          },
-          (data, done) => {
-            done(null, lineParser.parseLines(data));
-          }],
-        (err, results) => {
-          resolve(results);
-        }
-      );
-    });
-  }
+const DEFAULT_LEVEL = constants.defaultLevel;
+const DEFAULT_LEVEL_STR = constants.defaultLevelStr;
+const DEFAULT_SPLIT_STR = '\n'; // TODO put this in config
 
-  static paginate(toPaginate, pageSize){
-    pageSize = parseInt(pageSize) || constants.defaultPageSize;
-    let toPaginateHeap = LogFile.lineEntryHeapSort(toPaginate);
-    let toReturn = [];
-    while(!toPaginateHeap.empty()){
-      let chunk = [];
-      while(chunk.length < pageSize && !toPaginateHeap.empty()){
-        chunk.push(toPaginateHeap.pop());
-      }
-      toReturn.push(chunk.reverse());
+function parseLine(datetimePattern, levelPattern, timeFormatter){
+  return function(line){
+    const dateSplit = line.split(new RegExp(datetimePattern.slice(1,-1)));
+    const levelSplit = dateSplit[2].split(new RegExp(levelPattern.slice(1, -1)));
+    const levelObj = getLevel(levelSplit[1], constants.levels);
+    const dateObj = new Date(dateSplit[1]);
+    return {
+      text: levelSplit[2],
+      level: levelObj.level,
+      levelStr: levelObj.str,
+      datetime: dateObj.getTime(),
+      datetimeStr: dateFormat(dateObj, timeFormatter)
     }
-    return toReturn;
   }
-
-  static lineEntryHeapSort(lineEntries){
-    let heap = new Heap((a, b) => {
-      return b.line - a.line;
-    });
-    while(lineEntries.length > 0){
-      heap.push(lineEntries.pop());
-    }
-    heap.heapify();
-    return heap;
-  }
-
-  /**
-   * Constructor generates a list of logEntries
-   * for a given log file
-   *
-   * @param logPath: string
-   *  Path to log file
-   */
-  constructor(logPath) {
-    super();
-    LogFile.generateLogEntries(logPath).then((data) => {
-      this.logEntries = data;
-      this.emit('ready');
-    });
-  }
-
-  /**
-   * Queries the list this list of fileEntries
-   *
-   * TODO
-   * Defined this API better
-   *
-   * @param reqQuery: JSON object
-   *  Query params (probably from express)
-   * @returns {Promise}
-   *  Resolves to a list of JSON objects
-   */
-  query(reqQuery) {
-    return new Promise((resolve, reject) => {
-      let level;
-      try{
-        level = parseInt(reqQuery.level);
-        if(isNaN(level)){
-          throw new Exception('level must be int')
-        }
-      }
-      catch(err){
-        level = constants.levels.DEBUG;
-      }
-      let startLine = parseInt(reqQuery.startline) || 0;
-      let endLine = parseInt(reqQuery.endline) || this.logEntries.size();
-      let startTimeStr = reqQuery.startdt || 0;
-      let endTimeStr = reqQuery.enddt || new Date().getTime();
-      let startTimestamp = new Date(startTimeStr).getTime();
-      let endTimestamp = new Date(endTimeStr).getTime();
-      let filtered = this.logEntries.clone();
-      resolve(filtered.toArray().filter((entry) => {
-        let levelMatch = entry.level <= level;
-        let dateMatch = entry.time <= endTimestamp && entry.time >= startTimestamp;
-        let lineMatch = entry.line <= endLine && entry.line >= startLine;
-        return lineMatch && levelMatch && dateMatch;
-      }));
-    });
-  }
-
-  /**
-   * Get all these logEntries
-   *
-   * @returns: list of JSON objects
-   *  List of logEntry JSON objects
-   */
-  getAll() {
-    return this.logEntries;
-  }
-
 }
 
-module.exports = LogFile;
+// TODO remove this filthy jank (de-jank?)
+function getLevel(levelStr, levelEnum){
+  for(let key in levelEnum){
+    if(levelStr.trim().toLowerCase().includes(key.toLowerCase())){
+      return {
+        level: levelEnum[key],
+        str: key.toLowerCase()
+      }
+    }
+  }
+  return {
+    level: DEFAULT_LEVEL,
+    str: DEFAULT_LEVEL_STR
+  }
+}
+
+const isValidPagenum = (nLines, pageSize, pagenum) => Math.ceil(nLines/pageSize) >= pagenum;
+
+const Logfile = {
+  create: function(filepath, config){
+    this.filepath = filepath;
+    this.config = config;
+    this.readFile();
+    return this;
+  },
+  readFile: function(){
+    try{
+      const data = fs.readFileSync(this.filepath);
+      // Filter to avoid empty lines
+      const lines = data.toString().split(DEFAULT_SPLIT_STR).filter(k => k.length > 0);
+      this.loglines = lines.map(parseLine(this.config.datetimePattern,
+                      this.config.levelPattern, this.config.timeFormatter));
+    }
+    catch(err){
+    }
+  },
+  /**
+   * queryParams: {
+   *  logfile: path (string),
+   *  pagenum: integer,
+   *  pagesize: integer,
+   *  startdt: datetime string
+   *  enddt: datetime string
+   *  level: one of log level enum
+   * }
+   *
+  */
+  query: function(queryParams){
+    const startdt = new Date(queryParams.startdt).getTime();
+    const enddt = new Date(queryParams.enddt).getTime();
+    const filtered = this.loglines.filter(logline => {
+      const datetimeMatch = logline.datetime <= enddt && logline.datetime >= startdt;
+      const levelMatch = logline.level <= queryParams.level;
+      return datetimeMatch && levelMatch;
+    });
+    if(!isValidPagenum(filtered.length, queryParams.pagesize, queryParams.pagenum))
+      throw new Error('pagenum out of range');
+    // pages go from newest -> oldest so reverse the page chunks
+    return _.chunk(filtered, queryParams.pagesize).reverse()[queryParams.pagenum - 1];
+  },
+  getAll: function(){
+    return this.loglines;
+  }
+};
+
+module.exports = Logfile;
+
