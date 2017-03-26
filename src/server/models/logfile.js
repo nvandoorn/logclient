@@ -7,7 +7,6 @@ const _ = require('lodash');
 
 const helpers = require('../helpers/helpers');
 const constants = require('../helpers/constants');
-const lineParser = require('../helpers/lineparser');
 
 const DEFAULT_LEVEL = constants.defaultLevel;
 const DEFAULT_LEVEL_STR = constants.defaultLevelStr;
