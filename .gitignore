@@ -1,6 +1,4 @@
 node_modules/
-.idea/
 .DS_store
-bower_components/
 npm-debug.log
 build/
