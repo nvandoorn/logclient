@@ -24,7 +24,7 @@ function parseLine(datetimePattern, levelPattern, timeFormatter){
       level: levelObj.level,
       levelStr: levelObj.str,
       datetime: dateObj.getTime(),
-      datetimeStr: dateFormat(dateObj, timeFormatter)
+      datetimeStr: dateFormat(dateObj, timeFormatter, true) // Added true for UTC time
     }
   }
 }

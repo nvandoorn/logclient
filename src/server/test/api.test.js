@@ -45,7 +45,7 @@ describe('REST API', function(){
         level: constants.levels.INFO,
         levelStr: 'info',
         datetime: 1489387840000,
-        datetimeStr: '11:50:40'
+        datetimeStr: '6:50:40'
       };
       thisGet().then(body => {
         if(body.success && isEqual(body.data.logentries[0], correct)) done();
