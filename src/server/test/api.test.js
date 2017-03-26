@@ -1,6 +1,6 @@
 'use strict';
 
-const assert = require('assert');
+const assert = require('chai').assert;
 const isEqual = require('json-is-equal');
 const path = require('path');
 
