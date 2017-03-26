@@ -24,7 +24,6 @@ exports.get = function(route, params){
       method: 'GET',
       qs: params
     }, function(err, response, body){
-      console.log(JSON.stringify(JSON.parse(body), null, 2));
       if(err) reject(err);
       resolve(JSON.parse(body))
     });
