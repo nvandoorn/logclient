@@ -54,26 +54,29 @@ function getDifferenceLabel(currentSize, previousSize) {
 
 // First, read the current file sizes in build directory.
 // This lets us display how much they changed later.
-recursive(paths.appBuild, (err, fileNames) => {
-  var previousSizeMap = (fileNames || [])
-    .filter(fileName => /\.(js|css)$/.test(fileName))
-    .reduce((memo, fileName) => {
-      var contents = fs.readFileSync(fileName);
-      var key = removeFileNameHash(fileName);
-      memo[key] = gzipSize(contents);
-      return memo;
-    }, {});
+module.exports = function(){
+  recursive(paths.appBuild, (err, fileNames) => {
+    var previousSizeMap = (fileNames || [])
+      .filter(fileName => /\.(js|css)$/.test(fileName))
+      .reduce((memo, fileName) => {
+        var contents = fs.readFileSync(fileName);
+        var key = removeFileNameHash(fileName);
+        memo[key] = gzipSize(contents);
+        return memo;
+      }, {});
 
-  // Remove all content but keep the directory so that
-  // if you're in it, you don't end up in Trash
-  fs.emptyDirSync(paths.appBuild);
+    // Remove all content but keep the directory so that
+    // if you're in it, you don't end up in Trash
+    fs.emptyDirSync(paths.appBuild);
 
-  // Start the webpack build
-  build(previousSizeMap);
+    // Start the webpack build
+    build(previousSizeMap);
 
-  // Merge with the public folder
-  copyPublicFolder();
-});
+    // Merge with the public folder
+    copyPublicFolder();
+  });
+
+}
 
 // Print a detailed summary of build files.
 function printFileSizes(stats, previousSizeMap) {

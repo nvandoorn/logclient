@@ -14,8 +14,9 @@ A simple web based client to view and filter logs. This project was originally i
 - Include more API call examples in server
 
 ## Running This Project
-- Running the dev environment: `npm start`
-- Running the backend with a prebuilt front-end: `npm build` (to be implemented)
+- Running the dev environment: `npm run dev`
+- Running the backend with an optimized front-end build: `npm start`
+- Building the front-end: `npm run build`
 - Running server tests: `npm test`
 - Running the client test: `npm run test-client` (to be implemented)
 
