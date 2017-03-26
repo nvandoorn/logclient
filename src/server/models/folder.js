@@ -1,3 +1,5 @@
+'use strict';
+
 const walk = require('walk');
 
 /**
@@ -20,5 +22,9 @@ exports.getLogFileNames = (logDir) => {
     walker.on('end', () => {
       resolve(logFileNames);
     });
+
+    walker.on('error', err => {
+      reject(err);
+    })
   });
 };

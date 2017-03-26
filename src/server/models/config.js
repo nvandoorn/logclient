@@ -1,11 +1,7 @@
 'use strict';
 
-const path = require('path');
 const fs = require('fs-extra');
-
-const helpers = require('../helpers/helpers');
-const buildRes = helpers.buildRes;
-
+const buildRes = require('../helpers/build-res');
 
 const Config = {
   createConfig: function(configPath){

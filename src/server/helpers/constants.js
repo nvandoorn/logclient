@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  *  Enum for log levels
  *

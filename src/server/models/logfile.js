@@ -1,11 +1,9 @@
 'use strict';
 
 const fs = require('fs');
-const path = require('path');
 const dateFormat = require('dateformat');
 const _ = require('lodash');
 
-const helpers = require('../helpers/helpers');
 const constants = require('../helpers/constants');
 
 const DEFAULT_LEVEL = constants.defaultLevel;
@@ -62,6 +60,7 @@ const Logfile = {
                       this.config.levelPattern, this.config.timeFormatter));
     }
     catch(err){
+      throw new Error(`Failed to read ${this.filepath}`);
     }
   },
   /**

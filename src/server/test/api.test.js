@@ -1,15 +1,15 @@
+'use strict';
+
 const assert = require('assert');
 const isEqual = require('json-is-equal');
 const path = require('path');
 
 const http = require('./lib/http');
 const get = http.get;
-const post = http.post;
 const put = http.put;
 
 const constants = require('../helpers/constants');
-const createServer = require('../../../scripts/www');
-const Logfile = require('../models/logfile');
+const createServer = require('../../../scripts/server');
 
 const LOGFILE_PATH = path.join(__dirname, './fixtures');
 const LOGFILE_NAME = 'testlog.log';
@@ -19,7 +19,8 @@ const CONFIG_ROUTE = `${BASE_ROUTE}/config`;
 const FILE_ROUTE = `${BASE_ROUTE}/file`
 
 describe('REST API', function(){
-  const server = createServer(TEST_PORT);
+
+  const server = createServer(TEST_PORT); // eslint-disable-line
   describe('#config()', function(){
     const config = {
       datetimePattern: constants.defaultDatetimePattern.toString(),
