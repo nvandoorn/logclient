@@ -57,19 +57,21 @@ describe('REST API', function(){
         datetimeStr: '6:50:40'
       };
       return thisGet().then(body => {
+        assert(body.success);
         assert.deepEqual(body.data[0], correct, 'did not correctly parse logline');
-        assert(body.success)
       });
     });
 
     it('should default level on unknown level', function(){
       return thisGet().then(function(body){
+        assert(body.success);
         assert.strictEqual(body.data[4].level, constants.defaultLevel, 'level did not default');
       });
     });
 
     it('should default level string on unknown level', function(){
       return thisGet().then(function(body){
+        assert(body.success);
         assert.strictEqual(body.data[4].levelStr, constants.defaultLevelStr,
             'level string did not defualt');
       })
