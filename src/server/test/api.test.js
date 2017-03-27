@@ -1,7 +1,6 @@
 'use strict';
 
 const assert = require('chai').assert;
-const isEqual = require('json-is-equal');
 const path = require('path');
 
 const http = require('./lib/http');
@@ -16,15 +15,16 @@ const LOGFILE_NAME = 'testlog.log';
 const TEST_PORT = 5000;
 const BASE_ROUTE = `http://localhost:${TEST_PORT}/api`;
 const CONFIG_ROUTE = `${BASE_ROUTE}/config`;
-const FILE_ROUTE = `${BASE_ROUTE}/file`
+const FILE_ROUTE = `${BASE_ROUTE}/file`;
+const DIRECTORY_ROUTE = `${BASE_ROUTE}/directory`;
 
 describe('REST API', function(){
 
   const server = createServer(TEST_PORT); // eslint-disable-line
   describe('#config()', function(){
     const config = {
-      datetimePattern: constants.defaultDatetimePattern.toString(),
-      levelPattern: constants.defaultLevelPattern.toString(),
+      datetimePattern: constants.defaultDatetimePattern.toString().slice(1, -1),
+      levelPattern: constants.defaultLevelPattern.toString().slice(1, -1),
       timeFormatter: constants.defaultTimeFormatter,
       folders: [{
         name: "Test Fixture",
@@ -38,9 +38,17 @@ describe('REST API', function(){
     });
   });
 
+  describe('#directory()', function(){
+    it(`should contain ${LOGFILE_NAME}`, function(){
+      return get(DIRECTORY_ROUTE).then(body => {
+        assert.include(body.data, LOGFILE_NAME);
+      })
+    })
+  });
+
   describe('#query()', function(){
     const thisGet = () => get(FILE_ROUTE, { logfile: LOGFILE_NAME });
-    it('should correctly parse the first line', function(done){
+    it('should correctly parse the first line', function(){
       const correct = {
         text: `You must be pretty desperate if you're looking at the logs`,
         level: constants.levels.INFO,
@@ -48,21 +56,21 @@ describe('REST API', function(){
         datetime: 1489387840000,
         datetimeStr: '6:50:40'
       };
-      thisGet().then(body => {
-        if(body.success && isEqual(body.data.logentries[0], correct)) done();
-        else done(new Error('Request failed'));
+      return thisGet().then(body => {
+        assert.deepEqual(body.data[0], correct, 'did not correctly parse logline');
+        assert(body.success)
       });
     });
 
     it('should default level on unknown level', function(){
       return thisGet().then(function(body){
-        assert.strictEqual(body.data.logentries[4].level, constants.defaultLevel, 'level did not default');
+        assert.strictEqual(body.data[4].level, constants.defaultLevel, 'level did not default');
       });
     });
 
     it('should default level string on unknown level', function(){
       return thisGet().then(function(body){
-        assert.strictEqual(body.data.logentries[4].levelStr, constants.defaultLevelStr,
+        assert.strictEqual(body.data[4].levelStr, constants.defaultLevelStr,
             'level string did not defualt');
       })
     });

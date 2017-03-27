@@ -4,13 +4,13 @@ const fs = require('fs-extra');
 const buildRes = require('../helpers/build-res');
 
 const Config = {
-  createConfig: function(configPath){
+  create: function(configPath){
     this.configPath = configPath;
     this.blob = {};
-    this.readConfig();
+    this.read();
     return this;
   },
-  readConfig: function(){
+  read: function(){
     const configExists = fs.existsSync(this.configPath);
     let toReturn = buildRes(true, 'Config file is empty', {});
     if(configExists){
@@ -25,13 +25,13 @@ const Config = {
     }
     return toReturn;
   },
-  setConfig: function(config){
+  set: function(config){
     this.blob = config;
     console.log(JSON.stringify(this.blob));
-    const success = this.saveConfig(config);
+    const success = this.save(config);
     return buildRes(success, `Config set: ${success}`, config);
   },
-  saveConfig: function(config){
+  save: function(config){
     try{
       fs.outputJsonSync(this.configPath, config);
     }
