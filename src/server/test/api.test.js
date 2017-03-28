@@ -31,11 +31,17 @@ describe('REST API', function(){
         directory: LOGFILE_PATH
       }]
     };
-    it('should successfully set the config', function(done){
-      put(CONFIG_ROUTE, config).then(body => {
-        done(body.success ? null : new Error(`Request failed: ${body.msg}`));
+    it('should successfully set the config', function(){
+      return put(CONFIG_ROUTE, config).then(body => {
+        assert(body.success, 'failed to set config');
       });
     });
+    it('should successfully get the same config', function(){
+      return get(CONFIG_ROUTE).then(body => {
+        assert(body.success, 'failed to get config');
+        assert.deepEqual(body.data, config, 'configs are not equal');
+      })
+    })
   });
 
   describe('#directory()', function(){
