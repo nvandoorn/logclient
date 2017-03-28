@@ -27,7 +27,6 @@ const Config = {
   },
   set: function(config){
     this.blob = config;
-    console.log(JSON.stringify(this.blob));
     const success = this.save(config);
     return buildRes(success, `Config set: ${success}`, config);
   },
