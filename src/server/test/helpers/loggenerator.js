@@ -1,4 +1,5 @@
-const path = require('path');
+'use strict';
+
 const winston = require('winston');
 const util = require('util');
 
@@ -110,4 +111,4 @@ let logInfo = function(){
   logger.info('You must be pretty desperate if you\'re looking at the logs');
 };
 
-let interval = setInterval(logInfo, 500);
+setInterval(logInfo, 500);

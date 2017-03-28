@@ -12,10 +12,12 @@
     "slask": "scripts/start.js"
   },
   "scripts": {
+    "lint": "eslint ./",
+    "dev": "node scripts/dev.js",
     "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
+    "build": "node scripts/run-build.js",
     "test-client": "node scripts/test.js --env=jsdom",
-    "test": "mocha src/server/test/api.test.js"
+    "test": "eslint ./ && mocha src/server/test/api.test.js"
   },
   "devDependencies": {
     "autoprefixer": "6.7.2",
@@ -73,6 +75,7 @@
     "cookie-parser": "~1.4.3",
     "dateformat": "^2.0.0",
     "debug": "~2.2.0",
+    "eslint": "^3.8.1",
     "events": "^1.1.1",
     "express": "~4.13.4",
     "fs-extra": "^2.0.0",

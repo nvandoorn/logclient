@@ -4,13 +4,12 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 
-const helpers = require('../helpers/helpers');
-const buildRes = helpers.buildRes;
+const buildRes = require('../helpers/build-res');
 const constants = require('../helpers/constants');
-const folderParser = require('../helpers/folderparser');
 
 const Config = require('../models/config');
 const Logfile = require('../models/logfile');
+const folder = require('../models/folder');
 
 const CONFIG_PATH = path.join(__dirname, '../../../config.json');
 
@@ -38,16 +37,16 @@ function normalizeFileReq(req, res, next){
 }
 
 router.route('/config')
-  .get((req, res, next) => {
+  .get((req, res) => {
     res.json(config.readConfig());
   })
-  .put((req, res, next) => {
+  .put((req, res) => {
     res.json(config.setConfig(req.body));
   });
 
 // TODO Add support to use folders list
-router.get('/directory', failConfig, (req, res, next) => {
-  folderParser.getLogFileNames(config.blob.folders[0].directory).then(folders => {
+router.get('/directory', failConfig, (req, res) => {
+  folder.getLogFileNames(config.blob.folders[0].directory).then(folders => {
     console.log(JSON.stringify(config));
     res.json({
       logFiles: folders
@@ -56,7 +55,7 @@ router.get('/directory', failConfig, (req, res, next) => {
 });
 
 // TODO Add support to use folders list
-router.get('/file', [failConfig, normalizeFileReq], (req, res, next) => {
+router.get('/file', [failConfig, normalizeFileReq], (req, res) => {
   const logpath = path.join(config.blob.folders[0].directory, req.query.logfile);
   const logfile = Logfile.create(logpath, config.blob);
   try{

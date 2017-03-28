@@ -14,10 +14,14 @@ A simple web based client to view and filter logs. This project was originally i
 - Include more API call examples in server
 
 ## Running This Project
-- Running the dev environment: `npm start`
-- Running the backend with a prebuilt front-end: `npm build` (to be implemented)
-- Running server tests: `npm test`
+- Running the dev environment: `npm run dev`
+- Running the backend with an optimized front-end build: `npm start`
+- Building the front-end: `npm run build`
+- Running server tests (and linter): `npm test`
 - Running the client test: `npm run test-client` (to be implemented)
+- Lint the server side code (included in `npm test`): `npm run lint`
+
+**Note**: Running or building the client lints with babel-eslint
 
 ## Client Side
 Implemented using React and Webpack. Screenshots and details coming soon.

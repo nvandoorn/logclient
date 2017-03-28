@@ -9,11 +9,11 @@ import Sidebar from './sidebar/sidebar';
 import Config from './config/config';
 import { httpGetJson, httpPutJson } from './helpers/http';
 
-const MOCK_LOG_DIR = 'debug_debug_livelog.log';
-const BASE_URL = '//localhost:4000/api/';
+const MOCK_LOG_PATH = 'testlog.log';
+const API_PORT = process.env.NODE_ENV === 'production' ? 3000 : 4000;
+const BASE_URL = `//localhost:${API_PORT}/api/`;
 const FILE_URL = `${BASE_URL}file`;
 const DIR_URL = `${BASE_URL}directory`;
-const DEFAULT_PAGE_SIZE = 50;
 
 // TODO Better request handling -- likely Redux longterm
 class App extends Component {
@@ -22,11 +22,9 @@ class App extends Component {
     this.state = {
       loglines: [],
       params: {
-        logfile: MOCK_LOG_DIR,
+        logfile: MOCK_LOG_PATH,
         page: 1,
-        pagesize: DEFAULT_PAGE_SIZE,
-        startline: '',
-        endline: '',
+        pagesize: '',
         startdt: '',
         enddt: ''
       },
