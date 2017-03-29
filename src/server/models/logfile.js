@@ -83,7 +83,7 @@ const Logfile = {
       const levelMatch = logline.level <= queryParams.level;
       return datetimeMatch && levelMatch;
     });
-    if(!isValidPagenum(filtered.length, queryParams.pagesize, queryParams.pagenum))
+    if(!isValidPagenum(filtered.length, queryParams.pagesize, queryParams.pagenum) && filtered.length)
       throw new Error('pagenum out of range');
     // pages go from newest -> oldest so reverse the page chunks
     const loglines = _.chunk(filtered, queryParams.pagesize).reverse()[queryParams.pagenum - 1];
