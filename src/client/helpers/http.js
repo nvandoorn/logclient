@@ -8,13 +8,11 @@ function httpReq(type, url, body){
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify(body));
     xhr.onreadystatechange = function(){
-      if(this.readyState === 4 && this.status === 200) {
-        const data = JSON.parse(this.responseText);
-        resolve(data);
-      }
+      if(this.readyState === 4 && this.status === 200) resolve(JSON.parse(this.responseText));
     };
   });
 }
 
-export const httpGetJson = (url, params) => httpReq('GET', joinUrlParams(url, params));
-export const httpPutJson = (url, body) => httpReq('PUT', url, body);
+exports.get = (url, params) => httpReq('GET', joinUrlParams(url, params));
+exports.put = (url, body) => httpReq('PUT', url, body);
+exports.post = (url, body) => httpReq('POST', url, body);
