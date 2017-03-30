@@ -5,6 +5,7 @@ const dateFormat = require('dateformat');
 const _ = require('lodash');
 
 const constants = require('../helpers/constants');
+const buildRes = require('../helpers/build-res');
 
 const DEFAULT_LEVEL = constants.defaultLevel;
 const DEFAULT_LEVEL_STR = constants.defaultLevelStr;
@@ -12,8 +13,8 @@ const DEFAULT_SPLIT_STR = '\n'; // TODO put this in config
 
 function parseLine(datetimePattern, levelPattern, timeFormatter){
   return function(line){
-    const dateSplit = line.split(new RegExp(datetimePattern.slice(1,-1)));
-    const levelSplit = dateSplit[2].split(new RegExp(levelPattern.slice(1, -1)));
+    const dateSplit = line.split(new RegExp(datetimePattern));
+    const levelSplit = dateSplit[2].split(new RegExp(levelPattern));
     const levelObj = getLevel(levelSplit[1], constants.levels);
     const dateObj = new Date(dateSplit[1]);
     return {
@@ -82,13 +83,14 @@ const Logfile = {
       const levelMatch = logline.level <= queryParams.level;
       return datetimeMatch && levelMatch;
     });
-    if(!isValidPagenum(filtered.length, queryParams.pagesize, queryParams.pagenum))
+    if(!isValidPagenum(filtered.length, queryParams.pagesize, queryParams.pagenum) && filtered.length)
       throw new Error('pagenum out of range');
     // pages go from newest -> oldest so reverse the page chunks
-    return _.chunk(filtered, queryParams.pagesize).reverse()[queryParams.pagenum - 1];
+    const loglines = _.chunk(filtered, queryParams.pagesize).reverse()[queryParams.pagenum - 1];
+    return buildRes(true, `Queried ${this.filepath}`, loglines);
   },
   getAll: function(){
-    return this.loglines;
+    return buildRes(true, `Retrieved all loglines for ${this.filepath}`, this.loglines);
   }
 };
 

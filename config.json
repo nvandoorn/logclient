@@ -1,6 +1,6 @@
 {
-  "datetimePattern": "/\\[(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z)\\]/",
-  "levelPattern": "/\\[([\\w\\s]+|\\w+)\\]:\\s/",
+  "datetimePattern": "\\[(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z)\\]",
+  "levelPattern": "\\[([\\w\\s]+|\\w+)\\]:\\s",
   "timeFormatter": "h:MM:ss",
   "folders": [
     {

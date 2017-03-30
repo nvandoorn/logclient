@@ -56,8 +56,8 @@ This prototype is implemented using Express/Jade view rendering and hacked toget
 ##### Example requests body
 ```javascript
 {
-	"datetimePattern": "/\\[(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z)\\]/",
-	"levelPattern": "/\\[([\\w\\s]+|\\w+)\\]:\\s/",
+	"datetimePattern": "\\[(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z)\\]",
+	"levelPattern": "\\[([\\w\\s]+|\\w+)\\]:\\s",
 	"timeFormatter": "h:MM:ss",
 	"folders": [
 		{
@@ -74,8 +74,8 @@ This prototype is implemented using Express/Jade view rendering and hacked toget
 	"success": true,
 	"msg": "Config set: true",
 	"data": {
-		"datetimePattern": "/\\[(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z)\\]/",
-		"levelPattern": "/\\[([\\w\\s]+|\\w+)\\]:\\s/",
+		"datetimePattern": "\\[(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z)\\]",
+		"levelPattern": "\\[([\\w\\s]+|\\w+)\\]:\\s",
 		"timeFormatter": "h:MM:ss",
 		"folders": [
 			{
@@ -95,8 +95,8 @@ This prototype is implemented using Express/Jade view rendering and hacked toget
 	"success": true,
 	"msg": "Config read",
 	"data": {
-		"datetimePattern": "/\\[(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z)\\]/",
-		"levelPattern": "/\\[([\\w\\s]+|\\w+)\\]:\\s/",
+		"datetimePattern": "\\[(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z)\\]",
+		"levelPattern": "\\[([\\w\\s]+|\\w+)\\]:\\s",
 		"timeFormatter": "h:MM:ss",
 		"folders": [
 			{
@@ -136,46 +136,44 @@ This prototype is implemented using Express/Jade view rendering and hacked toget
 ```javascript
 {
 	"success": true,
-	"msg": "Queried logfile",
-	"data": {
-		"logentries": [
-			{
-				"text": "You must be pretty desperate if you're looking at the logs",
-				"level": 2,
-				"levelStr": "info",
-				"datetime": 1489387840000,
-				"datetimeStr": "11:50:40"
-			},
-			{
-				"text": "Hello world",
-				"level": 0,
-				"levelStr": "error",
-				"datetime": 1489387841000,
-				"datetimeStr": "11:50:41"
-			},
-			{
-				"text": "Lovely weather we're having",
-				"level": 1,
-				"levelStr": "warn",
-				"datetime": 1489387841000,
-				"datetimeStr": "11:50:41"
-			},
-			{
-				"text": "That's all for now folks",
-				"level": 4,
-				"levelStr": "debug",
-				"datetime": 1489387841000,
-				"datetimeStr": "11:50:41"
-			},
-			{
-				"text": "You must be pretty desperate if you're looking at the logs",
-				"level": 4,
-				"levelStr": "debug",
-				"datetime": 1489387840000,
-				"datetimeStr": "11:50:40"
-			}
-		]
-	}
+	"msg": "Queried /Users/nick/Documents/slask/src/server/test/fixtures/testlog.log",
+	"data": [
+		{
+			"text": "You must be pretty desperate if you're looking at the logs",
+			"level": 2,
+			"levelStr": "info",
+			"datetime": 1489387840000,
+			"datetimeStr": "6:50:40"
+		},
+		{
+			"text": "Hello world",
+			"level": 0,
+			"levelStr": "error",
+			"datetime": 1489387841000,
+			"datetimeStr": "6:50:41"
+		},
+		{
+			"text": "Lovely weather we're having",
+			"level": 1,
+			"levelStr": "warn",
+			"datetime": 1489387841000,
+			"datetimeStr": "6:50:41"
+		},
+		{
+			"text": "That's all for now folks",
+			"level": 4,
+			"levelStr": "debug",
+			"datetime": 1489387841000,
+			"datetimeStr": "6:50:41"
+		},
+		{
+			"text": "You must be pretty desperate if you're looking at the logs",
+			"level": 4,
+			"levelStr": "debug",
+			"datetime": 1489387840000,
+			"datetimeStr": "6:50:40"
+		}
+	]
 }
 ```
 
@@ -186,14 +184,10 @@ Gets the directory listing for the first folder configured in `config.folders`
 ##### Example Response
 ```javascript
 {
-	"logFiles": [
-		"debug_debug_livelog.log",
-		"debug_debug_livelog1.log",
-		"debug_debug_livelog2.log",
-		"debug_debug_livelog3.log",
-		"debug_livelog.log",
-		"debug_livelog1.log",
-		"debug_livelog2.log"
+	"success": true,
+	"msg": "Successfully listed /Users/nick/Documents/slask/src/server/test/fixtures",
+	"data": [
+		"testlog.log"
 	]
 }
 ```
