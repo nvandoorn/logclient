@@ -8,7 +8,10 @@ function httpReq(type, url, body){
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify(body));
     xhr.onreadystatechange = function(){
-      if(this.readyState === 4 && this.status === 200) resolve(JSON.parse(this.responseText));
+      if(this.readyState === 4){
+        if(this.status === 200) resolve(JSON.parse(this.responseText));
+        else reject(new Error(`HTTP request failed with code: ${this.status}`));
+      }
     };
   });
 }
