@@ -7,8 +7,6 @@ const _ = require('lodash');
 const constants = require('../helpers/constants');
 const buildRes = require('../helpers/build-res');
 
-const DEFAULT_LEVEL = constants.defaultLevel;
-const DEFAULT_LEVEL_STR = constants.defaultLevelStr;
 const DEFAULT_SPLIT_STR = '\n'; // TODO put this in config
 
 function parseLine(datetimePattern, levelPattern, timeFormatter){
@@ -27,21 +25,10 @@ function parseLine(datetimePattern, levelPattern, timeFormatter){
   }
 }
 
-// TODO remove this filthy jank (de-jank?)
-function getLevel(levelStr, levelEnum){
-  for(let key in levelEnum){
-    if(levelStr.trim().toLowerCase().includes(key.toLowerCase())){
-      return {
-        level: levelEnum[key],
-        str: key.toLowerCase()
-      }
-    }
-  }
-  return {
-    level: DEFAULT_LEVEL,
-    str: DEFAULT_LEVEL_STR
-  }
-}
+const getLevelLowerCase = (levelStr, levelEnum) => levelEnum[levelStr] ?
+  { level: levelEnum[levelStr], str: levelStr } : { level: constants.defaultLevel, str: constants.defaultLevelStr };
+
+const getLevel = (levelStr, levelEnum) => getLevelLowerCase(levelStr.toLowerCase(), levelEnum);
 
 const isValidPagenum = (nLines, pageSize, pagenum) => Math.ceil(nLines/pageSize) >= pagenum;
 
