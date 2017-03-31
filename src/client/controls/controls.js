@@ -4,13 +4,11 @@ import { Row, Col, FormGroup, ControlLabel, FormControl, HelpBlock } from 'react
 const COL_SIZE = 2;
 
 const FieldGroup = ({onChange, id, label, help, ...props }) =>
-    <Col sm={COL_SIZE}>
-      <FormGroup controlId={id}>
-        <ControlLabel>{label}</ControlLabel>
-        <FormControl {...props} onChange={onChange}/>
-        {help && <HelpBlock>{help}</HelpBlock>}
-      </FormGroup>
-    </Col>;
+    <FormGroup controlId={id}>
+      <ControlLabel>{label}</ControlLabel>
+      <FormControl {...props} onChange={onChange}/>
+      {help && <HelpBlock>{help}</HelpBlock>}
+    </FormGroup>
 
 // TODO convert to a class with state
 class Controls extends Component{
@@ -26,7 +24,7 @@ class Controls extends Component{
   render(){
     const values = this.props.values;
     return(
-      <Row>
+      <div>
         <FieldGroup
           onChange={this.handleChange}
           id="pagesize"
@@ -62,7 +60,7 @@ class Controls extends Component{
           label="End Date"
           values={values.enddt}
         />
-      </Row>
+      </div>
     )
   }
 }
