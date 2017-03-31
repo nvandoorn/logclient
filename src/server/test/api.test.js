@@ -58,7 +58,7 @@ describe('REST API', function(){
     it('should correctly parse the first line', function(){
       const correct = {
         text: `You must be pretty desperate if you're looking at the logs`,
-        level: constants.levels.INFO,
+        level: constants.levels.info,
         levelStr: 'info',
         datetime: 1489387840000,
         datetimeStr: '6:50:40'
