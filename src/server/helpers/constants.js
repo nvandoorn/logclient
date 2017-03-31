@@ -6,14 +6,14 @@
  * @type {{ERROR: number, WARN: number, INFO: number, VERBOSE: number, DEBUG: number}}
  */
 exports.levels = {
-  ERROR: 0,
-  WARN: 1,
-  INFO: 2,
-  VERBOSE: 3,
-  DEBUG: 4
+  error: 0,
+  warn: 1,
+  info: 2,
+  verbose: 3,
+  debug: 4
 };
 
-exports.defaultLevel = exports.levels.DEBUG;
+exports.defaultLevel = exports.levels.debug;
 
 exports.defaultLevelStr = 'debug';
 
