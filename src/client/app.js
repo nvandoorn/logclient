@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import style, { grid as gridStyle } from './app.css.js';
 
 import Loglines from './loglines/loglines';
 import Controls from './controls/controls';
@@ -69,12 +70,12 @@ class App extends Component {
       <div>
         <Config folders={this.state.folders} show={!this.state.hasFolders}/>
         { this.state.hasFolders > 0 ?
-        <Grid>
+        <Grid className={gridStyle}>
           <Row>
             <Col sm={3}>
+              <Controls onChange={this.handleControlUpdate} values={this.state.params}/>
             </Col>
             <Col sm={9}>
-              <Controls onChange={this.handleControlUpdate} values={this.state.params}/>
               <Loglines loglines={this.state.loglines}/>
             </Col>
           </Row>
