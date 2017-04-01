@@ -30,21 +30,7 @@ class Controls extends Component{
           type="number"
           label="Page Size"
           value={values.pagesize}
-        />
-        <FieldGroup
-          onChange={this.handleChange}
-          id="startline"
-          type="number"
-          label="Start Line"
-          value={values.startline}
-        />
-        <FieldGroup
-          onChange={this.handleChange}
-          id="endline"
-          type="number"
-          label="End Line"
-          value={values.endline}
-        />
+        /> 
         <FieldGroup
           onChange={this.handleChange}
           id="startdt"
