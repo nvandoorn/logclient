@@ -4,7 +4,7 @@ import { Row } from 'react-bootstrap';
 import Line from './line/line';
 
 let i = 0;
-let getKey = () => `line-${i++}`;
+let getKey = () => `line-${i++}`; // TODO dejank this
 const createLines = loglines => loglines.map(logline => <Line props={logline} key={getKey()}/>);
 
 const Loglines = ({loglines}) =>

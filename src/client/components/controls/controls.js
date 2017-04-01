@@ -1,4 +1,4 @@
-import React, { Component }from 'react';
+import React, { Component } from 'react';
 import { Row, Col, FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap';
 
 const COL_SIZE = 2;
@@ -10,7 +10,6 @@ const FieldGroup = ({onChange, id, label, help, ...props }) =>
       {help && <HelpBlock>{help}</HelpBlock>}
     </FormGroup>
 
-// TODO convert to a class with state
 class Controls extends Component{
   constructor(props){
     super(props);

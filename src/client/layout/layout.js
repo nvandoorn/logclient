@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 
-import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import style, { grid as gridStyle } from './app.css.js';
+import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import { gridStyle } from'./layout.css.js';
 
-import Loglines from './loglines/loglines';
-import Controls from './controls/controls';
-import Sidebar from './sidebar/sidebar';
-import Config from './config/config';
-import http from '../server/test/lib/http';
-
-import { get, put, post } from './helpers/http';
+import Loglines from '../components/loglines/loglines';
+import Controls from '../components/controls/controls';
+import Sidebar from '../components/sidebar/sidebar';
+import Config from '../components/config/config';
+import { get, put, post } from '../helpers/http';
 
 const MOCK_LOG_PATH = 'testlog.log';
 const API_PORT = process.env.NODE_ENV === 'production' ? 3000 : 4000; // TODO this belongs in a .env

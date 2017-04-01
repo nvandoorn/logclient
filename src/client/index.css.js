@@ -6,6 +6,4 @@ export default {
   }
 }
 
-export const grid = {
-  background: globals.colours.background.accent
-}
+
