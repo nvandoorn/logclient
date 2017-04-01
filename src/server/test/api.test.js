@@ -7,7 +7,7 @@ const http = require('./lib/http');
 const get = http.get;
 const put = http.put;
 
-const constants = require('../helpers/constants');
+const constants = require('../../constants');
 const createServer = require('../../../scripts/server');
 
 const LOGFILE_PATH = path.join(__dirname, './fixtures');

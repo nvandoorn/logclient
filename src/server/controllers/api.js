@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 
-const constants = require('../helpers/constants');
+const constants = require('../../constants');
 const buildRes = require('../helpers/build-res');
 
 const Config = require('../models/config');

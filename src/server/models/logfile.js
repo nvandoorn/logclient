@@ -4,7 +4,7 @@ const fs = require('fs');
 const dateFormat = require('dateformat');
 const _ = require('lodash');
 
-const constants = require('../helpers/constants');
+const constants = require('../../constants');
 const buildRes = require('../helpers/build-res');
 
 const DEFAULT_SPLIT_STR = '\n'; // TODO put this in config
