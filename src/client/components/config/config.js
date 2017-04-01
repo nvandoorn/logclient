@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 
 import Modal from '../modal/modal';
-import { modal } from './config.css.js'
+import { modal } from './config.css'
 
 const ConfigFolder = ({name, directory}) =>
   <form>

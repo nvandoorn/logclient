@@ -1,3 +1,3 @@
 export const modal = {
-  color: 'red'
+  color: 'blue'
 };

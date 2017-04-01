@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import { gridStyle } from'./layout.css.js';
+import { grid } from './layout.css';
 
 import Loglines from '../components/loglines/loglines';
 import Controls from '../components/controls/controls';
@@ -63,12 +63,11 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.loglines)
     return (
       <div>
         <Config folders={this.state.folders} show={!this.state.hasFolders}/>
         { this.state.hasFolders > 0 ?
-        <Grid className={gridStyle}>
+        <Grid>
           <Row>
             <Col sm={3}>
               <Controls onChange={this.handleControlUpdate} values={this.state.params}/>
