@@ -8,5 +8,8 @@ exports.colours = {
   background: {
     main: '#40454E',
     accent: '#262A32'
+  },
+  text: {
+    main: '#FFFFFF'
   }
 }

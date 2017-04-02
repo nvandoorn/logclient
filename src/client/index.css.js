@@ -1,9 +1,8 @@
-import globals from './globals.css';
+import { colours } from './globals.config';
 
 export default {
   body: {
-    background: globals.colours.background.main
+    background: colours.background.main,
+    color: colours.text.main
   }
-}
-
-
+};
