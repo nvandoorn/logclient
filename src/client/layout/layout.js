@@ -66,16 +66,15 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Config folders={this.state.folders} show={!this.state.hasFolders}/>
-        { this.state.hasFolders > 0 ?
         <Grid>
           <Row>
             <Col sm={3}>
               <div className={container}>
+                <Config folders={this.state.folders} show={!this.state.hasFolders}/>
                 <Controls onChange={this.handleControlUpdate} values={this.state.params}/>
               </div>
               <div className={container}>
-                hi
+                Directory listing goes here
               </div>
             </Col>
             <Col sm={9}>
@@ -84,7 +83,7 @@ class App extends Component {
               </div>
             </Col>
           </Row>
-        </Grid> : null }
+        </Grid>
       </div>
     );
   }
