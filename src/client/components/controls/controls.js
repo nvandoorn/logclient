@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Row, Col, FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap';
 
-const COL_SIZE = 2;
+import { input } from './controls.css';
 
 const FieldGroup = ({onChange, id, label, help, ...props }) =>
     <FormGroup controlId={id}>
       <ControlLabel>{label}</ControlLabel>
-      <FormControl {...props} onChange={onChange}/>
+      <FormControl {...props} onChange={onChange} className={input}/>
       {help && <HelpBlock>{help}</HelpBlock>}
     </FormGroup>
 
@@ -30,7 +30,7 @@ class Controls extends Component{
           type="number"
           label="Page Size"
           value={values.pagesize}
-        /> 
+        />
         <FieldGroup
           onChange={this.handleChange}
           id="startdt"
