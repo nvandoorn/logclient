@@ -12,4 +12,10 @@ exports.colours = {
   text: {
     main: '#FFFFFF'
   }
-}
+};
+
+exports.sizes = {
+  padding: '20px',
+  margin: '20px',
+  borderRadius: '7px'
+};
