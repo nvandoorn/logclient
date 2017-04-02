@@ -70,11 +70,18 @@ class App extends Component {
         { this.state.hasFolders > 0 ?
         <Grid>
           <Row>
-            <Col sm={3} className={container}>
-              <Controls onChange={this.handleControlUpdate} values={this.state.params}/>
+            <Col sm={3}>
+              <div className={container}>
+                <Controls onChange={this.handleControlUpdate} values={this.state.params}/>
+              </div>
+              <div className={container}>
+                hi
+              </div>
             </Col>
-            <Col sm={9} className={container}>
-              <Loglines loglines={this.state.loglines}/>
+            <Col sm={9}>
+              <div className={container}>
+                <Loglines loglines={this.state.loglines}/>
+              </div>
             </Col>
           </Row>
         </Grid> : null }
