@@ -1,6 +1,8 @@
 import React from 'react';
 import { Row } from 'react-bootstrap';
 
+import { loglines as loglinesStyle} from './loglines.css';
+
 import Line from './line/line';
 
 let i = 0;
@@ -9,7 +11,7 @@ const createLines = loglines => loglines.map(logline => <Line props={logline} ke
 
 const Loglines = ({loglines}) =>
   <Row>
-    <ul className="loglines">
+    <ul className={loglinesStyle}>
       {loglines ? createLines(loglines) : null}
     </ul>
   </Row>;
