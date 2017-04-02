@@ -5,7 +5,10 @@
     "type": "git",
     "url": "https://github.com/nvandoorn/slask"
   },
-  "keywords": ["log","viewer"],
+  "keywords": [
+    "log",
+    "viewer"
+  ],
   "author": "Nicholas Van Doorn",
   "main": "scripts/start.js",
   "bin": {
@@ -80,6 +83,7 @@
     "express": "~4.13.4",
     "fs-extra": "^2.0.0",
     "heap": "^0.2.6",
+    "http-status-enum": "^1.0.2",
     "lodash": "^4.17.4",
     "mocha": "^3.2.0",
     "morgan": "~1.7.0",
