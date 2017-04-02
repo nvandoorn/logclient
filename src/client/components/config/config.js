@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 
 import Modal from '../modal/modal';
-import { modal } from './config.css'
 
 const ConfigFolder = ({name, directory}) =>
   <form>
@@ -29,7 +28,7 @@ class Config extends Component{
   render(){
     return(
       <div>
-        <Modal show={this.props.show} className={modal}>
+        <Modal show={this.props.show}>
           {this.props.folders.map(folder => <ConfigFolder {...folder} key={folder.directory}/>)}
         </Modal>
       </div>
