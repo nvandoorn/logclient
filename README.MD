@@ -5,13 +5,14 @@
 A simple web based client to view and filter logs. This project was originally implemented using server side view rendering and hacked together XHR requests to update the front-end in real time. Currently transitioning to a React based front-end with a RESTful API.
 
 ## TODO
-- Implement a simple config API
-- Finish basic react integration
-- Eject react-scripts so to add CSS modules
-- Spend some time making it look pretty (Sketch and maybe Invision mockups)
-- Rethink routing (Redux/React router)
+- Implement config interface
+- Implement logfile directory interface
+- Integrate front-end with API
+- Rethink route handling on the front-end (React router)
+- Improve front-end request handling (possible Redux longterm)
 - Write front-end tests and increase server test coverage
-- Include more API call examples in server
+- Include more API call examples in readme
+- Server side config validation (probably JSON schema)
 
 ## Running This Project
 - Running the dev environment: `npm run dev`
@@ -24,7 +25,9 @@ A simple web based client to view and filter logs. This project was originally i
 **Note**: Running or building the client lints with babel-eslint
 
 ## Client Side
-Implemented using React and Webpack. Screenshots and details coming soon.
+Implemented using React and Webpack. This implementation still has a long way to go, but attached is a screenshot of the front-end to date.
+
+![slask front-end](/images/front-end.png "slask front-end")
 
 ### Sketch Mockups (work in progress)
 
