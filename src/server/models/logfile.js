@@ -25,10 +25,10 @@ function parseLine(datetimePattern, levelPattern, timeFormatter){
   }
 }
 
-const getLevelLowerCase = (levelStr, levelEnum) => levelEnum[levelStr] ?
+const getLevelLowerCase = (levelStr, levelEnum) => Object.keys(levelEnum).some(key => key === levelStr) ?
   { level: levelEnum[levelStr], str: levelStr } : { level: constants.defaultLevel, str: constants.defaultLevelStr };
 
-const getLevel = (levelStr, levelEnum) => getLevelLowerCase(levelStr.toLowerCase(), levelEnum);
+const getLevel = (levelStr, levelEnum) => getLevelLowerCase(levelStr.trim().toLowerCase(), levelEnum);
 
 const isValidPagenum = (nLines, pageSize, pagenum) => Math.ceil(nLines/pageSize) >= pagenum;
 
