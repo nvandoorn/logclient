@@ -2,7 +2,7 @@ import React from 'react';
 
 import { levels, defaultLevel } from '../../../../constants'
 
-import { left, text, debug, info, warn, error } from './line.css';
+import { left, text, line, debug, info, warn, error } from './line.css';
 
 function getLevelStyle(level, levelEnum){
   switch(level){
@@ -23,7 +23,7 @@ function getLevelStyle(level, levelEnum){
 }
 
 const Line = ({props}) =>
-  <li className={props.classStr}>
+  <li className={line}>
     <div className={left}>
       <div className="datetime">{props.datetimeStr}</div>
       <div className={getLevelStyle(props.level, levels)}>{props.levelStr}</div>
