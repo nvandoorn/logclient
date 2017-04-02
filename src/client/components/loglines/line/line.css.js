@@ -13,12 +13,14 @@ export const text = {
 
 export const baseLevel = {
   'font-weight': 'bold'
-}
+};
+
 export const line = {
   display: 'block',
   margin: `0 0 ${sizes.margin} 0`
-}
+};
 
+// TODO these can probably be generated in a loop
 export const debug = {
   composes: 'baseLevel',
   color: colours.loglevels.debug
