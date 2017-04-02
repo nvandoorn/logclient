@@ -10,10 +10,8 @@ let getKey = () => `line-${i++}`; // TODO dejank this
 const createLines = loglines => loglines.map(logline => <Line props={logline} key={getKey()}/>);
 
 const Loglines = ({loglines}) =>
-  <Row>
-    <ul className={loglinesStyle}>
-      {loglines ? createLines(loglines) : null}
-    </ul>
-  </Row>;
+  <ul className={loglinesStyle}>
+    {loglines ? createLines(loglines) : null}
+  </ul>;
 
 export default Loglines;
