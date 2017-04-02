@@ -24,11 +24,7 @@ class Modal extends Component{
   render() {
     return(
       <div>
-         <Button
-          bsStyle="primary"
-          bsSize="small"
-          onClick={this.open}
-        >
+        <Button bsStyle="primary" bsSize="small" onClick={this.open}>
           Config
         </Button>
         <BModal show={this.state.showModal} onHide={this.close}>
