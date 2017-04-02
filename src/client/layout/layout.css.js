@@ -1,4 +1,5 @@
+import { colours } from '../globals.config';
 
-export const grid = {
-  color: 'blue'
-}
+export const container = {
+  background: colours.background.accent
+};

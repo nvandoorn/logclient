@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import { grid } from './layout.css';
+
+import { container } from  './layout.css';
 
 import Loglines from '../components/loglines/loglines';
 import Controls from '../components/controls/controls';
@@ -69,10 +70,10 @@ class App extends Component {
         { this.state.hasFolders > 0 ?
         <Grid>
           <Row>
-            <Col sm={3}>
+            <Col sm={3} className={container}>
               <Controls onChange={this.handleControlUpdate} values={this.state.params}/>
             </Col>
-            <Col sm={9}>
+            <Col sm={9} className={container}>
               <Loglines loglines={this.state.loglines}/>
             </Col>
           </Row>
