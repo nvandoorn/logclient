@@ -2,7 +2,6 @@ import HTTP from 'http-status-enum';
 
 const joinUrlParams = (url, params) => `${url}?${Object.keys(params).map(k => `${k}=${params[k]}`).join('&')}`;
 
-// TODO handle failure case
 function httpReq(type, url, body){
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
@@ -11,7 +10,14 @@ function httpReq(type, url, body){
     xhr.send(JSON.stringify(body));
     xhr.onreadystatechange = function(){
       if(this.readyState === XMLHttpRequest.DONE){
-        if(this.status === HTTP.OK) resolve(JSON.parse(this.responseText));
+        if(this.status === HTTP.OK){
+          try{
+            resolve(JSON.parse(this.responseText));
+          }
+          catch(err){
+            reject(new Error(`Failed to parse JSON: ${err.message}`));
+          }
+        }
         else reject(new Error(`HTTP request failed with code: ${this.status}`));
       }
     };
