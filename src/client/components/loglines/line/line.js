@@ -17,8 +17,9 @@ function getLevelStyle(level, levelEnum){
     break;
     case levelEnum.error:
       return error
+    break;
     default:
-      return defaultLevel
+      return debug // TODO this should be linked to the constants file
   }
 }
 
