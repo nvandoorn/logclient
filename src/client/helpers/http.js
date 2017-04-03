@@ -1,4 +1,4 @@
-import HTTP from 'http-status-enum';
+const HTTP = { OK: 200, NO_MOD: 304, SERVER_ERR: 500 }
 
 const joinUrlParams = (url, params) => `${url}?${Object.keys(params).map(k => `${k}=${params[k]}`).join('&')}`;
 
@@ -10,7 +10,7 @@ function httpReq(type, url, body){
     xhr.send(JSON.stringify(body));
     xhr.onreadystatechange = function(){
       if(this.readyState === XMLHttpRequest.DONE){
-        if(this.status === HTTP.OK){
+        if(this.status === HTTP.OK || this.status === HTTP.NO_MOD){
           try{
             resolve(JSON.parse(this.responseText));
           }
