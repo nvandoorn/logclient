@@ -2,7 +2,7 @@ import React from 'react';
 
 import { levels, defaultLevel } from '../../../../constants'
 
-import { left, text, line, debug, info, warn, error } from './line.css';
+import { left, text, line, debug, info, warn, error, verbose } from './line.css';
 
 function getLevelStyle(level, levelEnum){
   switch(level){

@@ -1,4 +1,5 @@
 import { colours, sizes } from '../../../globals.config';
+import { levels } from '../../../../constants';
 
 export const left = {
   display: 'inline-block',
@@ -11,33 +12,15 @@ export const text = {
   'vertical-align': 'top',
 };
 
-export const baseLevel = {
-  'font-weight': 'bold'
-};
-
 export const line = {
   display: 'block',
   margin: `0 0 ${sizes.margin} 0`
 };
 
-// TODO these can probably be generated in a loop
-export const debug = {
-  composes: 'baseLevel',
-  color: colours.loglevels.debug
-};
+const levelStyle = level => ({
+  'font-weight': levels.error,
+  color: colours.loglevels.find(k => k.level === level).colour
+});
 
-export const info = {
-  composes: 'baseLevel',
-  color: colours.loglevels.info
-};
-
-export const warn = {
-  composes: 'baseLevel',
-  color: colours.loglevels.warn
-};
-
-export const error = {
-  composes: 'baseLevel',
-  color: colours.loglevels.error
-};
-
+// Export a module for each level
+Object.keys(levels).map(k => exports[k] = levelStyle(levels[k]));
