@@ -1,6 +1,7 @@
 ![slask](/images/slask.png)
 ---
-[![Build Status](https://travis-ci.org/nvandoorn/slask.svg?branch=master)](https://travis-ci.org/nvandoorn/slask)
+[![Build Status](https://travis-ci.org/nvandoorn/slask.svg?branch=master)](https://travis-ci.org/nvandoorn/slask) [![Standard - JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+
 
 A simple web based client to view and filter logs. This project was originally implemented using server side view rendering and hacked together XHR requests to update the front-end in real time. Currently transitioning to a React based front-end with a RESTful API.
 
