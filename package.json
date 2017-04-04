@@ -20,7 +20,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/run-build.js",
     "test-client": "node scripts/test.js --env=jsdom",
-    "test": "standard && mocha src/server/test/api.test.js"
+    "test": "standard && node scripts/test.js"
   },
   "devDependencies": {
     "autoprefixer": "6.7.2",
