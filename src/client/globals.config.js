@@ -1,8 +1,8 @@
 // TODO figure out why import/export is borked in this file
-const levels = require('../constants').levels;
+const levels = require('../constants').levels
 
 exports.colours = {
- loglevels: [
+  loglevels: [
     { level: levels.debug, colour: '#34989F' },
     { level: levels.info, colour: '#58B3FC' },
     { level: levels.warn, colour: '#F0C850' },
@@ -16,10 +16,10 @@ exports.colours = {
   text: {
     main: '#FFFFFF'
   }
-};
+}
 
 exports.sizes = {
   padding: '20px',
   margin: '20px',
   borderRadius: '7px'
-};
+}

@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-const walk = require('walk');
-const buildRes = require('../helpers/build-res');
+const walk = require('walk')
+const buildRes = require('../helpers/build-res')
 
 /**
  * Walks a given direcory for log files (used in sidebar)
@@ -13,19 +13,19 @@ const buildRes = require('../helpers/build-res');
  */
 module.exports = direc => {
   return new Promise((resolve, reject) => {
-    let filenames = [];
-    let walker = walk.walk(direc);
+    let filenames = []
+    let walker = walk.walk(direc)
     walker.on('file', (root, fileStats, next) => {
-      filenames.push(fileStats.name);
-      next();
-    });
+      filenames.push(fileStats.name)
+      next()
+    })
 
     walker.on('end', () => {
-      resolve(buildRes(true, `Successfully listed ${direc}`, filenames));
-    });
+      resolve(buildRes(true, `Successfully listed ${direc}`, filenames))
+    })
 
     walker.on('error', err => {
-      reject(buildRes(false, `Failed to list ${direc}: ${err.message}`));
+      reject(buildRes(false, `Failed to list ${direc}: ${err.message}`))
     })
-  });
-};
+  })
+}

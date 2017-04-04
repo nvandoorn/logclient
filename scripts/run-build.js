@@ -1,5 +1,5 @@
-'use strict';
+'use strict'
 
-const build = require('./build');
+const build = require('./build')
 
-build();
+build()
