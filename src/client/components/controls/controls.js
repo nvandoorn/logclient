@@ -1,18 +1,15 @@
-import React, { Component }from 'react';
+import React, { Component } from 'react';
 import { Row, Col, FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap';
 
-const COL_SIZE = 2;
+import { input } from './controls.css';
 
 const FieldGroup = ({onChange, id, label, help, ...props }) =>
-    <Col sm={COL_SIZE}>
-      <FormGroup controlId={id}>
-        <ControlLabel>{label}</ControlLabel>
-        <FormControl {...props} onChange={onChange}/>
-        {help && <HelpBlock>{help}</HelpBlock>}
-      </FormGroup>
-    </Col>;
+    <FormGroup controlId={id}>
+      <ControlLabel>{label}</ControlLabel>
+      <FormControl {...props} onChange={onChange} className={input}/>
+      {help && <HelpBlock>{help}</HelpBlock>}
+    </FormGroup>
 
-// TODO convert to a class with state
 class Controls extends Component{
   constructor(props){
     super(props);
@@ -26,27 +23,13 @@ class Controls extends Component{
   render(){
     const values = this.props.values;
     return(
-      <Row>
+      <div>
         <FieldGroup
           onChange={this.handleChange}
           id="pagesize"
           type="number"
           label="Page Size"
           value={values.pagesize}
-        />
-        <FieldGroup
-          onChange={this.handleChange}
-          id="startline"
-          type="number"
-          label="Start Line"
-          value={values.startline}
-        />
-        <FieldGroup
-          onChange={this.handleChange}
-          id="endline"
-          type="number"
-          label="End Line"
-          value={values.endline}
         />
         <FieldGroup
           onChange={this.handleChange}
@@ -62,7 +45,7 @@ class Controls extends Component{
           label="End Date"
           values={values.enddt}
         />
-      </Row>
+      </div>
     )
   }
 }

@@ -5,7 +5,10 @@
     "type": "git",
     "url": "https://github.com/nvandoorn/slask"
   },
-  "keywords": ["log","viewer"],
+  "keywords": [
+    "log",
+    "viewer"
+  ],
   "author": "Nicholas Van Doorn",
   "main": "scripts/start.js",
   "bin": {

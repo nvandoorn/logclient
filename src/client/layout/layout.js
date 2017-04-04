@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 
-import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
-import Loglines from './loglines/loglines';
-import Controls from './controls/controls';
-import Sidebar from './sidebar/sidebar';
-import Config from './config/config';
-import { httpGetJson, httpPutJson } from './helpers/http';
+import { container } from  './layout.css';
+
+import Loglines from '../components/loglines/loglines';
+import Controls from '../components/controls/controls';
+import Sidebar from '../components/sidebar/sidebar';
+import Config from '../components/config/config';
+import { get, put, post } from '../helpers/http';
 
 const MOCK_LOG_PATH = 'testlog.log';
-const API_PORT = process.env.NODE_ENV === 'production' ? 3000 : 4000;
+const API_PORT = process.env.NODE_ENV === 'production' ? 3000 : 4000; // TODO this belongs in a .env
 const BASE_URL = `//localhost:${API_PORT}/api/`;
 const FILE_URL = `${BASE_URL}file`;
 const DIR_URL = `${BASE_URL}directory`;
@@ -31,20 +33,20 @@ class App extends Component {
       folders: [],
       hasFolders: false
     };
-    httpGetJson(`${BASE_URL}config`, {}).then(config => {
+    get(`${BASE_URL}config`, {}).then(config => {
       this.setState({
         folders: config.data.folders,
         hasFolders: config.data.folders.length > 0
       });
       if(this.state.hasFolders){
         const promises = [
-          httpGetJson(DIR_URL, {}),
-          httpGetJson(FILE_URL, this.state.params)
+          get(DIR_URL, {}),
+          get(FILE_URL, this.state.params)
         ];
         Promise.all(promises).then(values => {
           this.setState({
-            files: values[0],
-            loglines: values[1].logEntries
+            files: values[0].data,
+            loglines: values[1].data
           });
         });
       }
@@ -56,7 +58,7 @@ class App extends Component {
     const state = this.state;
     state.params[e.id] = e.value;
     this.setState(state);
-    httpGetJson(FILE_URL, this.state.params).then(data =>{
+    get(FILE_URL, this.state.params).then(data =>{
       this.setState({loglines: data.logEntries});
     });
   }
@@ -64,18 +66,24 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Config folders={this.state.folders} show={!this.state.hasFolders}/>
-        { this.state.hasFolders > 0 ?
         <Grid>
           <Row>
             <Col sm={3}>
+              <div className={container}>
+                <Config folders={this.state.folders} show={!this.state.hasFolders}/>
+                <Controls onChange={this.handleControlUpdate} values={this.state.params}/>
+              </div>
+              <div className={container}>
+                Directory listing goes here
+              </div>
             </Col>
             <Col sm={9}>
-              <Controls onChange={this.handleControlUpdate} values={this.state.params}/>
-              <Loglines loglines={this.state.loglines}/>
+              <div className={container}>
+                <Loglines loglines={this.state.loglines}/>
+              </div>
             </Col>
           </Row>
-        </Grid> : null }
+        </Grid>
       </div>
     );
   }
