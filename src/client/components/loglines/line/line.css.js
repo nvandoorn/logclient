@@ -23,4 +23,4 @@ const levelStyle = level => ({
 });
 
 // Export a module for each level
-Object.keys(levels).map(k => exports[k] = levelStyle(levels[k]));
+Object.keys(levels).forEach(k => exports[k] = levelStyle(levels[k]));
