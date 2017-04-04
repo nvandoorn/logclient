@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { Row, Col, FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap'
+import { FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap'
 
 import { input } from './controls.css'
 
-const FieldGroup = ({onChange, id, label, help, ...props }) =>
+const FieldGroup = ({onChange, id, label, help, ...props }) => // eslint-disable-line
   <FormGroup controlId={id}>
     <ControlLabel>{label}</ControlLabel>
     <FormControl {...props} onChange={onChange} className={input} />

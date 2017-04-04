@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { levels, defaultLevel } from '../../../../constants'
+import { levels } from '../../../../constants'
 
 import { left, text, line, debug, info, warn, error, verbose } from './line.css'
 
@@ -8,16 +8,14 @@ function getLevelStyle (level, levelEnum) {
   switch (level) {
     case levelEnum.debug:
       return debug
-      break
     case levelEnum.info:
       return info
-      break
     case levelEnum.warn:
       return warn
-      break
     case levelEnum.error:
       return error
-      break
+    case levelEnum.verbose:
+      return verbose
     default:
       return debug // TODO this should be linked to the constants file
   }

@@ -1,7 +1,6 @@
 import React from 'react'
-import { Row } from 'react-bootstrap'
 
-import { loglines as loglinesStyle} from './loglines.css'
+import { loglines as loglinesStyle } from './loglines.css'
 
 import Line from './line/line'
 

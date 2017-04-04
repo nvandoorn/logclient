@@ -56,6 +56,7 @@ function getDifferenceLabel (currentSize, previousSize) {
 // This lets us display how much they changed later.
 module.exports = function () {
   recursive(paths.appBuild, (err, fileNames) => {
+    if (err) throw err
     var previousSizeMap = (fileNames || [])
       .filter(fileName => /\.(js|css)$/.test(fileName))
       .reduce((memo, fileName) => {

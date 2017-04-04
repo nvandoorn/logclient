@@ -2,10 +2,12 @@ import React, { Component } from 'react'
 
 const SidebarItem = ({name, value, isActive, onClick}) =>
   <li><a href='#' onClick={onClick} value={value}>{name}</a></li>
+
 // TODO implement
 class Sidebar extends Component {
   constructor (props) {
     super(props)
+    this.todo = 'implement this'
   }
 
   render () {
