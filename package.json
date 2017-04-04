@@ -20,7 +20,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/run-build.js",
     "test-client": "node scripts/test.js --env=jsdom",
-    "test": "eslint ./ && mocha src/server/test/api.test.js"
+    "test": "standard && mocha src/server/test/api.test.js"
   },
   "devDependencies": {
     "autoprefixer": "6.7.2",
@@ -97,9 +97,14 @@
     "walk": "^2.3.9",
     "winston": "^2.3.0"
   },
+  "standard": {
+    "ignore": [
+      "build"
+    ]
+  },
   "jest": {
     "collectCoverageFrom": [
-      "src/**/*.{js,jsx}"
+      "src/client/**/*.{js,jsx}"
     ],
     "setupFiles": [
       "<rootDir>/config/polyfills.js"
