@@ -19,7 +19,7 @@
     "dev": "node scripts/dev.js",
     "start": "node scripts/start.js",
     "build": "node scripts/run-build.js",
-    "test": "standard && jest --env=jsdom --forceExit=true"
+    "test": "standard && jest --env=jsdom --forceExit=true --coverage"
   },
   "devDependencies": {
     "autoprefixer": "6.7.2",
@@ -83,7 +83,6 @@
     "fs-extra": "^2.0.0",
     "heap": "^0.2.6",
     "lodash": "^4.17.4",
-    "mocha": "^3.2.0",
     "morgan": "~1.7.0",
     "process": "^0.11.9",
     "react": "^15.4.2",
