@@ -15,12 +15,11 @@
     "slask": "scripts/start.js"
   },
   "scripts": {
-    "lint": "eslint ./",
+    "lint": "standard",
     "dev": "node scripts/dev.js",
     "start": "node scripts/start.js",
     "build": "node scripts/run-build.js",
-    "test-client": "node scripts/test.js --env=jsdom",
-    "test": "standard && node scripts/test.js"
+    "test": "standard && jest --env=jsdom --forceExit=true"
   },
   "devDependencies": {
     "autoprefixer": "6.7.2",
@@ -90,6 +89,7 @@
     "react": "^15.4.2",
     "react-bootstrap": "^0.30.7",
     "react-dom": "^15.4.2",
+    "react-test-renderer": "^15.4.2",
     "request": "^2.81.0",
     "serve-favicon": "~2.3.0",
     "standard": "^9.0.2",
@@ -104,7 +104,7 @@
   },
   "jest": {
     "collectCoverageFrom": [
-      "src/client/**/*.{js,jsx}"
+      "src/**/*.{js,jsx}"
     ],
     "setupFiles": [
       "<rootDir>/config/polyfills.js"
