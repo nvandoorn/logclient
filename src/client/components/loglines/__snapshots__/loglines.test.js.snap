@@ -1,0 +1,50 @@
+exports[`test renders correctly 1`] = `
+<ul
+  className={
+    Object {
+      "list-style-type": "none",
+      "margin": 0,
+      "padding": 0,
+    }
+  }>
+  <li
+    className={
+      Object {
+        "display": "block",
+        "margin": "0 0 20px 0",
+      }
+    }>
+    <div
+      className={
+        Object {
+          "display": "inline-block",
+          "font-size": "14px",
+          "margin-right": "20px",
+        }
+      }>
+      <div
+        className="datetime">
+        6:50:40
+      </div>
+      <div
+        className={
+          Object {
+            "color": "#58B3FC",
+            "font-weight": 0,
+          }
+        }>
+        info
+      </div>
+    </div>
+    <div
+      className={
+        Object {
+          "display": "inline-block",
+          "vertical-align": "top",
+        }
+      }>
+      You must be pretty desperate if you\'re looking at the logs
+    </div>
+  </li>
+</ul>
+`;
