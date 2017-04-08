@@ -7,6 +7,7 @@ import { container } from './layout.css'
 
 import Loglines from '../components/loglines/loglines'
 import Controls from '../components/controls/controls'
+import Sidebar from '../components/sidebar/sidebar'
 import Config from '../components/config/config'
 import { get } from '../helpers/http'
 
@@ -43,6 +44,7 @@ class App extends Component {
           get(FILE_URL, this.state.params)
         ]
         Promise.all(promises).then(values => {
+          console.log(values[0].data)
           this.setState({
             files: values[0].data,
             loglines: values[1].data
@@ -63,6 +65,8 @@ class App extends Component {
   }
 
   render () {
+    // TODO dejank this
+    const mockData = this.state.files ? this.state.files.map(k => ({ name: k })) : null
     return (
       <div>
         <Grid>
@@ -73,7 +77,7 @@ class App extends Component {
                 <Controls onChange={this.handleControlUpdate} values={this.state.params} />
               </div>
               <div className={container}>
-                Directory listing goes here
+                {  this.state.files ? <Sidebar logfiles={mockData}/> : null }
               </div>
             </Col>
             <Col sm={9}>

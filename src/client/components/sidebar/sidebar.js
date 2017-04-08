@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
-const SidebarItem = ({name, value, isActive, onClick}) =>
-  <li><a href='#' onClick={onClick} value={value}>{name}</a></li>
+const SidebarItem = ({name, isActive, onClick}) =>
+  <li><a href='#' onClick={onClick} value={name}>{name}</a></li>
 
 // TODO implement
 class Sidebar extends Component {
@@ -13,7 +13,7 @@ class Sidebar extends Component {
   render () {
     return (
       <div>
-        {this.props.logFiles.map(logFile => <SidebarItem key={logFile.value}{...logFile} />)}
+        {this.props.logfiles.map(logfile => <SidebarItem key={logfile.value} {...logfile} />)}
       </div>
     )
   }
