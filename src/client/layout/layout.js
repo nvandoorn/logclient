@@ -77,7 +77,7 @@ class App extends Component {
                 <Controls onChange={this.handleControlUpdate} values={this.state.params} />
               </div>
               <div className={container}>
-                {  this.state.files ? <Sidebar logfiles={mockData}/> : null }
+                { this.state.files ? <Sidebar logfiles={mockData} /> : null }
               </div>
             </Col>
             <Col sm={9}>
