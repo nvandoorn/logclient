@@ -33,13 +33,13 @@ const getLevel = (levelStr, levelEnum) => getLevelLowerCase(levelStr.trim().toLo
 const isValidPagenum = (nLines, pageSize, pagenum) => Math.ceil(nLines / pageSize) >= pagenum
 
 const Logfile = {
-  create: function (filepath, config) {
+  create (filepath, config) {
     this.filepath = filepath
     this.config = config
     this.readFile()
     return this
   },
-  readFile: function () {
+  readFile () {
     try {
       const data = fs.readFileSync(this.filepath)
       // Filter to avoid empty lines
@@ -61,7 +61,7 @@ const Logfile = {
    * }
    *
   */
-  query: function (queryParams) {
+  query (queryParams) {
     const startdt = new Date(queryParams.startdt).getTime()
     const enddt = new Date(queryParams.enddt).getTime()
     const filtered = this.loglines.filter(logline => {
@@ -74,7 +74,7 @@ const Logfile = {
     const loglines = _.chunk(filtered, queryParams.pagesize).reverse()[queryParams.pagenum - 1]
     return buildRes(true, `Queried ${this.filepath}`, loglines)
   },
-  getAll: function () {
+  getAll () {
     return buildRes(true, `Retrieved all loglines for ${this.filepath}`, this.loglines)
   }
 }
