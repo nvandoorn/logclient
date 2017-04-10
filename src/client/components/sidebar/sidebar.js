@@ -1,19 +1,22 @@
 import React, { Component } from 'react'
 
 const SidebarItem = ({name, isActive, onClick}) =>
-  <li><a href='#' onClick={onClick} value={name}>{name}</a></li>
+  <li><a href='#' onClick={() => { onClick(name) }} value={name}>{name}</a></li>
 
-// TODO implement
 class Sidebar extends Component {
   constructor (props) {
     super(props)
-    this.todo = 'implement this'
+    this.handleClick = this.handleClick.bind(this)
+  }
+
+  handleClick (name) {
+    this.props.onClick(name)
   }
 
   render () {
     return (
       <div>
-        {this.props.logfiles.map(logfile => <SidebarItem key={logfile.value} {...logfile} />)}
+        { this.props.logfiles.map(logfile => <SidebarItem key={logfile} name={logfile} onClick={this.handleClick} />) }
       </div>
     )
   }

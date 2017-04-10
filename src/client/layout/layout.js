@@ -65,8 +65,6 @@ class App extends Component {
   }
 
   render () {
-    // TODO dejank this
-    const mockData = this.state.files ? this.state.files.map(k => ({ name: k })) : null
     return (
       <div>
         <Grid>
@@ -77,7 +75,7 @@ class App extends Component {
                 <Controls onChange={this.handleControlUpdate} values={this.state.params} />
               </div>
               <div className={container}>
-                { this.state.files ? <Sidebar logfiles={mockData} /> : null }
+                { this.state.files ? <Sidebar logfiles={this.state.files} onClick={e => { console.log(e) }} /> : null }
               </div>
             </Col>
             <Col sm={9}>
