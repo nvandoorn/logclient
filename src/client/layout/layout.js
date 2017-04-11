@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Grid, Row, Col } from 'react-bootstrap'
+import { merge } from 'lodash/fp'
 
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
@@ -9,13 +10,8 @@ import Loglines from '../components/loglines/loglines'
 import Controls from '../components/controls/controls'
 import Sidebar from '../components/sidebar/sidebar'
 import Config from '../components/config/config'
-import { get } from '../helpers/http'
 
 const MOCK_LOG_PATH = 'testlog.log'
-const API_PORT = process.env.NODE_ENV === 'production' ? 3000 : 4000 // TODO this belongs in a .env
-const BASE_URL = `//localhost:${API_PORT}/api/`
-const FILE_URL = `${BASE_URL}file`
-const DIR_URL = `${BASE_URL}directory`
 
 // TODO Better request handling -- likely Redux longterm
 class App extends Component {
@@ -23,45 +19,32 @@ class App extends Component {
     super(props)
     this.state = {
       loglines: [],
-      params: {
-        logfile: MOCK_LOG_PATH,
-        page: 1,
-        pagesize: '',
-        startdt: '',
-        enddt: ''
-      },
       folders: [],
       hasFolders: false
     }
-    get(`${BASE_URL}config`, {}).then(config => {
-      this.setState({
-        folders: config.data.folders,
-        hasFolders: config.data.folders.length > 0
-      })
-      if (this.state.hasFolders) {
-        const promises = [
-          get(DIR_URL, {}),
-          get(FILE_URL, this.state.params)
-        ]
-        Promise.all(promises).then(values => {
-          console.log(values[0].data)
-          this.setState({
-            files: values[0].data,
-            loglines: values[1].data
-          })
-        })
-      }
-    })
+     // TODO this shit sucks
     this.handleControlUpdate = this.handleControlUpdate.bind(this)
+    this.defaultQueryParams = this.defaultQueryParams.bind(this)
+    this.setQueryParams = this.setQueryParams.bind(this)
+    this.defaultQueryParams()
+  }
+
+  setQueryParams (params) {
+    this.params = merge(params, this.params)
+  }
+
+  defaultQueryParams () {
+    this.params = {
+      logfile: MOCK_LOG_PATH, // TODO default to first item in directory
+      page: 1,
+      pagesize: '',
+      startdt: '',
+      enddt: ''
+    }
   }
 
   handleControlUpdate (e) {
-    const state = this.state
-    state.params[e.id] = e.value
-    this.setState(state)
-    get(FILE_URL, this.state.params).then(data => {
-      this.setState({loglines: data.logEntries})
-    })
+    console.log(e)
   }
 
   render () {
@@ -75,7 +58,7 @@ class App extends Component {
                 <Controls onChange={this.handleControlUpdate} values={this.state.params} />
               </div>
               <div className={container}>
-                { this.state.files ? <Sidebar logfiles={this.state.files} onClick={e => { console.log(e) }} /> : null }
+                { this.state.files ? <Sidebar logfiles={this.state.files} onClick={e => { this.setState({ logfile: e }) }} /> : null }
               </div>
             </Col>
             <Col sm={9}>
