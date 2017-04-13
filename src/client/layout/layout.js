@@ -40,15 +40,22 @@ class Layout extends Component {
     super(props)
     this.state = defaultState
     this.params = defaultParmas
+    // TODO remove this filthy jank
+    this.query = this.query.bind(this)
+    this.updateLoglines = this.updateLoglines.bind(this)
+    this.updateDirectory = this.updateDirectory.bind(this)
+    this.updateConfig = this.updateConfig.bind(this)
+    this.updateState = this.updateState.bind(this)
     const promises = [
-      this.updateLoglines(),
+      this.updateLoglines(this.params),
       this.updateDirectory(),
       this.updateConfig()
     ]
+    // TODO remove timer (used to mock out load spinner)
     Promise.all(promises).then(() => { setTimeout(() => { this.setState({ ready: true }) }, 3 * 1000) })
   }
 
-  query = (key, value) => {
+  query (key, value) {
     const params = {}
     params[key] = value
     this.params = merge(this.params, params)
@@ -57,24 +64,24 @@ class Layout extends Component {
   }
 
   updateLoglines (params) {
-    return this.updateState(FILE_URL, loglines, params)
+    return this.updateState(FILE_URL, 'loglines', params)
   }
 
   updateDirectory () {
-    return this.updateState(DIR_URL, files, {})
+    return this.updateState(DIR_URL, 'files', {})
   }
 
   updateConfig () {
-    return this.updateState(CONFIG_URL, config, {})
+    return this.updateState(CONFIG_URL, 'config', {})
   }
 
   updateState (route, stateKey, params) {
     return new Promise((resolve, reject) => {
       get(route, params).then(resp => {
-        if(resp.success){
+        if (resp.success) {
           this.setState({ [stateKey]: resp.data })
           resolve()
-        } else{
+        } else {
           reject(new Error(resp.msg))
         }
       })
@@ -85,13 +92,13 @@ class Layout extends Component {
   render () {
     return (
       <div>
-        { !this.state.ready ? <div className="sk-rotating-plane"></div> : null }
-        { this.state.ready ?
-        <Grid>
+        { !this.state.ready ? <div className='sk-rotating-plane' /> : null }
+        { this.state.ready
+        ? <Grid>
           <Row>
             <Col sm={3}>
               <div className={container}>
-                <Config folders={this.state.config.folders} show={!this.state.hasFolders} />
+                <Config folders={this.state.config.folders} show={!this.state.config.folders.length} />
                 <Controls onChange={e => { this.query(e.id, e.value) }} values={this.params} />
               </div>
               <div className={container}>
