@@ -51,31 +51,36 @@ class Layout extends Component {
   query = (key, value) => {
     const params = {}
     params[key] = value
-    this.params = merge(params, this.params)
+    this.params = merge(this.params, params)
     console.log(this.params)
-    this.updateLoglines()
+    this.updateLoglines(this.params)
   }
 
-  updateLoglines = () => new Promise((resolve, reject) =>{
-    get(FILE_URL, this.params).then(resp => {
-      this.setState({ loglines: resp.data })
-      resolve()
-    })
-  })
+  updateLoglines (params) {
+    return this.updateState(FILE_URL, loglines, params)
+  }
 
-  updateDirectory = () => new Promise((resolve, reject) => {
-    get(DIR_URL, {}).then(resp => {
-      this.setState({ files: resp.data })
-      resolve()
-    })
-  })
+  updateDirectory () {
+    return this.updateState(DIR_URL, files, {})
+  }
 
-  updateConfig = () => new Promise((resolve, reject) => {
-    get(CONFIG_URL, {}).then(resp => {
-      this.setState({ config: resp.data, hasFolders: resp.data.folders.length > 0 })
-      resolve()
+  updateConfig () {
+    return this.updateState(CONFIG_URL, config, {})
+  }
+
+  updateState (route, stateKey, params) {
+    return new Promise((resolve, reject) => {
+      get(route, params).then(resp => {
+        if(resp.success){
+          this.setState({ [stateKey]: resp.data })
+          resolve()
+        } else{
+          reject(new Error(resp.msg))
+        }
+      })
+      .catch(err => { reject(err) })
     })
-  })
+  }
 
   render () {
     return (
