@@ -20,7 +20,7 @@
     "dev-debug": "node debug scripts/dev.js",
     "start": "node scripts/start.js",
     "build": "node scripts/run-build.js",
-    "test": "standard && jest --env=jsdom --forceExit=true --coverage"
+    "test": "standard && ./node_modules/jest/bin/jest.js --env=jsdom --forceExit=true --coverage"
   },
   "devDependencies": {
     "autoprefixer": "6.7.2",
