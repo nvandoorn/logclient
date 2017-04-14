@@ -17,6 +17,7 @@
   "scripts": {
     "lint": "standard",
     "dev": "node scripts/dev.js",
+    "dev-debug": "node debug scripts/dev.js",
     "start": "node scripts/start.js",
     "build": "node scripts/run-build.js",
     "test": "standard && jest --env=jsdom --forceExit=true --coverage"
