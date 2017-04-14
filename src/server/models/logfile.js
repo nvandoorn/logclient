@@ -71,8 +71,8 @@ const Logfile = {
     })
     if (!isValidPagenum(filtered.length, queryParams.pagesize, queryParams.pagenum) && filtered.length) { throw new Error('pagenum out of range') }
     // pages go from newest -> oldest so reverse the page chunks
-    const loglines = _.chunk(filtered, queryParams.pagesize).reverse()[queryParams.pagenum - 1]
-    return buildRes(true, `Queried ${this.filepath}`, loglines)
+    const loglines = _.chunk(filtered.reverse(), queryParams.pagesize)[queryParams.pagenum - 1]
+    return buildRes(true, `Queried ${this.filepath}`, loglines ? loglines.reverse() : null)
   },
   getAll () {
     return buildRes(true, `Retrieved all loglines for ${this.filepath}`, this.loglines)
