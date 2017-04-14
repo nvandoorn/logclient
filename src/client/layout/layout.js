@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import createReactClass from 'create-react-class'
+import React from 'react'
 import { Grid, Row, Col } from 'react-bootstrap'
 import { merge } from 'lodash/fp'
 import { get } from '../helpers/http'
@@ -26,7 +27,7 @@ const defaultState = {
   ready: false
 }
 
-const defaultParmas = {
+const defaultParams = {
   logfile: MOCK_LOG_PATH, // TODO default to first item in directory
   page: 1,
   pagesize: '',
@@ -35,17 +36,11 @@ const defaultParmas = {
 }
 
 // TODO Better request handling -- likely Redux longterm
-class Layout extends Component {
-  constructor (props) {
-    super(props)
-    this.state = defaultState
-    this.params = defaultParmas
-    // TODO remove this filthy jank
-    this.query = this.query.bind(this)
-    this.updateLoglines = this.updateLoglines.bind(this)
-    this.updateDirectory = this.updateDirectory.bind(this)
-    this.updateConfig = this.updateConfig.bind(this)
-    this.updateState = this.updateState.bind(this)
+const Layout = createReactClass({
+  params: defaultParams,
+  getInitialState: () => defaultState,
+  componentWillMount () {
+    console.log('nice')
     const promises = [
       this.updateLoglines(this.params),
       this.updateDirectory(),
@@ -53,7 +48,7 @@ class Layout extends Component {
     ]
     // TODO remove timer (used to mock out load spinner)
     Promise.all(promises).then(() => { setTimeout(() => { this.setState({ ready: true }) }, 3 * 1000) })
-  }
+  },
 
   query (key, value) {
     const params = {}
@@ -61,19 +56,19 @@ class Layout extends Component {
     this.params = merge(this.params, params)
     console.log(this.params)
     this.updateLoglines(this.params)
-  }
+  },
 
   updateLoglines (params) {
     return this.updateState(FILE_URL, 'loglines', params)
-  }
+  },
 
   updateDirectory () {
     return this.updateState(DIR_URL, 'files', {})
-  }
+  },
 
   updateConfig () {
     return this.updateState(CONFIG_URL, 'config', {})
-  }
+  },
 
   updateState (route, stateKey, params) {
     return new Promise((resolve, reject) => {
@@ -87,7 +82,7 @@ class Layout extends Component {
       })
       .catch(err => { reject(err) })
     })
-  }
+  },
 
   render () {
     return (
@@ -115,6 +110,6 @@ class Layout extends Component {
       </div>
     )
   }
-}
+})
 
 export default Layout
