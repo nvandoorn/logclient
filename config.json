@@ -5,7 +5,7 @@
   "folders": [
     {
       "name": "Test Fixture",
-      "directory": "/Users/nick/Documents/slask/src/server/test/fixtures"
+      "directory": "./src/server/test/fixtures"
     }
   ]
 }
