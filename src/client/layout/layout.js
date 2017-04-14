@@ -24,7 +24,8 @@ const defaultState = {
   loglines: [],
   folders: [],
   hasFolders: false,
-  ready: false
+  ready: false,
+  loading: false
 }
 
 const defaultParams = {
@@ -68,10 +69,11 @@ const Layout = createReactClass({
   },
 
   updateState (route, stateKey, params) {
+    this.setState({ loading: true })
     return new Promise((resolve, reject) => {
       get(route, params).then(resp => {
         if (resp.success) {
-          this.setState({ [stateKey]: resp.data })
+          this.setState({ [stateKey]: resp.data, loading: false })
           resolve()
         } else {
           reject(new Error(resp.msg))
@@ -84,7 +86,7 @@ const Layout = createReactClass({
   render () {
     return (
       <div>
-        { !this.state.ready ? <div className='sk-rotating-plane' /> : null }
+        { !this.state.ready || this.state.loading ? <div className='sk-rotating-plane' /> : null }
         { this.state.ready
         ? <Grid>
           <Row>
