@@ -40,7 +40,6 @@ const Layout = createReactClass({
   params: defaultParams,
   getInitialState: () => defaultState,
   componentWillMount () {
-    console.log('nice')
     const promises = [
       this.updateLoglines(this.params),
       this.updateDirectory(),
@@ -51,9 +50,7 @@ const Layout = createReactClass({
   },
 
   query (key, value) {
-    const params = {}
-    params[key] = value
-    this.params = merge(this.params, params)
+    this.params = merge(this.params, { [key]: value })
     console.log(this.params)
     this.updateLoglines(this.params)
   },
@@ -97,7 +94,7 @@ const Layout = createReactClass({
                 <Controls onChange={e => { this.query(e.id, e.value) }} values={this.params} />
               </div>
               <div className={container}>
-                <Sidebar logfiles={this.state.files} onClick={e => { this.setState({ logfile: e }) }} />
+                <Sidebar logfiles={this.state.files} onClick={e => { this.query('logfile', e) }} />
               </div>
             </Col>
             <Col sm={9}>
