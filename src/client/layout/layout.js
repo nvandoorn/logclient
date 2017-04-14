@@ -28,17 +28,18 @@ const defaultState = {
   loading: false
 }
 
-const defaultParams = logfile =>  ({
-  logfile: logfile ? logfile : '',
+const defaultParams = {
+  logfile: '',
   page: 1,
   pagesize: '',
   startdt: '',
   enddt: ''
-})
+}
 
 const Layout = createReactClass({
-  params: defaultParams(),
+  params: defaultParams,
   getInitialState: () => defaultState,
+
   componentWillMount () {
     Q.fcall(this.updateConfig)
     .then(this.updateDirectory)
@@ -53,7 +54,7 @@ const Layout = createReactClass({
     this.updateLoglines(this.setParams(key, value))
   },
 
-  setParams (key, value){
+  setParams (key, value) {
     this.params = merge(this.params, { [key]: value })
     return this.params
   },
