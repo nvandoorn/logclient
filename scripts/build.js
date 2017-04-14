@@ -55,6 +55,7 @@ function getDifferenceLabel (currentSize, previousSize) {
 // First, read the current file sizes in build directory.
 // This lets us display how much they changed later.
 module.exports = function () {
+  fs.ensureDirSync(paths.appBuild)
   recursive(paths.appBuild, (err, fileNames) => {
     if (err) throw err
     var previousSizeMap = (fileNames || [])
