@@ -1,6 +1,7 @@
 import createReactClass from 'create-react-class'
 import React from 'react'
 import { Grid, Row, Col } from 'react-bootstrap'
+import Q from 'q'
 import { merge } from 'lodash/fp'
 import { get } from '../helpers/http'
 
@@ -13,7 +14,6 @@ import Controls from '../components/controls/controls'
 import Sidebar from '../components/sidebar/sidebar'
 import Config from '../components/config/config'
 
-const MOCK_LOG_PATH = 'testlog.log'
 const API_PORT = process.env.NODE_ENV === 'production' ? 3000 : 4000 // TODO this belongs in a .env
 const BASE_URL = `//localhost:${API_PORT}/api/`
 const FILE_URL = `${BASE_URL}file`
@@ -28,32 +28,34 @@ const defaultState = {
   loading: false
 }
 
-const defaultParams = {
-  logfile: MOCK_LOG_PATH, // TODO default to first item in directory
+const defaultParams = logfile =>  ({
+  logfile: logfile ? logfile : '',
   page: 1,
   pagesize: '',
   startdt: '',
   enddt: ''
-}
+})
 
-// TODO Better request handling -- likely Redux longterm
 const Layout = createReactClass({
-  params: defaultParams,
+  params: defaultParams(),
   getInitialState: () => defaultState,
   componentWillMount () {
-    const promises = [
-      this.updateLoglines(this.params),
-      this.updateDirectory(),
-      this.updateConfig()
-    ]
-    // TODO remove timer (used to mock out load spinner)
-    Promise.all(promises).then(() => { setTimeout(() => { this.setState({ ready: true }) }, 3 * 1000) })
+    Q.fcall(this.updateConfig)
+    .then(this.updateDirectory)
+    .then(resp => {
+      this.setParams('logfile', resp.data[0])
+    })
+    .then(() => this.updateLoglines(this.params))
+    .done(() => { setTimeout(() => { this.setState({ ready: true }) }, 1000) })
   },
 
   query (key, value) {
+    this.updateLoglines(this.setParams(key, value))
+  },
+
+  setParams (key, value){
     this.params = merge(this.params, { [key]: value })
-    console.log(this.params)
-    this.updateLoglines(this.params)
+    return this.params
   },
 
   updateLoglines (params) {
@@ -74,7 +76,7 @@ const Layout = createReactClass({
       get(route, params).then(resp => {
         if (resp.success) {
           this.setState({ [stateKey]: resp.data, loading: false })
-          resolve()
+          resolve(resp)
         } else {
           reject(new Error(resp.msg))
         }
