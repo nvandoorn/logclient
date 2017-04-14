@@ -75,7 +75,7 @@ describe('REST API', function () {
         startdt: Date.now() + 1 * 1000 * 60,
         enddt: Date.now() + 2 * 1000 * 60
       }).then(body => {
-        assert(body.success, bodyFailMsg)
+        assert(body.success, `${bodyFailMsg}: ${body.msg}`)
         assert(!body.data, 'returned non-empty list for future date query') // TODO this should check length
       })
     })
@@ -92,6 +92,13 @@ describe('REST API', function () {
         assert(body.success, bodyFailMsg)
         assert.strictEqual(body.data[4].levelStr, constants.defaultLevelStr,
             'level string did not defualt')
+      })
+    })
+
+    it('should return a pagesize of 2', function () {
+      return get(FILE_ROUTE, { logfile: LOGFILE_NAME, pagesize: 2 }).then(function (body) {
+        assert(body.success, bodyFailMsg)
+        assert.strictEqual(body.data.length, 2, 'pagesize is not 2')
       })
     })
   })
