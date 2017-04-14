@@ -14,8 +14,8 @@ import Controls from '../components/controls/controls'
 import Sidebar from '../components/sidebar/sidebar'
 import Config from '../components/config/config'
 
-const API_PORT = process.env.NODE_ENV === 'production' ? 3000 : 4000 // TODO this belongs in a .env
-const BASE_URL = `//localhost:${API_PORT}/api/`
+// TODO better way to determine API url
+const BASE_URL = `${window.location.href}api/`
 const FILE_URL = `${BASE_URL}file`
 const DIR_URL = `${BASE_URL}directory`
 const CONFIG_URL = `${BASE_URL}config`
