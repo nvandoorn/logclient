@@ -88,6 +88,7 @@
     "lodash": "^4.17.4",
     "morgan": "~1.7.0",
     "process": "^0.11.9",
+    "q": "^1.5.0",
     "react": "^15.5.4",
     "react-bootstrap": "^0.30.8",
     "react-dom": "^15.4.2",
