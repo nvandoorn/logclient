@@ -19,7 +19,7 @@
     "dev": "node scripts/dev.js",
     "dev-debug": "node debug scripts/dev.js",
     "start": "node scripts/start.js",
-    "build": "node scripts/run-build.js",
+    "build": "node scripts/build.js",
     "test": "standard && ./node_modules/jest/bin/jest.js --env=jsdom --forceExit=true --coverage"
   },
   "dependencies": {
