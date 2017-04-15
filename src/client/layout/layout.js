@@ -15,7 +15,8 @@ import Sidebar from '../components/sidebar/sidebar'
 import Config from '../components/config/config'
 
 // TODO better way to determine API url
-const BASE_URL = `${window.location.href}api/`
+const HOST = process.env.NODE_ENV === 'production' ? window.location.host : `${window.location.hostname}:4000`
+const BASE_URL = `//${HOST}/api/`
 const FILE_URL = `${BASE_URL}file`
 const DIR_URL = `${BASE_URL}directory`
 const CONFIG_URL = `${BASE_URL}config`
