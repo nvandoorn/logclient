@@ -2,6 +2,7 @@
 ---
 [![Build Status](https://travis-ci.org/nvandoorn/slask.svg?branch=master)](https://travis-ci.org/nvandoorn/slask) [![Standard - JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
+[Live Demo](http://slaskdemo.herokuapp.com/)
 
 A simple web based client to view and filter logs. This project was originally implemented using server side view rendering and hacked together XHR requests to update the front-end in real time. Currently transitioning to a React based front-end with a RESTful API.
 
@@ -17,7 +18,8 @@ A simple web based client to view and filter logs. This project was originally i
 
 ## Running This Project
 - Running the dev environment: `npm run dev`
-- Running the backend with an optimized front-end build: `npm start`
+- Running the dev environment in debug mode: `npm run dev-debug`
+- Running the backend with an optimized front-end build : `npm start`
 - Building the front-end: `npm run build`
 - Running tests (and standard linter): `npm test`
 - Running the standard linter (included in `npm test`): `npm run lint`
