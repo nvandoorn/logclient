@@ -7,7 +7,7 @@ import { merge } from 'lodash/fp'
 import { get } from '../helpers/http'
 
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css'
-import { container } from './layout.css'
+import { container, spinner } from './layout.css'
 
 import Loglines from '../components/loglines/loglines'
 import Controls from '../components/controls/controls'
@@ -109,7 +109,7 @@ const Layout = createReactClass({
             </Col>
             <Col sm={9}>
               <div className={container}>
-                { this.state.loading ? <Spinner spinnerName='circle' /> : null }
+                { this.state.loading ? <Spinner spinnerName='circle' className={spinner} noFadeIn /> : null }
                 <Loglines loglines={this.state.loglines} />
               </div>
             </Col>
