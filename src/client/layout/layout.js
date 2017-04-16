@@ -2,11 +2,11 @@ import createReactClass from 'create-react-class'
 import React from 'react'
 import { Grid, Row, Col } from 'react-bootstrap'
 import Q from 'q'
+import Spinner from 'react-spinkit'
 import { merge } from 'lodash/fp'
 import { get } from '../helpers/http'
 
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css'
-import '../../../node_modules/spinkit/css/spinners/1-rotating-plane.css'
 import { container } from './layout.css'
 
 import Loglines from '../components/loglines/loglines'
@@ -94,7 +94,7 @@ const Layout = createReactClass({
   render () {
     return (
       <div>
-        { !this.state.ready ? <div className='sk-rotating-plane' /> : null }
+        { !this.state.ready ? <Spinner spinnerName='rotating-plane' noFadeIn /> : null }
         { this.state.ready
         ? <Grid>
           <Row>
@@ -109,6 +109,7 @@ const Layout = createReactClass({
             </Col>
             <Col sm={9}>
               <div className={container}>
+                { this.state.loading ? <Spinner spinnerName='circle' /> : null }
                 <Loglines loglines={this.state.loglines} />
               </div>
             </Col>
