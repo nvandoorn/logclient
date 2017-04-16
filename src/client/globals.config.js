@@ -21,5 +21,5 @@ exports.colours = {
 exports.sizes = {
   padding: '20px',
   margin: '20px',
-  borderRadius: '7px'
+  borderRadius: '3px'
 }
