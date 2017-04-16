@@ -80,17 +80,21 @@ const Layout = createReactClass({
           this.setState({ [stateKey]: resp.data, loading: false })
           resolve(resp)
         } else {
+          this.setState({ loading: false })
           reject(new Error(resp.msg))
         }
       })
-      .catch(err => { reject(err) })
+      .catch(err => {
+        this.setState({ loading: false })
+        reject(err)
+      })
     })
   },
 
   render () {
     return (
       <div>
-        { !this.state.ready || this.state.loading ? <div className='sk-rotating-plane' /> : null }
+        { !this.state.ready ? <div className='sk-rotating-plane' /> : null }
         { this.state.ready
         ? <Grid>
           <Row>
