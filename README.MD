@@ -56,7 +56,7 @@ This prototype is implemented using Express/Jade view rendering and hacked toget
 
 ### Routes
 
-#### `PUT` /api/config
+#### `POST` /api/config
 
 ##### Example requests body
 ```javascript
@@ -64,12 +64,8 @@ This prototype is implemented using Express/Jade view rendering and hacked toget
 	"datetimePattern": "\\[(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z)\\]",
 	"levelPattern": "\\[([\\w\\s]+|\\w+)\\]:\\s",
 	"timeFormatter": "h:MM:ss",
-	"folders": [
-		{
-			"name": "Test Fixture",
-			"directory": "/Users/nick/Documents/slask/src/server/test/fixtures"
-		}
-	]
+	"inputTimezone": 0,
+	"outputTimezone": 8
 }
 ```
 
@@ -82,13 +78,8 @@ This prototype is implemented using Express/Jade view rendering and hacked toget
 		"datetimePattern": "\\[(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z)\\]",
 		"levelPattern": "\\[([\\w\\s]+|\\w+)\\]:\\s",
 		"timeFormatter": "h:MM:ss",
-		"folders": [
-			{
-				"name": "Test Fixture",
-				"directory": "/Users/nick/Documents/slask/src/server/test/fixtures"
-			}
-		]
-	}
+		"inputTimezone": 0,
+		"outputTimezone": 8
 }
 ```
 
@@ -103,12 +94,8 @@ This prototype is implemented using Express/Jade view rendering and hacked toget
 		"datetimePattern": "\\[(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z)\\]",
 		"levelPattern": "\\[([\\w\\s]+|\\w+)\\]:\\s",
 		"timeFormatter": "h:MM:ss",
-		"folders": [
-			{
-				"name": "Test Fixture",
-				"directory": "/Users/nick/Documents/slask/src/server/test/fixtures"
-			}
-		]
+		"inputTimezone": 0,
+		"outputTimezone": 8
 	}
 }
 ```
@@ -116,16 +103,16 @@ This prototype is implemented using Express/Jade view rendering and hacked toget
 
 ##### Example Request
 
-`GET` `http://localhost:4000/api/file?logfile=testlog.log&startdt=1489387840000&enddt=1490333975974&level=4&pagesize=20&pagenum=1`
+`GET` `http://localhost:4000/api/file?key=0&startdt=1489387840000&enddt=1490333975974&level=4&pagesize=20&pagenum=1`
 
-|  Param   |       Type        |                   Description                    |
-| -------- | ----------------- | ------------------------------------------------ |
-| logfile  | path (string)     | Path to logfile relative to folder set in config |
-| pagenum  | integer           | Current page number                             |
-| pagesize | integer           | Number of log entries per page                   |
-| startdt  | datetime string   | Starting datetime                                |
-| enddt    | datetime string   | Ending datetime                                  |
-| level    | One of Level Enum | Log severity level defined below                 |
+|  Param   |       Type        |                          Description                           |
+| -------- | ----------------- | -------------------------------------------------------------- |
+| key      | integer           | Key for a given logfile retreieved from `GET` `/api/directory` |
+| pagenum  | integer           | Current page number                                            |
+| pagesize | integer           | Number of log entries per page                                 |
+| startdt  | datetime string   | Starting datetime                                              |
+| enddt    | datetime string   | Ending datetime                                                |
+| level    | One of Level Enum | Log severity level defined below                               |
 
 ###### Level Enum
 
@@ -182,17 +169,136 @@ This prototype is implemented using Express/Jade view rendering and hacked toget
 }
 ```
 
-#### `GET` /api/directory
+#### `GET` /api/directories
 
-Gets the directory listing for the first folder configured in `config.folders`
+Lists directories added by `PUT` `/api/directories`
 
 ##### Example Response
 ```javascript
 {
 	"success": true,
-	"msg": "Successfully listed /Users/nick/Documents/slask/src/server/test/fixtures",
+	"msg": "Successfully listed directories",
 	"data": [
-		"testlog.log"
+		{
+			"path": "/var/log/somelogs",
+			"name": "Some Wonderful Logs",
+			"key": 0
+		},
+		{
+			"path": "/var/log/someotherlogs",
+			"name": "Some Other Wonderful Logs",
+			"key": 1
+		}
 	]
+}
+```
+
+#### `PUT` /api/directories
+
+Adds a new directory to the list retrieved from `GET` `/api/directories`
+
+##### Example Request
+```javascript
+{
+	"path": "/var/log/somelogs",
+	"name": "Some Wonderful Logs"
+}
+```
+
+##### Example Response
+```javascript
+{
+	"success": true,
+	"msg": "Successfully listed directories",
+	"data": [
+		{
+			"path": "/var/log/somelogs",
+			"name": "Some Wonderful Logs",
+			"key": 0
+		},
+		{
+			"path": "/var/log/someotherlogs",
+			"name": "Some Other Wonderful Logs",
+			"key": 1
+		}
+	]
+}
+```
+
+#### `POST` /api/directories
+
+Modify directory to the list retrieved from `GET` `/api/directories`
+
+##### Example Request
+```javascript
+{
+	"path": "/var/log/somelogs",
+	"name": "Some Wonderful New Name Logs",
+	"key": 0
+}
+```
+
+##### Example Response
+```javascript
+{
+	"success": true,
+	"msg": "Successfully modified directory",
+	"data": [
+		{
+			"path": "/var/log/somelogs",
+			"name": "Some Wonderful Logs",
+			"key": 0
+		},
+		{
+			"path": "/var/log/someotherlogs",
+			"name": "Some Other Wonderful Logs",
+			"key": 1
+		}
+	]
+}
+```
+
+#### `GET` /api/directory
+
+Gets the directory listing for the directory set in `POST` `/api/directory`
+
+##### Example Response
+```javascript
+{
+	"success": true,
+	"msg": "Successfully added directory",
+	"data": [
+		{
+			"name": "log0.log",
+			"key": 0
+		},
+		{
+			"name": "log1.log",
+			"key": 1
+		}
+	]
+}
+```
+
+#### `POST` /api/directory
+
+Sets the active directory to be used for `GET` `/api/file`. Please note this directory will be parsed ahead of time so requests on `GET` `/api/file` are very quick.
+
+##### Example Request
+```javascript
+{
+	"key": 0
+}
+```
+
+##### Example Response
+```javascript
+{
+	"success": true,
+	"msg": "Successfully set active directory",
+	"data": {
+			"key": 0
+		}
+	}
 }
 ```
