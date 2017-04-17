@@ -9,6 +9,8 @@ const buildRes = require('../helpers/build-res')
 
 const DEFAULT_SPLIT_STR = '\n' // TODO put this in config
 
+const getDateTimeSec = () => Date.now() / 1000
+
 function parseLine (datetimePattern, levelPattern, timeFormatter) {
   return function (line) {
     const dateSplit = line.split(new RegExp(datetimePattern))
@@ -36,19 +38,25 @@ const Logfile = {
   create (filepath, config) {
     this.filepath = filepath
     this.config = config
-    this.readFile()
-    return this
+    return this.readFile()
   },
   readFile () {
-    try {
-      const data = fs.readFileSync(this.filepath)
-      // Filter to avoid empty lines
-      const lines = data.toString().split(DEFAULT_SPLIT_STR).filter(k => k.length > 0)
-      this.loglines = lines.map(parseLine(this.config.datetimePattern,
-                      this.config.levelPattern, this.config.timeFormatter))
-    } catch (err) {
-      throw new Error(`Failed to read ${this.filepath}`)
-    }
+    return new Promise((resolve, reject) => {
+      let start = getDateTimeSec()
+      fs.readFile(this.filepath, (err, data) => {
+        if (err) reject(new Error(`Failed to read ${this.filePath}: ${err}`))
+        console.log(`Took ${getDateTimeSec() - start} seconds to read ${this.filepath}`)
+        // Filter to avoid empty lines
+        start = getDateTimeSec()
+        const lines = data.toString().split(DEFAULT_SPLIT_STR).filter(k => k.length > 0)
+        console.log(`Took ${getDateTimeSec() - start} seconds to split ${this.filepath}`)
+        start = getDateTimeSec()
+        this.loglines = lines.map(parseLine(this.config.datetimePattern,
+                        this.config.levelPattern, this.config.timeFormatter))
+        resolve(this)
+        console.log(`Took ${getDateTimeSec() - start} seconds to parse ${this.filepath}`)
+      })
+    })
   },
   /**
    * queryParams: {
@@ -64,6 +72,7 @@ const Logfile = {
   query (queryParams) {
     const startdt = new Date(queryParams.startdt).getTime()
     const enddt = new Date(queryParams.enddt).getTime()
+    let start = getDateTimeSec()
     const filtered = this.loglines.filter(logline => {
       const datetimeMatch = logline.datetime <= enddt && logline.datetime >= startdt
       const levelMatch = logline.level <= queryParams.level
@@ -72,6 +81,7 @@ const Logfile = {
     if (!isValidPagenum(filtered.length, queryParams.pagesize, queryParams.pagenum) && filtered.length) { throw new Error('pagenum out of range') }
     // pages go from newest -> oldest so reverse the page chunks
     const loglines = _.chunk(filtered.reverse(), queryParams.pagesize)[queryParams.pagenum - 1]
+    console.log(`Took ${getDateTimeSec() - start} seconds to query ${this.filepath}`)
     return buildRes(true, `Queried ${this.filepath}`, loglines ? loglines.reverse() : null)
   },
   getAll () {
