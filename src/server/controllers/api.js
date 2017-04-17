@@ -25,7 +25,6 @@ function failConfig (req, res, next) {
 
 function normalizeFileReq (req, res, next) {
   req.normalized = {
-    logfile: req.query.logfile, // cannot be normalized
     pagenum: req.query.pagenum || 1,
     pagesize: parseInt(req.query.pagesize) || constants.defaultPageSize,
     startdt: parseInt(req.query.startdt) || new Date(0).getTime(), // TODO remove parseInt
@@ -34,6 +33,11 @@ function normalizeFileReq (req, res, next) {
   }
   next()
 }
+
+let logfiles = []
+folder(config.blob.folders[0].directory).then(resp => {
+  logfiles = resp.data.map(k => Logfile.create(path.join(config.blob.folders[0].directory, k), config.blob))
+})
 
 router.route('/config')
   .get((req, res) => {
@@ -52,8 +56,8 @@ router.get('/directory', failConfig, (req, res) => {
 
 // TODO Add support to use folders list
 router.get('/file', [failConfig, normalizeFileReq], (req, res) => {
-  const logpath = path.join(config.blob.folders[0].directory, req.query.logfile)
-  const logfile = Logfile.create(logpath, config.blob)
+  const logfile = logfiles.find(k => k.filepath === path.join(config.blob.folders[0].directory, req.query.logfile))
+  console.log(logfiles.map(k => k.filepath))
   try {
     res.json(logfile.query(req.normalized))
   } catch (err) {
