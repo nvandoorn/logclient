@@ -5,10 +5,12 @@ const buildRes = require('../helpers/build-res')
 
 const Config = {
   create (configPath) {
-    this.configPath = configPath
-    this.blob = {}
-    this.read()
-    return this
+    const instance = Object.assign({
+      configPath: configPath,
+      blob: {}
+    }, this)
+    instance.read()
+    return instance
   },
   read () {
     const configExists = fs.existsSync(this.configPath)

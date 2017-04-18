@@ -35,10 +35,12 @@ const getLevel = (levelStr, levelEnum) => getLevelLowerCase(levelStr.trim().toLo
 const isValidPagenum = (nLines, pageSize, pagenum) => Math.ceil(nLines / pageSize) >= pagenum
 
 const Logfile = {
-  create (filepath, config) {
-    this.filepath = filepath
-    this.config = config
-    return this.readFile()
+  create (filepath, config, key) {
+    return Object.assign({
+      filepath: filepath,
+      config: config,
+      key: key
+    }, this).readFile()
   },
   readFile () {
     return new Promise((resolve, reject) => {
