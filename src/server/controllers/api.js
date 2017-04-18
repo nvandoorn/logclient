@@ -9,7 +9,7 @@ const buildRes = require('../helpers/build-res')
 
 const Config = require('../models/config')
 const Logfile = require('../models/logfile')
-const folder = require('../models/folder')
+const Directory = require('../models/directory')
 
 const CONFIG_PATH = path.join(__dirname, '../../../config.json')
 
@@ -25,6 +25,7 @@ function failConfig (req, res, next) {
 
 function normalizeFileReq (req, res, next) {
   req.normalized = {
+    key: parseInt(req.query.key),
     pagenum: req.query.pagenum || 1,
     pagesize: parseInt(req.query.pagesize) || constants.defaultPageSize,
     startdt: parseInt(req.query.startdt) || new Date(0).getTime(), // TODO remove parseInt
@@ -34,11 +35,6 @@ function normalizeFileReq (req, res, next) {
   next()
 }
 
-let logfiles = []
-folder(config.blob.folders[0].directory).then(resp => {
-  logfiles = resp.data.map(k => Logfile.create(path.join(config.blob.folders[0].directory, k), config.blob))
-})
-
 router.route('/config')
   .get((req, res) => {
     res.json(config.read())
@@ -47,22 +43,14 @@ router.route('/config')
     res.json(config.set(req.body))
   })
 
-// TODO Add support to use folders list
-router.get('/directory', failConfig, (req, res) => {
-  folder(config.blob.folders[0].directory).then(resp => {
-    res.json(resp)
+Directory.create(config.blob.folders[0].directory, config.blob).then(dir => {
+  router.get('/file', [failConfig, normalizeFileReq], (req, res) => {
+    res.json(dir.query(req.normalized))
+  })
+  router.get('/directory', (req, res) => {
+    res.json(dir.list())
   })
 })
 
-// TODO Add support to use folders list
-router.get('/file', [failConfig, normalizeFileReq], (req, res) => {
-  const logfile = logfiles.find(k => k.filepath === path.join(config.blob.folders[0].directory, req.query.logfile))
-  console.log(logfiles.map(k => k.filepath))
-  try {
-    res.json(logfile.query(req.normalized))
-  } catch (err) {
-    res.json(buildRes(false, `Request failed: ${err.message}`))
-  }
-})
 
 module.exports = router
