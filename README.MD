@@ -182,12 +182,14 @@ Lists directories added by `PUT` `/api/directories`
 		{
 			"path": "/var/log/somelogs",
 			"name": "Some Wonderful Logs",
-			"key": 0
+			"key": 0,
+			"active": false
 		},
 		{
 			"path": "/var/log/someotherlogs",
 			"name": "Some Other Wonderful Logs",
-			"key": 1
+			"key": 1,
+			"active": true
 		}
 	]
 }
@@ -214,12 +216,14 @@ Adds a new directory to the list retrieved from `GET` `/api/directories`
 		{
 			"path": "/var/log/somelogs",
 			"name": "Some Wonderful Logs",
-			"key": 0
+			"key": 0,
+			"active": false
 		},
 		{
 			"path": "/var/log/someotherlogs",
 			"name": "Some Other Wonderful Logs",
-			"key": 1
+			"key": 1,
+			"active": true
 		}
 	]
 }
@@ -247,12 +251,14 @@ Modify directory to the list retrieved from `GET` `/api/directories`
 		{
 			"path": "/var/log/somelogs",
 			"name": "Some Wonderful Logs",
-			"key": 0
+			"key": 0,
+			"active": false
 		},
 		{
 			"path": "/var/log/someotherlogs",
 			"name": "Some Other Wonderful Logs",
-			"key": 1
+			"key": 1,
+			"active": true
 		}
 	]
 }
