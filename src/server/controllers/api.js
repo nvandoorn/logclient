@@ -46,19 +46,22 @@ router.route('/config')
 // TODO pass this a directory
 function addDirectory () {
   let directory
+  const notReadyRes = buildRes(false, 'Directory not ready yet', {})
   Directory.create(config.blob.folders[0].directory, config.blob).then(dir => { directory = dir })
-  return callback => (req, res) => { callback(req, res, directory) }
+  return callback => (req, res) => { callback(req, res, directory, notReadyRes) }
 }
 
 // TODO pass here as well
 const currentDirectory = addDirectory()
 
-router.get('/file', [failConfig, normalizeFileReq], currentDirectory((req, res, dir) => {
-  res.json(dir.query(req.normalized))
+router.get('/file', [failConfig, normalizeFileReq], currentDirectory((req, res, dir, notReadyRes) => {
+  if (dir) res.json(dir.query(req.normalized))
+  else res.json(notReadyRes)
 }))
 
-router.get('/directory', currentDirectory((req, res, dir) => {
-  res.json(dir.list())
+router.get('/directory', currentDirectory((req, res, dir, notReadyRes) => {
+  if (dir) res.json(dir.list())
+  else res.json(notReadyRes)
 }))
 
 module.exports = router
