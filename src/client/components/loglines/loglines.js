@@ -4,9 +4,7 @@ import { loglines as loglinesStyle } from './loglines.css'
 
 import Line from './line/line'
 
-let i = 0
-let getKey = () => `line-${i++}` // TODO dejank this
-const createLines = loglines => loglines.map(logline => <Line props={logline} key={getKey()} />)
+const createLines = (loglines, i) => loglines.map(logline => <Line props={logline} key={i} />)
 
 const Loglines = ({loglines}) =>
   <ul className={loglinesStyle}>
