@@ -58,14 +58,14 @@ This prototype is implemented using Express/Jade view rendering and hacked toget
 
 #### `POST` /api/config
 
+Modifies the config. Only the supplied keys are applied, other keys are left as is.
+
 ##### Example requests body
 ```javascript
 {
 	"datetimePattern": "\\[(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z)\\]",
 	"levelPattern": "\\[([\\w\\s]+|\\w+)\\]:\\s",
-	"timeFormatter": "h:MM:ss",
-	"inputTimezone": 0,
-	"outputTimezone": 8
+	"timeFormatter": "h:MM:ss"
 }
 ```
 
@@ -74,12 +74,26 @@ This prototype is implemented using Express/Jade view rendering and hacked toget
 {
 	"success": true,
 	"msg": "Config set: true",
-	"data": {
+	"data": [
 		"datetimePattern": "\\[(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z)\\]",
 		"levelPattern": "\\[([\\w\\s]+|\\w+)\\]:\\s",
 		"timeFormatter": "h:MM:ss",
 		"inputTimezone": 0,
-		"outputTimezone": 8
+		"outputTimezone": 8,
+		"directories": [
+			{
+				"path": "/var/log/somelogs",
+				"name": "Some Wonderful Logs",
+				"key": 0,
+				"active": false
+			},
+			{
+				"path": "/var/log/someotherlogs",
+				"name": "Some Other Wonderful Logs",
+				"key": 1,
+				"active": true
+			}
+		]
 }
 ```
 
@@ -95,7 +109,21 @@ This prototype is implemented using Express/Jade view rendering and hacked toget
 		"levelPattern": "\\[([\\w\\s]+|\\w+)\\]:\\s",
 		"timeFormatter": "h:MM:ss",
 		"inputTimezone": 0,
-		"outputTimezone": 8
+		"outputTimezone": 8,
+		"directories": [
+			{
+				"path": "/var/log/somelogs",
+				"name": "Some Wonderful Logs",
+				"key": 0,
+				"active": false
+			},
+			{
+				"path": "/var/log/someotherlogs",
+				"name": "Some Other Wonderful Logs",
+				"key": 1,
+				"active": true
+			}
+		]
 	}
 }
 ```
@@ -272,7 +300,7 @@ Gets the directory listing for the directory set in `POST` `/api/directory`
 ```javascript
 {
 	"success": true,
-	"msg": "Successfully added directory",
+	"msg": "Successfully retrieved directory listing",
 	"data": [
 		{
 			"name": "log0.log",
