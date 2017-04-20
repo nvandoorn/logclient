@@ -3,6 +3,7 @@
 const express = require('express')
 const router = express.Router()
 const path = require('path')
+const blocked = require('blocked')
 
 const constants = require('../../constants')
 const buildRes = require('../helpers/build-res')
@@ -12,28 +13,19 @@ const Logfile = require('../models/logfile')
 const Directory = require('../models/directory')
 
 const CONFIG_PATH = path.join(__dirname, '../../../config.json')
+const FILE_ROUTE = '/file'
+const DIR_ROUTE = '/directory'
 
 const config = Config.create(CONFIG_PATH)
 
-function failConfig (req, res, next) {
-  if (!config.blob.folders.length) {
-    res.json(buildRes(false, 'Folder config is empty', {}))
-  } else {
-    next()
-  }
-}
-
-function normalizeFileReq (req, res, next) {
-  req.normalized = {
-    key: parseInt(req.query.key),
-    pagenum: req.query.pagenum || 1,
-    pagesize: parseInt(req.query.pagesize) || constants.defaultPageSize,
-    startdt: parseInt(req.query.startdt) || new Date(0).getTime(), // TODO remove parseInt
-    enddt: parseInt(req.query.enddt) || Date.now(),
-    level: parseInt(req.query.level) || constants.defaultLevel
-  }
-  next()
-}
+const normalizeFileReq = req => ({
+  key: parseInt(req.query.key),
+  pagenum: req.query.pagenum || 1,
+  pagesize: parseInt(req.query.pagesize) || constants.defaultPageSize,
+  startdt: parseInt(req.query.startdt) || new Date(0).getTime(), // TODO remove parseInt
+  enddt: parseInt(req.query.enddt) || Date.now(),
+  level: parseInt(req.query.level) || constants.defaultLevel
+})
 
 router.route('/config')
   .get((req, res) => {
@@ -43,25 +35,17 @@ router.route('/config')
     res.json(config.set(req.body))
   })
 
-// TODO pass this a directory
-function addDirectory () {
-  let directory
-  const notReadyRes = buildRes(false, 'Directory not ready yet', {})
-  Directory.create(config.blob.folders[0].directory, config.blob).then(dir => { directory = dir })
-  return callback => (req, res) => { callback(req, res, directory, notReadyRes) }
-}
+const dir = Directory.create(config.blob.directories.find(k => k.active).path, config.blob)
+blocked(function (ms) {
+  console.log('BLOCKED FOR %sms', ms | 0)
+})
 
-// TODO pass here as well
-const currentDirectory = addDirectory()
+router.get(FILE_ROUTE, (req, res) => {
+  res.json(dir.query(normalizeFileReq(req)))
+})
+router.get(DIR_ROUTE, (req, res) => {
+  res.json(dir.list())
+})
 
-router.get('/file', [failConfig, normalizeFileReq], currentDirectory((req, res, dir, notReadyRes) => {
-  if (dir) res.json(dir.query(req.normalized))
-  else res.json(notReadyRes)
-}))
-
-router.get('/directory', currentDirectory((req, res, dir, notReadyRes) => {
-  if (dir) res.json(dir.list())
-  else res.json(notReadyRes)
-}))
 
 module.exports = router
