@@ -16,8 +16,6 @@ const CONFIG_PATH = path.join(__dirname, '../../../config.json')
 const FILE_ROUTE = '/file'
 const DIR_ROUTE = '/directory'
 
-const config = Config.create(CONFIG_PATH)
-
 const normalizeFileReq = req => ({
   key: parseInt(req.query.key),
   pagenum: req.query.pagenum || 1,
@@ -35,14 +33,13 @@ router.route('/config')
     res.json(config.set(req.body))
   })
 
+const config = Config.create(CONFIG_PATH)
 const dir = Directory.create(config.blob.directories.find(k => k.active).path, config.blob)
-blocked(function (ms) {
-  console.log('BLOCKED FOR %sms', ms | 0)
-})
 
 router.get(FILE_ROUTE, (req, res) => {
   res.json(dir.query(normalizeFileReq(req)))
 })
+
 router.get(DIR_ROUTE, (req, res) => {
   res.json(dir.list())
 })
