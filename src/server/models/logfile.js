@@ -3,6 +3,7 @@
 const fs = require('fs')
 const dateFormat = require('dateformat')
 const _ = require('lodash')
+const async = require('async')
 
 const constants = require('../../constants')
 const buildRes = require('../helpers/build-res')
@@ -12,18 +13,18 @@ const DEFAULT_SPLIT_STR = '\n' // TODO put this in config
 const getDateTimeSec = () => Date.now() / 1000
 
 function parseLine (datetimePattern, levelPattern, timeFormatter) {
-  return function (line) {
+  return function (line, callback) {
     const dateSplit = line.split(new RegExp(datetimePattern))
     const levelSplit = dateSplit[2].split(new RegExp(levelPattern))
     const levelObj = getLevel(levelSplit[1], constants.levels)
     const dateObj = new Date(dateSplit[1])
-    return {
+    callback(null, {
       text: levelSplit[2],
       level: levelObj.level,
       levelStr: levelObj.str,
       datetime: dateObj.getTime(),
       datetimeStr: dateFormat(dateObj, timeFormatter, true) // Added true for UTC time
-    }
+    })
   }
 }
 
@@ -35,29 +36,26 @@ const getLevel = (levelStr, levelEnum) => getLevelLowerCase(levelStr.trim().toLo
 const isValidPagenum = (nLines, pageSize, pagenum) => Math.ceil(nLines / pageSize) >= pagenum
 
 const Logfile = {
-  create (filepath, config, key) {
-    return Object.assign({
-      filepath: filepath,
-      config: config,
-      key: key
-    }, this).readFile()
+  create (item, callback) {
+    Object.assign(item, this).readFile(callback)
   },
-  readFile () {
-    return new Promise((resolve, reject) => {
-      let start = getDateTimeSec()
-      fs.readFile(this.filepath, (err, data) => {
-        if (err) reject(new Error(`Failed to read ${this.filePath}: ${err}`))
-        console.log(`Took ${getDateTimeSec() - start} seconds to read ${this.filepath}`)
-        // Filter to avoid empty lines
-        start = getDateTimeSec()
-        const lines = data.toString().split(DEFAULT_SPLIT_STR).filter(k => k.length > 0)
-        console.log(`Took ${getDateTimeSec() - start} seconds to split ${this.filepath}`)
-        start = getDateTimeSec()
-        this.loglines = lines.map(parseLine(this.config.datetimePattern,
-                        this.config.levelPattern, this.config.timeFormatter))
-        resolve(this)
-        console.log(`Took ${getDateTimeSec() - start} seconds to parse ${this.filepath}`)
-      })
+  readFile (callback) {
+    let start = getDateTimeSec()
+    fs.readFile(this.filepath, (err, data) => {
+      if (err) callback(new Error(`Failed to read ${this.filePath}: ${err}`))
+      console.log(`Took ${getDateTimeSec() - start} seconds to read ${this.filepath}`)
+      // Filter to avoid empty lines
+      start = getDateTimeSec()
+      const lines = data.toString().split(DEFAULT_SPLIT_STR).filter(k => k.length > 0)
+      console.log(`Took ${getDateTimeSec() - start} seconds to split ${this.filepath}`)
+      start = getDateTimeSec()
+      async.map(lines, parseLine(this.config.datetimePattern, this.config.levelPattern, this.config.timeFormatter),
+                (err, loglines) => {
+                  if(err) callback(err)
+                  else this.loglines = loglines
+                })
+      callback(null, this)
+      console.log(`Took ${getDateTimeSec() - start} seconds to parse ${this.filepath}`)
     })
   },
   /**
