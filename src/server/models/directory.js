@@ -10,22 +10,21 @@ const buildRes = require('../helpers/build-res')
 const notReadyReply = dir => buildRes(false, `Directory ${dir} is not ready yet`, {})
 
 const Directory = {
-  create (dirPath, config) {
-    const instance = Object.assign({
-      dirPath: dirPath,
-      config: config
-    }, this)
-    instance.readDir()
-    return instance
-  },
   readDir () {
     fs.readdir(this.dirPath, (err, list) => {
-      if(err) reject(new Error(`Failed to list ${this.dirPath}: ${err.message}`))
-      this.filelist = list.map((name, i) => ({ name: name, key: i }))
-      Promise.all(list.map((name, i) => Logfile.create(path.join(this.dirPath, name), this.config, i)))
-      .then(logfiles => {
+      this.filelist = list.map((name, i) => ({
+        name: name,
+        key: i,
+        path: path.join(this.dirPath, name),
+        config: this.config
+      }))
+      // TODO for some reason this.filelist is getting mutated?
+      async.map(this.filelist, (item, callback) => {
+        Object.assign(item, Logfile).readFile(callback)
+      }, (err, logfiles) => {
+        console.log('nice we finished')
         this.logfiles = logfiles
-      }, err => { reject(err)  })
+      })
     })
   },
   query (params) {

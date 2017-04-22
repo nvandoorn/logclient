@@ -36,26 +36,24 @@ const getLevel = (levelStr, levelEnum) => getLevelLowerCase(levelStr.trim().toLo
 const isValidPagenum = (nLines, pageSize, pagenum) => Math.ceil(nLines / pageSize) >= pagenum
 
 const Logfile = {
-  create (item, callback) {
-    Object.assign(item, this).readFile(callback)
-  },
   readFile (callback) {
     let start = getDateTimeSec()
-    fs.readFile(this.filepath, (err, data) => {
+    fs.readFile(this.path, (err, data) => {
       if (err) callback(new Error(`Failed to read ${this.filePath}: ${err}`))
-      console.log(`Took ${getDateTimeSec() - start} seconds to read ${this.filepath}`)
-      // Filter to avoid empty lines
+      console.log(`Took ${getDateTimeSec() - start} seconds to read ${this.path}`)
       start = getDateTimeSec()
       const lines = data.toString().split(DEFAULT_SPLIT_STR).filter(k => k.length > 0)
-      console.log(`Took ${getDateTimeSec() - start} seconds to split ${this.filepath}`)
+      console.log(`Took ${getDateTimeSec() - start} seconds to split ${this.path}`)
       start = getDateTimeSec()
-      async.map(lines, parseLine(this.config.datetimePattern, this.config.levelPattern, this.config.timeFormatter),
-                (err, loglines) => {
-                  if(err) callback(err)
-                  else this.loglines = loglines
-                })
-      callback(null, this)
-      console.log(`Took ${getDateTimeSec() - start} seconds to parse ${this.filepath}`)
+      const parse = parseLine(this.config.datetimePattern, this.config.levelPattern, this.config.timeFormatter)
+      async.map(lines, parse, (err, loglines) => {
+        if(err) callback(err)
+        else {
+          this.loglines = loglines
+          callback(null, this)
+        }
+      })
+      console.log(`Took ${getDateTimeSec() - start} seconds to parse ${this.path}`)
     })
   },
   /**
@@ -81,11 +79,11 @@ const Logfile = {
     if (!isValidPagenum(filtered.length, queryParams.pagesize, queryParams.pagenum) && filtered.length) { throw new Error('pagenum out of range') }
     // pages go from newest -> oldest so reverse the page chunks
     const loglines = _.chunk(filtered.reverse(), queryParams.pagesize)[queryParams.pagenum - 1]
-    console.log(`Took ${getDateTimeSec() - start} seconds to query ${this.filepath}`)
-    return buildRes(true, `Queried ${this.filepath}`, loglines ? loglines.reverse() : null)
+    console.log(`Took ${getDateTimeSec() - start} seconds to query ${this.path}`)
+    return buildRes(true, `Queried ${this.path}`, loglines ? loglines.reverse() : null)
   },
   getAll () {
-    return buildRes(true, `Retrieved all loglines for ${this.filepath}`, this.loglines)
+    return buildRes(true, `Retrieved all loglines for ${this.path}`, this.loglines)
   }
 }
 

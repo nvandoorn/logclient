@@ -34,7 +34,11 @@ router.route('/config')
   })
 
 const config = Config.create(CONFIG_PATH)
-const dir = Directory.create(config.blob.directories.find(k => k.active).path, config.blob)
+const dir = Object.assign({
+  dirPath: config.blob.directories.find(k => k.active).path,
+  config: config.blob
+}, Directory)
+dir.readDir()
 
 router.get(FILE_ROUTE, (req, res) => {
   res.json(dir.query(normalizeFileReq(req)))
