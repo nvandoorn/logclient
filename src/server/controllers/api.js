@@ -21,8 +21,8 @@ const normalizeFileReq = req => ({
   pagenum: req.query.pagenum || 1,
   pagesize: parseInt(req.query.pagesize) || constants.defaultPageSize,
   startdt: parseInt(req.query.startdt) || new Date(0).getTime(), // TODO remove parseInt
-  enddt: parseInt(req.query.enddt) || Date.now(),
-  level: parseInt(req.query.level) || constants.defaultLevel
+  enddt: parseInt(req.query.enddt) || Date.now(), // TODO this logic will fail with 0
+  level: !isNaN(parseInt(req.query.level)) ? parseInt(req.query.level) : constants.defaultLevel
 })
 
 router.route('/config')
@@ -33,6 +33,7 @@ router.route('/config')
     res.json(config.set(req.body))
   })
 
+// TODO rid thee global scope
 const config = Config.create(CONFIG_PATH)
 const dir = Object.assign({
   dirPath: config.blob.directories.find(k => k.active).path,
@@ -47,6 +48,5 @@ router.get(FILE_ROUTE, (req, res) => {
 router.get(DIR_ROUTE, (req, res) => {
   res.json(dir.list())
 })
-
 
 module.exports = router
