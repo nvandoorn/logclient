@@ -37,23 +37,17 @@ const isValidPagenum = (nLines, pageSize, pagenum) => Math.ceil(nLines / pageSiz
 
 const Logfile = {
   readFile (callback) {
-    let start = getDateTimeSec()
     fs.readFile(this.path, (err, data) => {
       if (err) callback(new Error(`Failed to read ${this.filePath}: ${err}`))
-      console.log(`Took ${getDateTimeSec() - start} seconds to read ${this.path}`)
-      start = getDateTimeSec()
       const lines = data.toString().split(DEFAULT_SPLIT_STR).filter(k => k.length > 0)
-      console.log(`Took ${getDateTimeSec() - start} seconds to split ${this.path}`)
-      start = getDateTimeSec()
       const parse = parseLine(this.config.datetimePattern, this.config.levelPattern, this.config.timeFormatter)
       async.map(lines, parse, (err, loglines) => {
-        if(err) callback(err)
+        if (err) callback(err)
         else {
           this.loglines = loglines
           callback(null, this)
         }
       })
-      console.log(`Took ${getDateTimeSec() - start} seconds to parse ${this.path}`)
     })
   },
   /**
@@ -74,12 +68,12 @@ const Logfile = {
     const filtered = this.loglines.filter(logline => {
       const datetimeMatch = logline.datetime <= enddt && logline.datetime >= startdt
       const levelMatch = logline.level <= queryParams.level
+      debugger
       return datetimeMatch && levelMatch
     })
     if (!isValidPagenum(filtered.length, queryParams.pagesize, queryParams.pagenum) && filtered.length) { throw new Error('pagenum out of range') }
     // pages go from newest -> oldest so reverse the page chunks
     const loglines = _.chunk(filtered.reverse(), queryParams.pagesize)[queryParams.pagenum - 1]
-    console.log(`Took ${getDateTimeSec() - start} seconds to query ${this.path}`)
     return buildRes(true, `Queried ${this.path}`, loglines ? loglines.reverse() : null)
   },
   getAll () {

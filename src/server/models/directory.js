@@ -15,14 +15,17 @@ const Directory = {
       this.filelist = list.map((name, i) => ({
         name: name,
         key: i,
-        path: path.join(this.dirPath, name),
-        config: this.config
+        path: path.join(this.dirPath, name)
       }))
-      // TODO for some reason this.filelist is getting mutated?
-      async.map(this.filelist, (item, callback) => {
-        Object.assign(item, Logfile).readFile(callback)
+      // TODO make this more terse
+      const filelistConfig = this.filelist.map(dirEntry => {
+        const dirEntryConfig = Object.create(dirEntry)
+        dirEntryConfig.config = this.config
+        return dirEntryConfig
+      })
+      async.map(filelistConfig, (item, callback) => {
+        Object.assign(Object.create(item), Logfile).readFile(callback)
       }, (err, logfiles) => {
-        console.log('nice we finished')
         this.logfiles = logfiles
       })
     })
@@ -30,15 +33,15 @@ const Directory = {
   query (params) {
     if (this.logfiles) {
       const logfile = this.logfiles.find(k => k.key === params.key)
-      if(logfile) return logfile.query(params)
+      if (logfile) return logfile.query(params)
       else return buildRes(false, `Failed to find logfile with key ${params.key}`, {})
     } else {
       return notReadyReply(this.dirPath)
     }
   },
   list () {
-    return this.filelist ?
-      buildRes(true, `Retrieved listing for ${this.dirPath}`, this.filelist) : notReadyReply(this.dirPath)
+    return this.filelist
+      ? buildRes(true, `Retrieved listing for ${this.dirPath}`, this.filelist) : notReadyReply(this.dirPath)
   }
 }
 
