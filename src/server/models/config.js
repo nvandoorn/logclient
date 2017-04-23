@@ -4,14 +4,6 @@ const fs = require('fs-extra')
 const buildRes = require('../helpers/build-res')
 
 const Config = {
-  create (configPath) {
-    const instance = Object.assign({
-      configPath: configPath,
-      blob: {}
-    }, this)
-    instance.read()
-    return instance
-  },
   read () {
     const configExists = fs.existsSync(this.configPath)
     let toReturn = buildRes(true, 'Config file is empty', {})
