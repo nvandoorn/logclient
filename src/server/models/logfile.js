@@ -10,8 +10,6 @@ const buildRes = require('../helpers/build-res')
 
 const DEFAULT_SPLIT_STR = '\n' // TODO put this in config
 
-const getDateTimeSec = () => Date.now() / 1000
-
 function parseLine (datetimePattern, levelPattern, timeFormatter) {
   return function (line, callback) {
     setTimeout(() => {
@@ -66,7 +64,6 @@ const Logfile = {
   query (queryParams) {
     const startdt = new Date(queryParams.startdt).getTime()
     const enddt = new Date(queryParams.enddt).getTime()
-    let start = getDateTimeSec()
     const filtered = this.loglines.filter(logline => {
       const datetimeMatch = logline.datetime <= enddt && logline.datetime >= startdt
       const levelMatch = logline.level <= queryParams.level

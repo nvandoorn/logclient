@@ -12,6 +12,7 @@ const notReadyReply = dir => buildRes(false, `Directory ${dir} is not ready yet`
 const Directory = {
   readDir () {
     fs.readdir(this.dirPath, (err, list) => {
+      if (err) throw err
       this.filelist = list.map((name, i) => ({
         name: name,
         key: i,
@@ -26,6 +27,7 @@ const Directory = {
       async.map(filelistConfig, (item, callback) => {
         Object.assign(Object.create(item), Logfile).readFile(callback)
       }, (err, logfiles) => {
+        if (err) throw err
         this.logfiles = logfiles
       })
     })

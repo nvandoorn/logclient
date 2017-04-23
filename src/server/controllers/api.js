@@ -3,9 +3,6 @@
 const express = require('express')
 const router = express.Router()
 const path = require('path')
-const blocked = require('blocked')
-const async = require('async')
-const _ = require('lodash')
 
 const constants = require('../../constants')
 const buildRes = require('../helpers/build-res')
@@ -67,7 +64,6 @@ function bindRoutes (router) {
       dir.readDir()
       res.json(buildRes(true, 'we did stuff', {})) // TODO reply with status of change
     })
-
 }
 
 bindRoutes(router)
