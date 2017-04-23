@@ -6,14 +6,14 @@
   "outputTimezone": 8,
   "directories": [
     {
-      "path": "/Users/nick/Documents/slask/src/server/test/fixtures/",
-      "name": "Test Fixture",
+      "path": "/Users/nick/Documents/slask/src/server/test/fixtures1/",
+      "name": "Test Fixture 1",
       "key": 0,
       "active": true
     },
     {
-      "path": "/var/log/clientlog",
-      "name": "Some Other Wonderful Logs",
+      "path": "/Users/nick/Documents/slask/src/server/test/fixtures2/",
+      "name": "Test Fixture 2",
       "key": 1,
       "active": false
     }
