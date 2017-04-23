@@ -14,17 +14,19 @@ const getDateTimeSec = () => Date.now() / 1000
 
 function parseLine (datetimePattern, levelPattern, timeFormatter) {
   return function (line, callback) {
-    const dateSplit = line.split(new RegExp(datetimePattern))
-    const levelSplit = dateSplit[2].split(new RegExp(levelPattern))
-    const levelObj = getLevel(levelSplit[1], constants.levels)
-    const dateObj = new Date(dateSplit[1])
-    callback(null, {
-      text: levelSplit[2],
-      level: levelObj.level,
-      levelStr: levelObj.str,
-      datetime: dateObj.getTime(),
-      datetimeStr: dateFormat(dateObj, timeFormatter, true) // Added true for UTC time
-    })
+    setTimeout(() => {
+      const dateSplit = line.split(new RegExp(datetimePattern))
+      const levelSplit = dateSplit[2].split(new RegExp(levelPattern))
+      const levelObj = getLevel(levelSplit[1], constants.levels)
+      const dateObj = new Date(dateSplit[1])
+      callback(null, {
+        text: levelSplit[2],
+        level: levelObj.level,
+        levelStr: levelObj.str,
+        datetime: dateObj.getTime(),
+        datetimeStr: dateFormat(dateObj, timeFormatter, true) // Added true for UTC time
+      })
+    }, 0)
   }
 }
 
@@ -68,7 +70,6 @@ const Logfile = {
     const filtered = this.loglines.filter(logline => {
       const datetimeMatch = logline.datetime <= enddt && logline.datetime >= startdt
       const levelMatch = logline.level <= queryParams.level
-      debugger
       return datetimeMatch && levelMatch
     })
     if (!isValidPagenum(filtered.length, queryParams.pagesize, queryParams.pagenum) && filtered.length) { throw new Error('pagenum out of range') }
