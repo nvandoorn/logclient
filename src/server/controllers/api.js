@@ -57,12 +57,7 @@ function bindRoutes (router) {
     .post((req, res) => {
       // TODO set entry as active
       const dirPath = config.blob.directories.find(k => k.key === parseInt(req.body.key)).path
-      dir = Object.assign({
-        dirPath: dirPath,
-        config: config.blob
-      }, Directory)
-      dir.readDir()
-      res.json(buildRes(true, 'we did stuff', {})) // TODO reply with status of change
+      res.json(dir.readDir(dirPath))
     })
 }
 
