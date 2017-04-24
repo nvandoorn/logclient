@@ -16,17 +16,16 @@ const Directory = {
       if(dirPath) this.dirPath = dirPath
       fs.readdir(this.dirPath, (err, list) => {
         if (err) throw err
-        this.filelist = list.map((name, i) => ({
+        // filter out dotfiles
+        const dirList = list.filter(k => k[0] !== '.')
+        this.filelist = dirList.map((name, i) => ({
           name: name,
           key: i,
           path: path.join(this.dirPath, name)
         }))
-        // TODO make this more terse
-        const filelistConfig = this.filelist.map(dirEntry => {
-          const dirEntryConfig = Object.create(dirEntry)
-          dirEntryConfig.config = this.config
-          return dirEntryConfig
-        })
+
+        const filelistConfig = this.filelist.map(dirEntry => Object.assign({ config: this.config }, dirEntry))
+
         async.map(filelistConfig, (item, callback) => {
           Object.assign(Object.create(item), Logfile).readFile(callback)
         }, (err, logfiles) => {
