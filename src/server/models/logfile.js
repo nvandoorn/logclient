@@ -12,7 +12,7 @@ const DEFAULT_SPLIT_STR = '\n' // TODO put this in config
 
 function parseLine (datetimePattern, levelPattern, timeFormatter) {
   return function (line, callback) {
-    setTimeout(() => {
+    try {
       const dateSplit = line.split(new RegExp(datetimePattern))
       const levelSplit = dateSplit[2].split(new RegExp(levelPattern))
       const levelObj = getLevel(levelSplit[1], constants.levels)
@@ -24,7 +24,9 @@ function parseLine (datetimePattern, levelPattern, timeFormatter) {
         datetime: dateObj.getTime(),
         datetimeStr: dateFormat(dateObj, timeFormatter, true) // Added true for UTC time
       })
-    }, 0)
+    } catch (err){
+      callback(err)
+    }
   }
 }
 
@@ -50,17 +52,6 @@ const Logfile = {
       })
     })
   },
-  /**
-   * queryParams: {
-   *  logfile: path (string),
-   *  pagenum: integer,
-   *  pagesize: integer,
-   *  startdt: datetime string
-   *  enddt: datetime string
-   *  level: one of log level enum
-   * }
-   *
-  */
   query (queryParams) {
     const startdt = new Date(queryParams.startdt).getTime()
     const enddt = new Date(queryParams.enddt).getTime()
