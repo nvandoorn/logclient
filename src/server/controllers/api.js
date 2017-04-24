@@ -24,8 +24,7 @@ const normalizeReq = req => ({
   level: !isNaN(parseInt(req.query.level)) ? parseInt(req.query.level) : constants.defaultLevel
 })
 
-// TODO seperate routing from business logic
-function bindRoutes (router) {
+module.exports = function () {
   const config = Object.assign({
     configPath: CONFIG_PATH,
     blob: {}
@@ -38,29 +37,18 @@ function bindRoutes (router) {
   }, Directory)
   dir.readDir()
 
-  router.route(CONFIG_ROUTE)
-    .get((req, res) => {
-      res.json(config.read())
-    })
-    .put((req, res) => {
-      res.json(config.set(req.body))
-    })
-
-  router.get(FILE_ROUTE, (req, res) => {
-    res.json(dir.query(normalizeReq(req)))
-  })
-
-  router.route(DIR_ROUTE)
-    .get((req, res) => {
-      res.json(dir.list())
-    })
-    .post((req, res) => {
-      // TODO set entry as active
+  return {
+    readConfig: (req, res) => res.json(config.read()),
+    setConfig: (req, res) => res.json(config.set(req.body)),
+    addDir: (req, res) => res.json(config.addDir(req.body)),
+    listDirs: (req, res) => res.json(config.listDirs()),
+    queryActiveFile: (req, res) => res.json(dir.query(normalizeReq(req))),
+    listActiveDir: (req, res) => res.json(dir.list()),
+    setActiveDir: (req, res) => {
       const dirPath = config.blob.directories.find(k => k.key === parseInt(req.body.key)).path
-      res.json(dir.readDir(dirPath))
-    })
+      return res.json(dir.readDir(dirPath))
+    }
+  }
 }
 
-bindRoutes(router)
 
-module.exports = router

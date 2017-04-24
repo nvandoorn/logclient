@@ -8,7 +8,7 @@ const bodyParser = require('body-parser')
 
 const BUILD_PATH = path.join(__dirname, '..', '..', 'build')
 const INDEX_PATH = path.join(BUILD_PATH, 'index.html')
-const api = require('./controllers/api')
+const routes = require('./routes')
 
 const app = express()
 
@@ -27,7 +27,7 @@ app.use(function (req, res, next) {
 })
 
 app.use(express.static(path.join(BUILD_PATH)))
-app.use('/api', api)
+app.use('/api', routes.api)
 app.get('*', function (req, res) {
   res.sendFile(INDEX_PATH)
 })
