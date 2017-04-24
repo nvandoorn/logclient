@@ -4,6 +4,9 @@ const fs = require('fs-extra')
 const buildRes = require('../helpers/build-res')
 const _ = require('lodash')
 
+const getDirObjectByPath = (dirs, dirEntry) => dirs.find(k => k.path === dirEntry.path)
+const getDirObjectByKey = (dirs, dirEntry) => dirs.find(k => k.key === dirEntry.key)
+
 const Config = {
   read () {
     const configExists = fs.existsSync(this.configPath)
@@ -12,6 +15,7 @@ const Config = {
       try {
         const blob = fs.readJsonSync(this.configPath)
         this.blob = blob
+        this.dirs = this.blob.directories
         toReturn = buildRes(true, 'Config read', blob)
       } catch (err) {
         toReturn = buildRes(false, `Failed to read config ${err.message}`, {})
@@ -34,12 +38,12 @@ const Config = {
     return true
   },
   addDir (dirEntry) {
-    const dirExist = this.blob.directories.some(k => k.path === dirEntry.path)
-    const dir = this.blob.directories
+    const dirExist = getDirObjectByPath(this.dirs, dirEntry)
     if (!dirExist) {
       let key
-      if (dir) {
-        key = dir.slice(-1)[0].key + 1
+      const lastDirEntry = dir.slice(-1)[0]
+      if (lastDirEntry) {
+        key = lastDirEntry + 1
       } else {
         key = 0
       }
@@ -51,6 +55,17 @@ const Config = {
       return buildRes(true, `Added entry with name: ${dirEntry.name} and path ${dirEntry.path}`)
     } else {
       return buildRes(false, `Entry for path ${dirEntry.path} already exists`, {})
+    }
+  },
+  modifyDir (dirEntry) {
+    const toModify = getDirObjectByKey(this.dirs, dirEntry)
+    if (toModify) {
+      toModify.name = dirEntry.name
+      toModify.path = dirEntry.path
+      this.save()
+      return buildRes(true, `Modified directory entry with key ${dirEntry.key}` )
+    } else {
+      return buildRes(true, `No directory entry found with key ${dirEntry.key}`)
     }
   },
   listDirs () {

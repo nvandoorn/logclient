@@ -40,8 +40,9 @@ module.exports = function () {
   return {
     readConfig: (req, res) => res.json(config.read()),
     setConfig: (req, res) => res.json(config.set(req.body)),
-    addDir: (req, res) => res.json(config.addDir(req.body)),
     listDirs: (req, res) => res.json(config.listDirs()),
+    addDir: (req, res) => res.json(config.addDir(req.body)),
+    modifyDir: (req, res) => res.json(config.modifyDir(req.body)),
     queryActiveFile: (req, res) => res.json(dir.query(normalizeReq(req))),
     listActiveDir: (req, res) => res.json(dir.list()),
     setActiveDir: (req, res) => {
