@@ -6,6 +6,7 @@ const _ = require('lodash')
 
 const getDirObjectByPath = (dirs, dirEntry) => dirs.find(k => k.path === dirEntry.path)
 const getDirObjectByKey = (dirs, dirEntry) => dirs.find(k => k.key === dirEntry.key)
+const noDirEntryFound = key => buildRes(false, `No directory found for key ${key}`, {})
 
 const Config = {
   read () {
@@ -64,9 +65,16 @@ const Config = {
       toModify.path = dirEntry.path
       this.save()
       return buildRes(true, `Modified directory entry with key ${dirEntry.key}` )
-    } else {
-      return buildRes(true, `No directory entry found with key ${dirEntry.key}`)
-    }
+    } else return noDirEntryFound(dirEntry.key)
+  },
+  deleteDir (dirEntry) {
+    const dirExist = getDirObjectByKey(this.dirs, dirEntry)
+    if (dirExist) {
+      this.blob.directories = this.dirs.filter(k => k.key !== dirEntry.key)
+      this.dirs = this.blob.directories
+      this.save()
+      return buildRes(true, `Removed directory with key ${dirEntry.key}`, {})
+    } else return noDirEntryFound(dirEntry.key)
   },
   listDirs () {
     return buildRes(true, 'Read directories from config',this.blob.directories)

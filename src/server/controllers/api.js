@@ -43,6 +43,7 @@ module.exports = function () {
     listDirs: (req, res) => res.json(config.listDirs()),
     addDir: (req, res) => res.json(config.addDir(req.body)),
     modifyDir: (req, res) => res.json(config.modifyDir(req.body)),
+    deleteDir: (req, res) => res.json(config.deleteDir(req.body)),
     queryActiveFile: (req, res) => res.json(dir.query(normalizeReq(req))),
     listActiveDir: (req, res) => res.json(dir.list()),
     setActiveDir: (req, res) => {

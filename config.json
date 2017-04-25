@@ -12,21 +12,9 @@
       "active": true
     },
     {
-      "path": "/var/logfdfsgsdfgf",
-      "name": "HEHE my logs",
+      "path": "/Users/nick/Documents/slask/src/server/test/fixtures2/",
+      "name": "Test Fixture 2",
       "key": 1,
-      "active": false
-    },
-    {
-      "name": "my logs",
-      "path": "/var/logff",
-      "key": 2,
-      "active": false
-    },
-    {
-      "name": "HEHE my logs",
-      "path": "/var/logfdfsgsdfgf",
-      "key": 3,
       "active": false
     }
   ]
