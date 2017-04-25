@@ -4,9 +4,10 @@
 const assert = require('chai').assert
 const path = require('path')
 
-const http = require('./lib/http')
-const get = http.get
-const put = http.put
+const axios = require('axios')
+const get = (route, params) => axios.get(route, { params: params })
+const put = axios.put
+const post = axios.post
 
 const constants = require('../../constants')
 const createServer = require('../../../scripts/server')
