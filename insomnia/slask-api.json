@@ -1,7 +1,7 @@
 {
 	"_type": "export",
 	"__export_format": 3,
-	"__export_date": "2017-04-25T06:11:15.333Z",
+	"__export_date": "2017-04-25T06:15:15.818Z",
 	"__export_source": "insomnia.desktop.app:v5.0.10",
 	"resources": [
 		{
@@ -26,7 +26,7 @@
 		{
 			"_id": "jar_9d9045814b3644298a3d0dd010e059e9",
 			"parentId": "wrk_870d8bdbbc044e968c90f9a6aa647667",
-			"modified": 1493100501255,
+			"modified": 1493100846982,
 			"created": 1488169171692,
 			"name": "Default Jar",
 			"cookies": [
@@ -214,6 +214,25 @@
 			],
 			"authentication": {},
 			"metaSortKey": -1489273578017,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_e8fa15874705417c8dc55808948f4430",
+			"parentId": "fld_f4b5124a839d43ab94e42891ad2d0e38",
+			"modified": 1493100844507,
+			"created": 1493100831920,
+			"url": "{{host}}/api/directory",
+			"name": "Get directory listing",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {},
+			"metaSortKey": -1489273577992,
 			"settingStoreCookies": true,
 			"settingSendCookies": true,
 			"settingDisableRenderRequestBody": false,
