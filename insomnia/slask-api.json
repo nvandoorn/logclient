@@ -1,0 +1,327 @@
+{
+	"_type": "export",
+	"__export_format": 3,
+	"__export_date": "2017-04-25T06:11:15.333Z",
+	"__export_source": "insomnia.desktop.app:v5.0.10",
+	"resources": [
+		{
+			"_id": "wrk_870d8bdbbc044e968c90f9a6aa647667",
+			"parentId": null,
+			"modified": 1488169134282,
+			"created": 1488169134282,
+			"name": "Insomnia",
+			"description": "",
+			"certificates": [],
+			"_type": "workspace"
+		},
+		{
+			"_id": "env_8310b98e62b94e9384e040e7914bce8a",
+			"parentId": "wrk_870d8bdbbc044e968c90f9a6aa647667",
+			"modified": 1488169171716,
+			"created": 1488169171716,
+			"name": "Base Environment",
+			"data": {},
+			"_type": "environment"
+		},
+		{
+			"_id": "jar_9d9045814b3644298a3d0dd010e059e9",
+			"parentId": "wrk_870d8bdbbc044e968c90f9a6aa647667",
+			"modified": 1493100501255,
+			"created": 1488169171692,
+			"name": "Default Jar",
+			"cookies": [
+				{
+					"domain": ".api.btnapps.net",
+					"httpOnly": false,
+					"hostOnly": true,
+					"path": "/",
+					"secure": false,
+					"expires": "1970-01-01T00:00:00.000Z",
+					"key": "SessionID",
+					"value": "6011b53a-6501-4674-9a78-5b8d50098f91"
+				},
+				{
+					"domain": ".api.btnapps.net",
+					"httpOnly": false,
+					"hostOnly": true,
+					"path": "/",
+					"secure": false,
+					"expires": "2020-03-11T23:47:10.000Z",
+					"key": "VisitorID",
+					"value": "043ccd03-5c43-4c7e-991a-260861f6f500&Exp=3/11/2020 4:47:10 PM"
+				}
+			],
+			"_type": "cookie_jar"
+		},
+		{
+			"_id": "fld_72eb67d6dc01417b86d1bdc25bfd2c25",
+			"parentId": "wrk_870d8bdbbc044e968c90f9a6aa647667",
+			"modified": 1493100657818,
+			"created": 1489350411291,
+			"name": "slask",
+			"environment": {
+				"host": "http://localhost:3000"
+			},
+			"metaSortKey": -1489350411291,
+			"_type": "request_group"
+		},
+		{
+			"_id": "fld_b91b9e33c4dc4a5ba85a6d0ea77cd96c",
+			"parentId": "fld_72eb67d6dc01417b86d1bdc25bfd2c25",
+			"modified": 1493100078093,
+			"created": 1493100078093,
+			"name": "Config",
+			"environment": {},
+			"metaSortKey": -1493100078093,
+			"_type": "request_group"
+		},
+		{
+			"_id": "fld_bc44273572da4bdd8f7c46d99f867363",
+			"parentId": "fld_72eb67d6dc01417b86d1bdc25bfd2c25",
+			"modified": 1493100103746,
+			"created": 1493100103746,
+			"name": "File",
+			"environment": {},
+			"metaSortKey": -1493100103746,
+			"_type": "request_group"
+		},
+		{
+			"_id": "fld_f4b5124a839d43ab94e42891ad2d0e38",
+			"parentId": "fld_72eb67d6dc01417b86d1bdc25bfd2c25",
+			"modified": 1493100147753,
+			"created": 1493100147753,
+			"name": "Active Directory",
+			"environment": {},
+			"metaSortKey": -1493100147753,
+			"_type": "request_group"
+		},
+		{
+			"_id": "fld_e71e34a833fc4703b0a4ed027b2d8873",
+			"parentId": "fld_72eb67d6dc01417b86d1bdc25bfd2c25",
+			"modified": 1493100169920,
+			"created": 1493100166280,
+			"name": "Directories",
+			"environment": {},
+			"metaSortKey": -1493100147803,
+			"_type": "request_group"
+		},
+		{
+			"_id": "req_b4940cb920194f77918192d2320f6f74",
+			"parentId": "fld_b91b9e33c4dc4a5ba85a6d0ea77cd96c",
+			"modified": 1493100519637,
+			"created": 1489273577942,
+			"url": "{{host}}/api/config",
+			"name": "Get config",
+			"method": "GET",
+			"body": {
+				"text": ""
+			},
+			"parameters": [],
+			"headers": [],
+			"authentication": {},
+			"metaSortKey": -1489273578142,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_10fdbbb4fa4c490f98efbf9bb2a23a67",
+			"parentId": "fld_b91b9e33c4dc4a5ba85a6d0ea77cd96c",
+			"modified": 1493100510331,
+			"created": 1489350452610,
+			"url": "{{host}}/api/config",
+			"name": "Set Config",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\t\"datetimePattern\": \"\\\\[(\\\\d{4}-\\\\d{2}-\\\\d{2}T\\\\d{2}:\\\\d{2}:\\\\d{2}Z)\\\\]\",\n\t\t\"levelPattern\": \"\\\\[([\\\\w\\\\s]+|\\\\w+)\\\\]:\\\\s\",\n\t\t\"timeFormatter\": \"h:MM:ss\",\n\t\t\"inputTimezone\": 0,\n\t\t\"outputTimezone\": 8,\n\t\t\"directories\": [\n\t\t\t{\n\t\t\t\t\"path\": \"/Users/nick/Documents/slask/src/server/test/fixtures1/\",\n\t\t\t\t\"name\": \"Test Fixture 1\",\n\t\t\t\t\"key\": 0,\n\t\t\t\t\"active\": true\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"path\": \"/Users/nick/Documents/slask/src/server/test/fixtures2/\",\n\t\t\t\t\"name\": \"Test Fixture 2\",\n\t\t\t\t\"key\": 1,\n\t\t\t\t\"active\": false\n\t\t\t}\n\t\t]\n\t}"
+			},
+			"parameters": [
+				{
+					"name": "",
+					"value": "",
+					"id": "pair_346669f20894473d9469d991b8a45179"
+				}
+			],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json",
+					"id": "pair_26041a7855b541fe8ef44884d555cf7e"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1489273578092,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_f8774df0dcf24ee491b8ca30aa693018",
+			"parentId": "fld_bc44273572da4bdd8f7c46d99f867363",
+			"modified": 1493100534661,
+			"created": 1489351888091,
+			"url": "{{host}}/api/file?key=0",
+			"name": "Get loglines",
+			"method": "GET",
+			"body": {
+				"text": ""
+			},
+			"parameters": [
+				{
+					"name": "pagesize",
+					"value": "230",
+					"id": "pair_0f8d07aac6ce46d5a780b41e723c224f"
+				},
+				{
+					"name": "level",
+					"value": "",
+					"id": "pair_8216b05c8e794c4888be906f05aa24dc"
+				}
+			],
+			"headers": [],
+			"authentication": {},
+			"metaSortKey": -1489273578092,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_cafdc63b70d446c1b99f1ad88d1a6f49",
+			"parentId": "fld_f4b5124a839d43ab94e42891ad2d0e38",
+			"modified": 1493100540541,
+			"created": 1492929725738,
+			"url": "{{host}}/api/directory",
+			"name": "Set directory",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"key\": 1\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json",
+					"id": "pair_9c54667fe7a645e88a08dc58bad10ded"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1489273578017,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_e1388e0fcd424ec7ae5747c0e965e7a3",
+			"parentId": "fld_e71e34a833fc4703b0a4ed027b2d8873",
+			"modified": 1493100555795,
+			"created": 1493005720055,
+			"url": "{{host}}/api/directories",
+			"name": "Add a directory",
+			"method": "PUT",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"name\": \"HEHE my logs\",\n\t\"path\": \"/var/logfdfsgsdfgf\"\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json",
+					"id": "pair_831fd01735b2425c86fd026bcd439b20"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1489273577967,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_37476dafaa6742b7b45d9a8620973776",
+			"parentId": "fld_e71e34a833fc4703b0a4ed027b2d8873",
+			"modified": 1493100545605,
+			"created": 1493100030261,
+			"url": "{{host}}/api/directories",
+			"name": "Remove Directory",
+			"method": "DELETE",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"key\": 3\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json",
+					"id": "pair_9754560527534cb9b6bc660b46af9250"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1489273577917,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_adfd4121f64149b0ae058ed4dac6d003",
+			"parentId": "fld_e71e34a833fc4703b0a4ed027b2d8873",
+			"modified": 1493100549953,
+			"created": 1493100204050,
+			"url": "{{host}}/api/directories",
+			"name": "Get directories",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {},
+			"metaSortKey": -1489273577942,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_4fc10add0e9549fc8da0e0d4d7722f10",
+			"parentId": "fld_e71e34a833fc4703b0a4ed027b2d8873",
+			"modified": 1493100552971,
+			"created": 1493100251331,
+			"url": "{{host}}/api/directories",
+			"name": "Modify a directory",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"name\": \"HEHE my logs\",\n\t\"path\": \"/var/logfdfsgsdfgf\",\n\t\"key\": 2\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json",
+					"id": "pair_831fd01735b2425c86fd026bcd439b20"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1489273577954.5,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		}
+	]
+}
