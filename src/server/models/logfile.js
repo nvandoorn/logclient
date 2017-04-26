@@ -24,7 +24,7 @@ function parseLine (datetimePattern, levelPattern, timeFormatter) {
         datetime: dateObj.getTime(),
         datetimeStr: dateFormat(dateObj, timeFormatter, true) // Added true for UTC time
       })
-    } catch (err){
+    } catch (err) {
       callback(err)
     }
   }

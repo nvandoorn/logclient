@@ -1,19 +1,12 @@
 'use strict'
 
-const express = require('express')
-const router = express.Router()
 const path = require('path')
 
 const constants = require('../../constants')
-const buildRes = require('../helpers/build-res')
-
 const Config = require('../models/config')
 const Directory = require('../models/directory')
 
 const CONFIG_PATH = path.join(__dirname, '../../../config.json')
-const CONFIG_ROUTE = '/config'
-const FILE_ROUTE = '/file'
-const DIR_ROUTE = '/directory'
 
 const normalizeReq = req => ({
   key: parseInt(req.query.key),
@@ -52,5 +45,3 @@ module.exports = function () {
     }
   }
 }
-
-

@@ -11,9 +11,9 @@ const notReadyReply = dir => buildRes(false, `Directory ${dir} is not ready yet`
 
 const Directory = {
   readDir (dirPath) {
-    try{
+    try {
       this.logfiles = null
-      if(dirPath) this.dirPath = dirPath
+      if (dirPath) this.dirPath = dirPath
       fs.readdir(this.dirPath, (err, list) => {
         if (err) throw err
         // filter out dotfiles
