@@ -20,7 +20,7 @@
     "dev-debug": "node debug scripts/dev.js",
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "standard && ./node_modules/jest/bin/jest.js --env=jsdom --forceExit=true --coverage"
+    "test": "standard && ./node_modules/jest/bin/jest.js --env=jsdom --forceExit=true"
   },
   "dependencies": {
     "async": "^2.1.2",
@@ -67,8 +67,9 @@
     "heap": "^0.2.6",
     "html-webpack-plugin": "2.24.0",
     "http-proxy-middleware": "0.17.3",
-    "jest": "18.1.0",
+    "jest": "^19.0.2",
     "json-loader": "0.5.4",
+    "json-subset": "^1.0.2",
     "lodash": "^4.17.4",
     "morgan": "~1.7.0",
     "object-assign": "4.1.1",
