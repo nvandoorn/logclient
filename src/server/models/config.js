@@ -25,9 +25,9 @@ const Config = {
     return toReturn
   },
   set (config) {
-    this.blob = config
+    _.merge(this.blob, config)
     const success = this.save()
-    return buildRes(success, `Config set: ${success}`, config)
+    return buildRes(success, `Config set: ${success}`, this.config)
   },
   save () {
     try {

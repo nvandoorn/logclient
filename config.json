@@ -3,7 +3,7 @@
   "levelPattern": "\\[([\\w\\s]+|\\w+)\\]:\\s",
   "timeFormatter": "h:MM:ss",
   "inputTimezone": 0,
-  "outputTimezone": 8,
+  "outputTimezone": 9,
   "directories": [
     {
       "path": "/Users/nick/Documents/slask/src/server/test/fixtures1/",
