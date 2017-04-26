@@ -29,9 +29,7 @@ A simple web based client to view and filter logs. This project was originally i
 **Note**: Running or building the client lints with babel-eslint
 
 ## Client Side
-Implemented using React and Webpack. This implementation still has a long way to go, but attached is a screenshot of the front-end to date.
-
-![slask front-end](/images/front-end.png "slask front-end")
+Implemented in React and bundled with Webpack.
 
 ### Sketch Mockups (work in progress)
 
