@@ -4,6 +4,8 @@
 
 [Live Demo](http://slaskdemo.herokuapp.com/)
 
+![slask demo](/images/slask-demo.gif "slask demo")
+
 A simple web based client to view and filter logs. This project was originally implemented using server side view rendering and hacked together XHR requests to update the front-end in real time. Currently transitioning to a React based front-end with a RESTful API.
 
 ## TODO
