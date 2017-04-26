@@ -42,13 +42,13 @@ const Config = {
     const dirExist = getDirObjectByPath(this.dirs, dirEntry)
     if (!dirExist) {
       let key
-      const lastDirEntry = dir.slice(-1)[0]
+      const lastDirEntry = this.dirs.slice(-1)[0]
       if (lastDirEntry) {
         key = lastDirEntry + 1
       } else {
         key = 0
       }
-      dir.push(Object.assign(dirEntry, {
+      this.dirs.push(Object.assign(dirEntry, {
         key: key,
         active: false
       }))
@@ -64,7 +64,7 @@ const Config = {
       toModify.name = dirEntry.name
       toModify.path = dirEntry.path
       this.save()
-      return buildRes(true, `Modified directory entry with key ${dirEntry.key}` )
+      return buildRes(true, `Modified directory entry with key ${dirEntry.key}`)
     } else return noDirEntryFound(dirEntry.key)
   },
   deleteDir (dirEntry) {
@@ -77,7 +77,7 @@ const Config = {
     } else return noDirEntryFound(dirEntry.key)
   },
   listDirs () {
-    return buildRes(true, 'Read directories from config',this.blob.directories)
+    return buildRes(true, 'Read directories from config', this.blob.directories)
   }
 }
 
