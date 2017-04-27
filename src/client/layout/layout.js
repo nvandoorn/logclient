@@ -4,7 +4,7 @@ import { Grid, Row, Col } from 'react-bootstrap'
 import Q from 'q'
 import Spinner from 'react-spinkit'
 import { merge } from 'lodash/fp'
-import { get as axiosGet, post, put } from 'axios' // eslint disable-line TODO remove this
+import { get as axiosGet, post, put } from 'axios' // eslint-disable-line
 
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import { container, spinner } from './layout.css'

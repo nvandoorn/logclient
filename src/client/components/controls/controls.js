@@ -14,7 +14,7 @@ const FieldGroup = ({onChange, id, label, help, ...props }) => // eslint-disable
     {help && <HelpBlock>{help}</HelpBlock>}
   </FormGroup>
 
-const getLevelSelect = levelEnum => Object.keys(levelEnum).map(k => ({ value: levelEnum[k], label:k }))
+const getLevelSelect = levelEnum => Object.keys(levelEnum).map(k => ({ value: levelEnum[k], label: k }))
 
 class Controls extends Component {
   constructor (props) {
