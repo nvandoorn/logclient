@@ -106,7 +106,7 @@ const Layout = createReactClass({
                 <Controls onChange={e => { this.query(e.id, e.value) }} values={this.params} />
               </div>
               <div className={container}>
-                <Sidebar logfiles={this.state.files} onClick={e => { this.query('key', e); console.log(e) }} />
+                <Sidebar logfiles={this.state.files} onClick={e => { this.query('key', e) }} />
               </div>
             </Col>
             <Col sm={9}>

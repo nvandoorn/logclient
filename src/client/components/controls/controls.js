@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
 import { FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap'
+import Select from 'react-select'
+
+import { levels } from '../../../constants'
 
 import { input } from './controls.css'
+import '../../../../node_modules/react-select/dist/react-select.css'
 
 const FieldGroup = ({onChange, id, label, help, ...props }) => // eslint-disable-line
   <FormGroup controlId={id}>
@@ -9,6 +13,8 @@ const FieldGroup = ({onChange, id, label, help, ...props }) => // eslint-disable
     <FormControl {...props} onChange={onChange} className={input} />
     {help && <HelpBlock>{help}</HelpBlock>}
   </FormGroup>
+
+const getLevelSelect = levelEnum => Object.keys(levelEnum).map(k => ({ value: levelEnum[k], label:k }))
 
 class Controls extends Component {
   constructor (props) {
@@ -24,6 +30,7 @@ class Controls extends Component {
     const values = this.props.values
     return (
       <div>
+        <Select className={input} options={getLevelSelect(levels)} onChange={e => { this.handleChange({ target: { id: 'level', value: e.value } }) }} />
         <FieldGroup
           onChange={this.handleChange}
           id='pagesize'
