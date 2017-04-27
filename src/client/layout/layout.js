@@ -4,7 +4,7 @@ import { Grid, Row, Col } from 'react-bootstrap'
 import Q from 'q'
 import Spinner from 'react-spinkit'
 import { merge } from 'lodash/fp'
-import { get } from '../helpers/http'
+import { get as axiosGet, post, put } from 'axios' // eslint disable-line TODO remove this
 
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import { container, spinner } from './layout.css'
@@ -13,6 +13,8 @@ import Loglines from '../components/loglines/loglines'
 import Controls from '../components/controls/controls'
 import Sidebar from '../components/sidebar/sidebar'
 import Config from '../components/config/config'
+
+const get = (route, params) => axiosGet(route, { params: params })
 
 // TODO better way to determine API url
 const HOST = process.env.NODE_ENV === 'production' ? window.location.host : `${window.location.hostname}:4000`
@@ -30,7 +32,7 @@ const defaultState = {
 }
 
 const defaultParams = {
-  logfile: '',
+  key: 0,
   page: 1,
   pagesize: '',
   startdt: '',
@@ -76,8 +78,8 @@ const Layout = createReactClass({
     this.setState({ loading: true })
     return new Promise((resolve, reject) => {
       get(route, params).then(resp => {
-        if (resp.success) {
-          this.setState({ [stateKey]: resp.data, loading: false })
+        if (resp.data.success) {
+          this.setState({ [stateKey]: resp.data.data, loading: false })
           resolve(resp)
         } else {
           this.setState({ loading: false })
@@ -100,11 +102,11 @@ const Layout = createReactClass({
           <Row>
             <Col sm={3}>
               <div className={container}>
-                <Config folders={this.state.config.folders} show={!this.state.config.folders.length} />
+                <Config folders={this.state.config.directories} show={!this.state.config.directories} />
                 <Controls onChange={e => { this.query(e.id, e.value) }} values={this.params} />
               </div>
               <div className={container}>
-                <Sidebar logfiles={this.state.files} onClick={e => { this.query('logfile', e) }} />
+                <Sidebar logfiles={this.state.files} onClick={e => { this.query('key', e); console.log(e) }} />
               </div>
             </Col>
             <Col sm={9}>
