@@ -1,4 +1,6 @@
-exports[`test should render correctly 1`] = `
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly 1`] = `
 <ul
   className={
     Object {
@@ -6,14 +8,16 @@ exports[`test should render correctly 1`] = `
       "margin": 0,
       "padding": 0,
     }
-  }>
+  }
+>
   <li
     className={
       Object {
         "display": "block",
         "margin": "0 0 20px 0",
       }
-    }>
+    }
+  >
     <div
       className={
         Object {
@@ -21,9 +25,11 @@ exports[`test should render correctly 1`] = `
           "font-size": "14px",
           "margin-right": "20px",
         }
-      }>
+      }
+    >
       <div
-        className="datetime">
+        className="datetime"
+      >
         6:50:40
       </div>
       <div
@@ -32,7 +38,8 @@ exports[`test should render correctly 1`] = `
             "color": "#58B3FC",
             "font-weight": 0,
           }
-        }>
+        }
+      >
         info
       </div>
     </div>
@@ -42,8 +49,9 @@ exports[`test should render correctly 1`] = `
           "display": "inline-block",
           "vertical-align": "top",
         }
-      }>
-      You must be pretty desperate if you\'re looking at the logs
+      }
+    >
+      You must be pretty desperate if you're looking at the logs
     </div>
   </li>
 </ul>
