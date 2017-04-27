@@ -17,5 +17,5 @@ apiRouter.route(ROUTES.DIRECTORY).get(api.listActiveDir).post(api.setActiveDir)
 apiRouter.route(ROUTES.FILE).get(api.queryActiveFile)
 apiRouter.route(ROUTES.DIRECTORIES).get(api.listDirs).put(api.addDir).post(api.modifyDir).delete(api.deleteDir)
 
-module.exports.api = apiRouter
+exports.api = apiRouter
 exports.routes = ROUTES
