@@ -31,16 +31,8 @@ const defaultState = {
   loading: false
 }
 
-const defaultParams = {
-  key: 0,
-  page: 1,
-  pagesize: '',
-  startdt: '',
-  enddt: ''
-}
-
 const Layout = createReactClass({
-  params: defaultParams,
+  params: { key: 0 },
   getInitialState: () => defaultState,
 
   componentWillMount () {
