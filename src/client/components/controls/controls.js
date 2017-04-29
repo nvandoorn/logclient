@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap'
-import Select from 'react-select'
 
 import { levels } from '../../../constants'
 
@@ -30,7 +29,12 @@ class Controls extends Component {
     const values = this.props.values
     return (
       <div>
-        <Select className={input} options={getLevelSelect(levels)} onChange={e => { this.handleChange({ target: { id: 'level', value: e.value } }) }} />
+        <FormGroup>
+          <ControlLabel style={{display: 'block'}}>Level</ControlLabel>
+          <select id='level' onChange={this.handleChange} className={input} >
+            { getLevelSelect(levels).map(k => <option value={k.value}>{k.label}</option>) }
+          </select>
+        </FormGroup>
         <FieldGroup
           onChange={this.handleChange}
           id='pagesize'
