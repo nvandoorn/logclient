@@ -17,7 +17,7 @@ const BASE_ROUTE = `http://localhost:${TEST_PORT}/api`
 const CONFIG_ROUTE = BASE_ROUTE + ROUTES.CONFIG
 
 describe('REST API', function () {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20 * 1000  // eslint-disable-line
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 60 * 1000  // eslint-disable-line
   const server = createServer(TEST_PORT) // eslint-disable-line
   describe('#config()', function () {
     const config = {
