@@ -31,7 +31,7 @@ module.exports = function () {
   dir.readDir()
 
   return {
-    readConfig: (req, res) => res.json(config.read()),
+    readConfig: (req, res) => res.json(config.getBaseBlob()),
     setConfig: (req, res) => res.json(config.set(req.body)),
     listDirs: (req, res) => res.json(config.listDirs()),
     addDir: (req, res) => res.json(config.addDir(req.body)),

@@ -17,11 +17,5 @@
       "key": 1,
       "active": false
     }
-  ],
-  "folders": [
-    {
-      "name": "Test Fixture",
-      "directory": "/Users/nick/Documents/slask/src/server/test/fixtures"
-    }
   ]
 }

@@ -24,6 +24,13 @@ const Config = {
     }
     return toReturn
   },
+  getBaseBlob () {
+    if (this.blob) {
+      const noConfigBlob = Object.assign({}, this.blob)
+      delete noConfigBlob.directories
+      return buildRes(true, 'Read config', noConfigBlob)
+    } else return buildRes(false, 'No config blob', {})
+  },
   set (config) {
     _.merge(this.blob, config)
     const success = this.save()
