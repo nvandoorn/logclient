@@ -9,13 +9,12 @@ const get = (route, params) => axios.get(route, { params: params })
 const post = axios.post
 
 const constants = require('../../constants')
-const ROUTES = require('../routes').routes
+const getJoinedRoutes = require('../../helpers').getJoinedRoutes
 const createServer = require('../../../scripts/server')
 
 const TEST_PORT = 5000
 const BASE_ROUTE = `http://localhost:${TEST_PORT}/api`
-let JOINED_ROUTES = {}
-Object.keys(ROUTES).forEach(k => { JOINED_ROUTES[k] = BASE_ROUTE + ROUTES[k] }) // TODO make accessible
+const joinedRoutes = getJoinedRoutes(BASE_ROUTE)
 
 describe('REST API', function () {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 60 * 1000  // eslint-disable-line
@@ -27,12 +26,12 @@ describe('REST API', function () {
       timeFormatter: constants.defaultTimeFormatter
     }
     it('should successfully set the config', function () {
-      return post(JOINED_ROUTES.CONFIG, config).then(resp => {
+      return post(joinedRoutes.config, config).then(resp => {
         assert(resp.data.success, 'should return success')
       })
     })
     it('should successfully get a superset of the same config', function () {
-      return get(JOINED_ROUTES.CONFIG).then(body => {
+      return get(joinedRoutes.config).then(body => {
         assert(body.data.success, 'failed to get config')
         assert(subset(config, body.data.data), 'config is not a superset')
       })
@@ -40,7 +39,7 @@ describe('REST API', function () {
   })
   describe('#directories', function () {
     it('should get a list of files', function () {
-      return get(JOINED_ROUTES.DIRECTORIES).then(body => {
+      return get(joinedRoutes.directories).then(body => {
         assert(body.data.success, 'failed to get directory listing')
       })
     })
