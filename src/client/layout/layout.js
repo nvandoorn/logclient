@@ -13,7 +13,7 @@ import { container, spinner } from './layout.css'
 import Loglines from '../components/loglines/loglines'
 import Controls from '../components/controls/controls'
 import Sidebar from '../components/sidebar/sidebar'
-import Config from '../components/config/config'
+import Config from '../components/config/config' // eslint-disable-line
 
 const get = (route, params) => axiosGet(route, { params: params })
 
@@ -58,7 +58,7 @@ const Layout = createReactClass({
   },
 
   updateDirectory () {
-    return this.updateState(joinedRoutes.directories, 'files', {})
+    return this.updateState(joinedRoutes.directory, 'files', {})
   },
 
   updateConfig () {
@@ -93,7 +93,6 @@ const Layout = createReactClass({
           <Row>
             <Col sm={3}>
               <div className={container}>
-                <Config folders={this.state.config.directories} show={!this.state.config.directories} />
                 <Controls onChange={e => { this.query(e.id, e.value) }} values={this.params} />
               </div>
               <div className={container}>
