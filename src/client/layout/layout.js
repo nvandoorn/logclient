@@ -5,6 +5,7 @@ import Q from 'q'
 import Spinner from 'react-spinkit'
 import { merge } from 'lodash/fp'
 import { get as axiosGet, post, put } from 'axios' // eslint-disable-line
+import { getJoinedRoutes } from '../../helpers'
 
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import { container, spinner } from './layout.css'
@@ -12,16 +13,14 @@ import { container, spinner } from './layout.css'
 import Loglines from '../components/loglines/loglines'
 import Controls from '../components/controls/controls'
 import Sidebar from '../components/sidebar/sidebar'
-import Config from '../components/config/config'
+import Config from '../components/config/config' // eslint-disable-line
 
 const get = (route, params) => axiosGet(route, { params: params })
 
 // TODO better way to determine API url
 const HOST = process.env.NODE_ENV === 'production' ? window.location.host : `${window.location.hostname}:4000`
-const BASE_URL = `//${HOST}/api/`
-const FILE_URL = `${BASE_URL}file`
-const DIR_URL = `${BASE_URL}directory`
-const CONFIG_URL = `${BASE_URL}config`
+const BASE_URL = `//${HOST}/api`
+const joinedRoutes = getJoinedRoutes(BASE_URL)
 
 const defaultState = {
   loglines: [],
@@ -55,15 +54,15 @@ const Layout = createReactClass({
   },
 
   updateLoglines (params) {
-    return this.updateState(FILE_URL, 'loglines', params)
+    return this.updateState(joinedRoutes.file, 'loglines', params)
   },
 
   updateDirectory () {
-    return this.updateState(DIR_URL, 'files', {})
+    return this.updateState(joinedRoutes.directory, 'files', {})
   },
 
   updateConfig () {
-    return this.updateState(CONFIG_URL, 'config', {})
+    return this.updateState(joinedRoutes.config, 'config', {})
   },
 
   updateState (route, stateKey, params) {
@@ -94,7 +93,6 @@ const Layout = createReactClass({
           <Row>
             <Col sm={3}>
               <div className={container}>
-                <Config folders={this.state.config.directories} show={!this.state.config.directories} />
                 <Controls onChange={e => { this.query(e.id, e.value) }} values={this.params} />
               </div>
               <div className={container}>

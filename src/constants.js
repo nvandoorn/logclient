@@ -1,10 +1,12 @@
 'use strict'
 
-/**
- *  Enum for log levels
- *
- * @type {{ERROR: number, WARN: number, INFO: number, VERBOSE: number, DEBUG: number}}
- */
+exports.routes = {
+  config: '/config',
+  directory: '/directory',
+  file: '/file',
+  directories: '/directories'
+}
+
 exports.levels = {
   error: 0,
   warn: 1,

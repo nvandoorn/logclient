@@ -4,7 +4,6 @@ import { FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap
 import { levels } from '../../../constants'
 
 import { input } from './controls.css'
-import '../../../../node_modules/react-select/dist/react-select.css'
 
 const FieldGroup = ({onChange, id, label, help, ...props }) => // eslint-disable-line
   <FormGroup controlId={id}>

@@ -4,18 +4,12 @@ const express = require('express')
 const apiRouter = express.Router()
 
 const api = require('./controllers/api')()
+const routes = require('../constants').routes
 
-const ROUTES = {
-  CONFIG: '/config',
-  DIRECTORY: '/directory',
-  FILE: '/file',
-  DIRECTORIES: '/directories'
-}
-
-apiRouter.route(ROUTES.CONFIG).get(api.readConfig).post(api.setConfig)
-apiRouter.route(ROUTES.DIRECTORY).get(api.listActiveDir).post(api.setActiveDir)
-apiRouter.route(ROUTES.FILE).get(api.queryActiveFile)
-apiRouter.route(ROUTES.DIRECTORIES).get(api.listDirs).put(api.addDir).post(api.modifyDir).delete(api.deleteDir)
+apiRouter.route(routes.config).get(api.readConfig).post(api.setConfig)
+apiRouter.route(routes.directory).get(api.listActiveDir).post(api.setActiveDir)
+apiRouter.route(routes.file).get(api.queryActiveFile)
+apiRouter.route(routes.directories).get(api.listDirs).put(api.addDir).post(api.modifyDir).delete(api.deleteDir)
 
 exports.api = apiRouter
-exports.routes = ROUTES
+exports.routes = routes

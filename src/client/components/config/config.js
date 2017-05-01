@@ -3,7 +3,7 @@ import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
 
 import Modal from '../modal/modal'
 
-const ConfigFolder = ({name, directory}) =>
+const ConfigDir = ({name, path}) =>
   <form>
     <FormGroup>
       <ControlLabel>Log Folder Name</ControlLabel>
@@ -17,7 +17,7 @@ const ConfigFolder = ({name, directory}) =>
       <ControlLabel>Log Folder Path</ControlLabel>
       <FormControl
         type='text'
-        value={directory || ''}
+        value={path || ''}
         placeholder='/var/log/'
       />
     </FormGroup>
@@ -25,10 +25,11 @@ const ConfigFolder = ({name, directory}) =>
 
 class Config extends Component {
   render () {
+    console.log(this.props)
     return (
       <div>
         <Modal show={this.props.show}>
-          {this.props.folders.map(folder => <ConfigFolder {...folder} key={folder.directory} />)}
+          {this.props.directories.map(dir => <ConfigDir {...dir} key={dir.path} />)}
         </Modal>
       </div>
     )
