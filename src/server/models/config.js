@@ -51,7 +51,7 @@ const Config = {
       let key
       const lastDirEntry = this.dirs.slice(-1)[0]
       if (lastDirEntry) {
-        key = lastDirEntry + 1
+        key = lastDirEntry.key + 1
       } else {
         key = 0
       }
