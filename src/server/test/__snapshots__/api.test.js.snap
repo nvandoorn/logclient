@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`REST API #directories should get a list of directories 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "active": true,
+      "key": 0,
+      "name": "Test Fixture 1",
+      "path": "./src/server/test/fixtures/somelogs",
+    },
+    Object {
+      "active": false,
+      "key": 1,
+      "name": "Test Fixture 2",
+      "path": "./src/server/test/fixtures/someotherlogs",
+    },
+    Object {
+      "active": false,
+      "key": 2,
+      "name": "Test Fixture 3",
+      "path": "./src/server/test/fixtures/somemorelogs",
+    },
+  ],
+  "msg": "Read directories from config",
+  "success": true,
+}
+`;
