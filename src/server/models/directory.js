@@ -16,8 +16,8 @@ const Directory = {
       if (dirPath) this.dirPath = dirPath
       fs.readdir(this.dirPath, (err, list) => {
         if (err) throw err
-        // filter out dotfiles
-        const dirList = list.filter(k => k[0] !== '.').sort() // sort files alphabetitcally
+        // filter out dotfiles and sort alphabetitcally
+        const dirList = list.filter(k => k[0] !== '.').sort()
         this.filelist = dirList.map((name, i) => ({
           name: name,
           key: i,
