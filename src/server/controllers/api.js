@@ -24,7 +24,7 @@ module.exports = function () {
   }, Config)
   config.read()
 
-  let dir = Object.assign({
+  const dir = Object.assign({
     dirPath: config.blob.directories.find(k => k.active).path,
     config: config.blob
   }, Directory)
