@@ -15,11 +15,21 @@ const TEST_PORT = 5000
 const BASE_ROUTE = `http://localhost:${TEST_PORT}/api`
 const joinedRoutes = getJoinedRoutes(BASE_ROUTE)
 
+// TODO move to helpers
+// Abstract the route and API status
 const apiCalls = route => ({
-  get: params => axios.get(route, { params: params }),
-  put: body => axios.put(route, body),
-  post: body => axios.post(route, body),
-  del: body => axios.delete(route, { data: body })
+  get: params => wrapReq(axios.get(route, { params: params })),
+  put: body => wrapReq(axios.put(route, body)),
+  post: body => wrapReq(axios.post(route, body)),
+  del: body => wrapReq(axios.delete(route, { data: body }))
+})
+
+// Each API call asserts success as returned from backend
+const wrapReq = req => new Promise((resolve, reject) => {
+  return req.then(resp => {
+    assert(resp.data.success, `serer returned failure: ${resp.data.msg}`)
+    resolve(resp.data)
+  }).catch(err => reject(err))
 })
 
 describe('REST API', function () {
@@ -34,23 +44,16 @@ describe('REST API', function () {
       timeFormatter: constants.defaultTimeFormatter
     }
     it('should successfully set the config', function () {
-      return config.post(configBlob).then(resp => {
-        assert(resp.data.success, 'should return success')
-      })
-    })
-    it('should successfully get a superset of the same config', function () {
-      return config.get().then(resp => {
-        assert(resp.data.success, 'failed to get config')
-        assert(subset(configBlob, resp.data.data), 'config is not a superset')
-      })
+      return Q.fcall(() => config.post(configBlob))
+      .then(() => config.get())
+      .then(resp => assert(subset(configBlob, resp.data, 'config receieved is not a superset')))
     })
   })
 
   describe('#directories', function () {
-    const dir = apiCalls(joinedRoutes.directories)
+    const dirs = apiCalls(joinedRoutes.directories)
     it('should get a list of directories', function () {
-      return dir.get().then(resp => {
-        assert(resp.data.success, 'failed to get directory listing')
+      return dirs.get().then(resp => {
         expect(resp.data).toMatchSnapshot()
       })
     })
@@ -60,40 +63,64 @@ describe('REST API', function () {
         name: 'Test Fixture 3'
       }
       const find = k => k.path === dirBlob.path && k.name === dirBlob.name
-      return Q.fcall(() => dir.put(dirBlob))
-      .then(resp => assert(resp.data.success, 'failed to add directory'))
-      .then(dir.get)
-      .then(resp => assert(resp.data.data.some(find), `New entry not found for path ${dir.path}`))
+      return Q.fcall(() => dirs.put(dirBlob))
+      .then(() => dirs.get())
+      .then(resp => assert(resp.data.some(find), `New entry not found for path ${dirs.path}`))
     })
     it('should modify a directory', function () {
       const newName = 'Some new name'
-      return Q.fcall(() => dir.get())
+      return Q.fcall(dirs.get)
       .then(resp => new Promise((resolve, reject) => {
-        resolve(resp.data.data.slice(-1)[0])
+        dirs.get().then(resp => {
+          resolve(resp.data.slice(-1)[0])
+        })
       }))
-      .then(oldEntry => dir.post({ key: oldEntry.key, name: newName }))
-      .then(resp => assert(resp.data.success, 'failed to modify directory'))
-      .then(dir.get)
-      .then(resp => assert(resp.data.data.some(k => k.name === newName), 'did not find new name'))
+      .then(oldEntry => dirs.post({ key: oldEntry.key, name: newName }))
+      .then(() => dirs.get())
+      .then(resp => assert(resp.data.some(k => k.name === newName), 'did not find new name'))
     })
     it('should delete a directory', function () {
-      return Q.fcall(dir.get)
+      return Q.fcall(() => dirs.get())
       .then(resp => new Promise(resolve => {
-        assert(resp.data.success, 'failed to list directory')
-        const delKey = resp.data.data.slice(-1)[0].key
-        return dir.del({ key: delKey }).then(resp => {
-          assert(resp.data.success, 'failed to delete directory')
+        const delKey = resp.data.slice(-1)[0].key
+        return dirs.del({ key: delKey }).then(resp => {
           resolve(delKey)
         })
       }))
       .then(delKey => new Promise(resolve => {
-        dir.get().then(resp => resolve({ resp: resp, delKey: delKey }))
+        dirs.get().then(resp => resolve({ resp: resp, delKey: delKey }))
       }))
       .then(blob => {
-        assert(blob.resp.data.success, 'failed to list directory')
-        assert(!blob.resp.data.data.some(k => k.key === blob.delKey),
-                          `Did not delete directory with key ${blob.delkey}`)
+        assert(!blob.resp.data.some(k => k.key === blob.delKey),
+                          `did not delete directory with key ${blob.delkey}`)
       })
     })
   })
+
+  describe('#directory', function () {
+    const dir = apiCalls(joinedRoutes.directory)
+    const dirs = apiCalls(joinedRoutes.directories)
+    let key = 0
+
+    it('should get a list of files and match snapshot', function () {
+      return dir.get().then(resp => expect(resp.data).toMatchSnapshot())
+    })
+    it('should scan a new directory and match snapshot', function () {
+      return Q.fcall(dirs.get)
+      .then(resp => {
+        const newDirKey = resp.data.find(k => !k.active).key
+        key = resp.data.find(k => k.active).key || key
+        return dir.post({ key: newDirKey })
+      })
+      .then(() => dir.get())
+      .then(resp => expect(resp.data).toMatchSnapshot())
+    })
+    it('should scan the previous directory and match snapshot', function () {
+      return Q.fcall(() => dir.post({ key: key }))
+      .then(() => dir.get())
+      .then(resp => expect(resp.data).toMatchSnapshot())
+    })
+  })
+
+  // TODO test /file endpoint
 })

@@ -1,22 +1,118 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`REST API #directories should get a list of directories 1`] = `
-Object {
-  "data": Array [
-    Object {
-      "active": true,
-      "key": 0,
-      "name": "Test Fixture 1",
-      "path": "./src/server/test/fixtures/somelogs",
-    },
-    Object {
-      "active": false,
-      "key": 1,
-      "name": "Text Fixture 2",
-      "path": "./src/server/test/fixtures/someotherlogs",
-    },
-  ],
-  "msg": "Read directories from config",
-  "success": true,
-}
+Array [
+  Object {
+    "active": true,
+    "key": 0,
+    "name": "Test Fixture 1",
+    "path": "./src/server/test/fixtures/somelogs",
+  },
+  Object {
+    "active": false,
+    "key": 1,
+    "name": "Text Fixture 2",
+    "path": "./src/server/test/fixtures/someotherlogs",
+  },
+]
+`;
+
+exports[`REST API #directory should get a list of files and match snapshot 1`] = `
+Array [
+  Object {
+    "key": 0,
+    "name": "log-fixture-1.log",
+    "path": "src/server/test/fixtures/somelogs/log-fixture-1.log",
+  },
+  Object {
+    "key": 1,
+    "name": "log-fixture-2.log",
+    "path": "src/server/test/fixtures/somelogs/log-fixture-2.log",
+  },
+  Object {
+    "key": 2,
+    "name": "log-fixture-3.log",
+    "path": "src/server/test/fixtures/somelogs/log-fixture-3.log",
+  },
+  Object {
+    "key": 3,
+    "name": "log-fixture-4.log",
+    "path": "src/server/test/fixtures/somelogs/log-fixture-4.log",
+  },
+  Object {
+    "key": 4,
+    "name": "log-fixture-5.log",
+    "path": "src/server/test/fixtures/somelogs/log-fixture-5.log",
+  },
+  Object {
+    "key": 5,
+    "name": "log-fixture-6.log",
+    "path": "src/server/test/fixtures/somelogs/log-fixture-6.log",
+  },
+]
+`;
+
+exports[`REST API #directory should scan a new directory and match snapshot 1`] = `
+Array [
+  Object {
+    "key": 0,
+    "name": "log-fixture-13.log",
+    "path": "src/server/test/fixtures/someotherlogs/log-fixture-13.log",
+  },
+  Object {
+    "key": 1,
+    "name": "log-fixture-14.log",
+    "path": "src/server/test/fixtures/someotherlogs/log-fixture-14.log",
+  },
+  Object {
+    "key": 2,
+    "name": "log-fixture-15.log",
+    "path": "src/server/test/fixtures/someotherlogs/log-fixture-15.log",
+  },
+  Object {
+    "key": 3,
+    "name": "log-fixture-16.log",
+    "path": "src/server/test/fixtures/someotherlogs/log-fixture-16.log",
+  },
+  Object {
+    "key": 4,
+    "name": "log-fixture-17.log",
+    "path": "src/server/test/fixtures/someotherlogs/log-fixture-17.log",
+  },
+]
+`;
+
+exports[`REST API #directory should scan the previous directory and match snapshot 1`] = `
+Array [
+  Object {
+    "key": 0,
+    "name": "log-fixture-1.log",
+    "path": "src/server/test/fixtures/somelogs/log-fixture-1.log",
+  },
+  Object {
+    "key": 1,
+    "name": "log-fixture-2.log",
+    "path": "src/server/test/fixtures/somelogs/log-fixture-2.log",
+  },
+  Object {
+    "key": 2,
+    "name": "log-fixture-3.log",
+    "path": "src/server/test/fixtures/somelogs/log-fixture-3.log",
+  },
+  Object {
+    "key": 3,
+    "name": "log-fixture-4.log",
+    "path": "src/server/test/fixtures/somelogs/log-fixture-4.log",
+  },
+  Object {
+    "key": 4,
+    "name": "log-fixture-5.log",
+    "path": "src/server/test/fixtures/somelogs/log-fixture-5.log",
+  },
+  Object {
+    "key": 5,
+    "name": "log-fixture-6.log",
+    "path": "src/server/test/fixtures/somelogs/log-fixture-6.log",
+  },
+]
 `;
