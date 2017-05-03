@@ -12,14 +12,8 @@ Object {
     Object {
       "active": false,
       "key": 1,
-      "name": "Test Fixture 2",
+      "name": "Text Fixture 2",
       "path": "./src/server/test/fixtures/someotherlogs",
-    },
-    Object {
-      "active": false,
-      "key": 2,
-      "name": "Test Fixture 3",
-      "path": "./src/server/test/fixtures/somemorelogs",
     },
   ],
   "msg": "Read directories from config",

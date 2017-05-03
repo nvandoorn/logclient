@@ -13,14 +13,8 @@
     },
     {
       "path": "./src/server/test/fixtures/someotherlogs",
-      "name": "Test Fixture 2",
+      "name": "Text Fixture 2",
       "key": 1,
-      "active": false
-    },
-    {
-      "path": "./src/server/test/fixtures/somemorelogs",
-      "name": "Test Fixture 3",
-      "key": 2,
       "active": false
     }
   ]
