@@ -15,7 +15,6 @@ const TEST_PORT = 5000
 const BASE_ROUTE = `http://localhost:${TEST_PORT}/api`
 const joinedRoutes = getJoinedRoutes(BASE_ROUTE)
 
-// TODO move to helpers
 // Abstract the route and API status
 const apiCalls = route => ({
   get: params => wrapReq(axios.get(route, { params: params })),
