@@ -40,7 +40,10 @@ module.exports = function () {
     queryActiveFile: (req, res) => res.json(dir.query(normalizeReq(req))),
     listActiveDir: (req, res) => res.json(dir.list()),
     setActiveDir: (req, res) => {
-      const dirPath = config.blob.directories.find(k => k.key === parseInt(req.body.key)).path
+      // TODO move this logic to the config object
+      const dirPath = config.blob.directories.find(k => k.key === req.body.key).path
+      config.modifyDir({ key: config.blob.directories.find(k => k.active).key, active: false })
+      config.modifyDir({ key: req.body.key, active: true })
       return res.json(dir.readDir(dirPath))
     }
   }
