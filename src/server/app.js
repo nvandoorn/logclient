@@ -9,7 +9,7 @@ const bodyParser = require('body-parser')
 const BUILD_PATH = path.join(__dirname, '..', '..', 'build')
 const INDEX_PATH = path.join(BUILD_PATH, 'index.html')
 const routes = require('./routes')
-const buildRes = require('../helpers/build-res')
+const buildRes = require('./helpers/build-res')
 
 const app = express()
 
