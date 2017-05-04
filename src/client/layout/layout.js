@@ -43,7 +43,7 @@ const Layout = createReactClass({
       this.setParams('logfile', resp.data[0])
     })
     .then(() => this.updateLoglines(this.params))
-    .done(() => { setTimeout(() => { this.setState({ ready: true } )}, LOAD_DELAY_MS) })
+    .done(() => { setTimeout(() => { this.setState({ ready: true }) }, LOAD_DELAY_MS) })
   },
 
   query (key, value) {
@@ -91,10 +91,10 @@ const Layout = createReactClass({
       <div>
         { !this.state.ready
         ? <div className={loadSplash}>
-            <div className={loadSplashItem}>
-              <Spinner spinnerName='rotating-plane' noFadeIn />
-            </div>
-          </div> : null }
+          <div className={loadSplashItem}>
+            <Spinner spinnerName='rotating-plane' noFadeIn />
+          </div>
+        </div> : null }
         { this.state.ready
         ? <Grid>
           <Row>

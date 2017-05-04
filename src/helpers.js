@@ -8,11 +8,11 @@ exports.getJoinedRoutes = baseRoute => {
   return joinedRoutes
 }
 
+const compressReq = req => new Promise((resolve, reject) => req.then(resp => resolve(resp.data)).catch(err => err))
+
 exports.apiCalls = (middleware = req => req) => route => ({
   get: params => middleware(compressReq(axios.get(route, { params: params }))),
   put: body => middleware(compressReq(axios.put(route, body))),
   post: body => middleware(compressReq(axios.post(route, body))),
   del: body => middleware(compressReq(axios.delete(route, { data: body })))
 })
-
-const compressReq = req => new Promise((resolve, reject) => req.then(resp => resolve(resp.data)).catch(err => err))

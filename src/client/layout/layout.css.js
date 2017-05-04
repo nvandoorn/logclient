@@ -13,10 +13,10 @@ export const spinner = {
 }
 
 export const loadSplash = {
-  height: '100vh',
+  height: '100vh', // TODO check support for vh
   display: 'flex',
   'align-items': 'center',
-  'justify-content': 'center',
+  'justify-content': 'center'
 }
 
 export const loadSplashItem = {
