@@ -4,10 +4,12 @@ import { Grid, Row, Col } from 'react-bootstrap'
 import Q from 'q'
 import Spinner from 'react-spinkit'
 import { merge } from 'lodash/fp'
+import InputMoment from 'input-moment' // eslint-disable-line
 import { get as axiosGet, post, put } from 'axios' // eslint-disable-line
 import { getJoinedRoutes } from '../../helpers'
 
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import '../../../node_modules/input-moment/dist/input-moment.css'
 import { container, spinner, loadSplash, loadSplashItem } from './layout.css'
 
 import Loglines from '../components/loglines/loglines'
@@ -35,7 +37,6 @@ const defaultState = {
 const Layout = createReactClass({
   params: { key: 0 },
   getInitialState: () => defaultState,
-
   componentWillMount () {
     Q.fcall(this.updateConfig)
     .then(this.updateDirectory)
@@ -45,28 +46,22 @@ const Layout = createReactClass({
     .then(() => this.updateLoglines(this.params))
     .done(() => { setTimeout(() => { this.setState({ ready: true }) }, LOAD_DELAY_MS) })
   },
-
   query (key, value) {
     this.updateLoglines(this.setParams(key, value))
   },
-
   setParams (key, value) {
     this.params = merge(this.params, { [key]: value })
     return this.params
   },
-
   updateLoglines (params) {
     return this.updateState(joinedRoutes.file, 'loglines', params)
   },
-
   updateDirectory () {
     return this.updateState(joinedRoutes.directory, 'files', {})
   },
-
   updateConfig () {
     return this.updateState(joinedRoutes.config, 'config', {})
   },
-
   updateState (route, stateKey, params) {
     this.setState({ loading: true })
     return new Promise((resolve, reject) => {
@@ -85,7 +80,6 @@ const Layout = createReactClass({
       })
     })
   },
-
   render () {
     return (
       <div>
