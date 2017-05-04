@@ -8,7 +8,7 @@ import { get as axiosGet, post, put } from 'axios' // eslint-disable-line
 import { getJoinedRoutes } from '../../helpers'
 
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css'
-import { container, spinner } from './layout.css'
+import { container, spinner, loadSplash, loadSplashItem } from './layout.css'
 
 import Loglines from '../components/loglines/loglines'
 import Controls from '../components/controls/controls'
@@ -16,6 +16,8 @@ import Sidebar from '../components/sidebar/sidebar'
 import Config from '../components/config/config' // eslint-disable-line
 
 const get = (route, params) => axiosGet(route, { params: params })
+
+const LOAD_DELAY_MS = 500
 
 // TODO better way to determine API url
 const HOST = process.env.NODE_ENV === 'production' ? window.location.host : `${window.location.hostname}:4000`
@@ -41,7 +43,7 @@ const Layout = createReactClass({
       this.setParams('logfile', resp.data[0])
     })
     .then(() => this.updateLoglines(this.params))
-    .done(() => { setTimeout(() => { this.setState({ ready: true }) }, 1000) })
+    .done(() => { setTimeout(() => { this.setState({ ready: true } )}, LOAD_DELAY_MS) })
   },
 
   query (key, value) {
@@ -87,7 +89,12 @@ const Layout = createReactClass({
   render () {
     return (
       <div>
-        { !this.state.ready ? <Spinner spinnerName='rotating-plane' noFadeIn /> : null }
+        { !this.state.ready
+        ? <div className={loadSplash}>
+            <div className={loadSplashItem}>
+              <Spinner spinnerName='rotating-plane' noFadeIn />
+            </div>
+          </div> : null }
         { this.state.ready
         ? <Grid>
           <Row>
