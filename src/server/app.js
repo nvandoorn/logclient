@@ -9,6 +9,7 @@ const bodyParser = require('body-parser')
 const BUILD_PATH = path.join(__dirname, '..', '..', 'build')
 const INDEX_PATH = path.join(BUILD_PATH, 'index.html')
 const routes = require('./routes')
+const buildRes = require('../helpers/build-res')
 
 const app = express()
 
@@ -40,16 +41,12 @@ app.use(function (req, res, next) {
 })
 
 // error handlers
-
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
   app.use(function (err, req, res) {
     res.status(err.status || 500)
-    res.json({
-      message: err.message,
-      error: err
-    })
+    res.json(buildRes(false, err.message, err))
   })
 }
 
@@ -57,10 +54,7 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function (err, req, res) {
   res.status(err.status || 500)
-  res.json({
-    message: err.message,
-    error: {}
-  })
+  res.json(buildRes(false, err.message, {}))
 })
 
 module.exports = app
