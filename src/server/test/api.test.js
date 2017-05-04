@@ -5,31 +5,23 @@ const assert = require('chai').assert
 const subset = require('json-subset')
 const Q = require('q')
 
-const axios = require('axios')
-
 const constants = require('../../constants')
-const getJoinedRoutes = require('../../helpers').getJoinedRoutes
+const helpers = require('../../helpers')
+const getJoinedRoutes = helpers.getJoinedRoutes
 const createServer = require('../../../scripts/server')
 
 const TEST_PORT = 5000
 const BASE_ROUTE = `http://localhost:${TEST_PORT}/api`
 const joinedRoutes = getJoinedRoutes(BASE_ROUTE)
 
-// Abstract the route and API status
-const apiCalls = route => ({
-  get: params => wrapReq(axios.get(route, { params: params })),
-  put: body => wrapReq(axios.put(route, body)),
-  post: body => wrapReq(axios.post(route, body)),
-  del: body => wrapReq(axios.delete(route, { data: body }))
-})
-
 // Each API call asserts success as returned from backend
 const wrapReq = req => new Promise((resolve, reject) => {
   return req.then(resp => {
-    assert(resp.data.success, `serer returned failure: ${resp.data.msg}`)
-    resolve(resp.data)
+    assert(resp.success, `server returned failure: ${resp.msg}`)
+    resolve(resp)
   }).catch(err => reject(err))
 })
+const apiCalls = helpers.apiCalls(wrapReq)
 
 describe('REST API', function () {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 60 * 1000  // eslint-disable-line
@@ -121,5 +113,7 @@ describe('REST API', function () {
     })
   })
 
-  // TODO test /file endpoint
+  // TODO implement
+  describe('#file', function () {
+  })
 })
