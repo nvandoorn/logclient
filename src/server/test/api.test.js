@@ -113,7 +113,10 @@ describe('REST API', function () {
     })
   })
 
-  // TODO implement
   describe('#file', function () {
+    const file = apiCalls(joinedRoutes.file)
+    it('should get a file and match snapshot', function () {
+      return file.get({ key: 0 }).then(resp => expect(resp.data).toMatchSnapshot())
+    })
   })
 })
