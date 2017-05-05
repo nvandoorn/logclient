@@ -48,13 +48,8 @@ const Config = {
   addDir (dirEntry) {
     const dirExist = getDirObjectByPath(this.dirs, dirEntry)
     if (!dirExist) {
-      let key
       const lastDirEntry = this.dirs.slice(-1)[0]
-      if (lastDirEntry) {
-        key = lastDirEntry + 1
-      } else {
-        key = 0
-      }
+      const key = lastDirEntry ? lastDirEntry.key + 1 : 0
       this.dirs.push(Object.assign(dirEntry, {
         key: key,
         active: false
@@ -68,8 +63,7 @@ const Config = {
   modifyDir (dirEntry) {
     const toModify = getDirObjectByKey(this.dirs, dirEntry)
     if (toModify) {
-      toModify.name = dirEntry.name
-      toModify.path = dirEntry.path
+      _.merge(toModify, dirEntry)
       this.save()
       return buildRes(true, `Modified directory entry with key ${dirEntry.key}`)
     } else return noDirEntryFound(dirEntry.key)

@@ -1,5 +1,3 @@
-'use strict'
-
 exports.routes = {
   config: '/config',
   directory: '/directory',

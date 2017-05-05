@@ -1,0 +1,263 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`REST API #directories should get a list of directories 1`] = `
+Array [
+  Object {
+    "active": true,
+    "key": 0,
+    "name": "Test Fixture 1",
+    "path": "./src/server/test/fixtures/somelogs",
+  },
+  Object {
+    "active": false,
+    "key": 1,
+    "name": "Text Fixture 2",
+    "path": "./src/server/test/fixtures/someotherlogs",
+  },
+]
+`;
+
+exports[`REST API #directory should get a list of files and match snapshot 1`] = `
+Array [
+  Object {
+    "key": 0,
+    "name": "log-fixture-1.log",
+    "path": "src/server/test/fixtures/somelogs/log-fixture-1.log",
+  },
+  Object {
+    "key": 1,
+    "name": "log-fixture-2.log",
+    "path": "src/server/test/fixtures/somelogs/log-fixture-2.log",
+  },
+  Object {
+    "key": 2,
+    "name": "log-fixture-3.log",
+    "path": "src/server/test/fixtures/somelogs/log-fixture-3.log",
+  },
+  Object {
+    "key": 3,
+    "name": "log-fixture-4.log",
+    "path": "src/server/test/fixtures/somelogs/log-fixture-4.log",
+  },
+  Object {
+    "key": 4,
+    "name": "log-fixture-5.log",
+    "path": "src/server/test/fixtures/somelogs/log-fixture-5.log",
+  },
+  Object {
+    "key": 5,
+    "name": "log-fixture-6.log",
+    "path": "src/server/test/fixtures/somelogs/log-fixture-6.log",
+  },
+]
+`;
+
+exports[`REST API #directory should scan a new directory and match snapshot 1`] = `
+Array [
+  Object {
+    "key": 0,
+    "name": "log-fixture-13.log",
+    "path": "src/server/test/fixtures/someotherlogs/log-fixture-13.log",
+  },
+  Object {
+    "key": 1,
+    "name": "log-fixture-14.log",
+    "path": "src/server/test/fixtures/someotherlogs/log-fixture-14.log",
+  },
+  Object {
+    "key": 2,
+    "name": "log-fixture-15.log",
+    "path": "src/server/test/fixtures/someotherlogs/log-fixture-15.log",
+  },
+  Object {
+    "key": 3,
+    "name": "log-fixture-16.log",
+    "path": "src/server/test/fixtures/someotherlogs/log-fixture-16.log",
+  },
+  Object {
+    "key": 4,
+    "name": "log-fixture-17.log",
+    "path": "src/server/test/fixtures/someotherlogs/log-fixture-17.log",
+  },
+]
+`;
+
+exports[`REST API #directory should scan the previous directory and match snapshot 1`] = `
+Array [
+  Object {
+    "key": 0,
+    "name": "log-fixture-1.log",
+    "path": "src/server/test/fixtures/somelogs/log-fixture-1.log",
+  },
+  Object {
+    "key": 1,
+    "name": "log-fixture-2.log",
+    "path": "src/server/test/fixtures/somelogs/log-fixture-2.log",
+  },
+  Object {
+    "key": 2,
+    "name": "log-fixture-3.log",
+    "path": "src/server/test/fixtures/somelogs/log-fixture-3.log",
+  },
+  Object {
+    "key": 3,
+    "name": "log-fixture-4.log",
+    "path": "src/server/test/fixtures/somelogs/log-fixture-4.log",
+  },
+  Object {
+    "key": 4,
+    "name": "log-fixture-5.log",
+    "path": "src/server/test/fixtures/somelogs/log-fixture-5.log",
+  },
+  Object {
+    "key": 5,
+    "name": "log-fixture-6.log",
+    "path": "src/server/test/fixtures/somelogs/log-fixture-6.log",
+  },
+]
+`;
+
+exports[`REST API #file should get a file and match snapshot 1`] = `
+Array [
+  Object {
+    "datetime": 1479856750000,
+    "datetimeStr": "11:19:10",
+    "level": 0,
+    "levelStr": "error",
+    "text": "Hello world",
+  },
+  Object {
+    "datetime": 1479856750000,
+    "datetimeStr": "11:19:10",
+    "level": 1,
+    "levelStr": "warn",
+    "text": "Lovely weather we're having",
+  },
+  Object {
+    "datetime": 1479856750000,
+    "datetimeStr": "11:19:10",
+    "level": 4,
+    "levelStr": "debug",
+    "text": "That's all for now folks",
+  },
+  Object {
+    "datetime": 1479856750000,
+    "datetimeStr": "11:19:10",
+    "level": 2,
+    "levelStr": "info",
+    "text": "You must be pretty desperate if you're looking at the logs",
+  },
+  Object {
+    "datetime": 1479856751000,
+    "datetimeStr": "11:19:11",
+    "level": 0,
+    "levelStr": "error",
+    "text": "Hello world",
+  },
+  Object {
+    "datetime": 1479856751000,
+    "datetimeStr": "11:19:11",
+    "level": 1,
+    "levelStr": "warn",
+    "text": "Lovely weather we're having",
+  },
+  Object {
+    "datetime": 1479856751000,
+    "datetimeStr": "11:19:11",
+    "level": 4,
+    "levelStr": "debug",
+    "text": "That's all for now folks",
+  },
+  Object {
+    "datetime": 1479856751000,
+    "datetimeStr": "11:19:11",
+    "level": 2,
+    "levelStr": "info",
+    "text": "You must be pretty desperate if you're looking at the logs",
+  },
+  Object {
+    "datetime": 1479856751000,
+    "datetimeStr": "11:19:11",
+    "level": 0,
+    "levelStr": "error",
+    "text": "Hello world",
+  },
+  Object {
+    "datetime": 1479856751000,
+    "datetimeStr": "11:19:11",
+    "level": 1,
+    "levelStr": "warn",
+    "text": "Lovely weather we're having",
+  },
+  Object {
+    "datetime": 1479856751000,
+    "datetimeStr": "11:19:11",
+    "level": 4,
+    "levelStr": "debug",
+    "text": "That's all for now folks",
+  },
+  Object {
+    "datetime": 1479856751000,
+    "datetimeStr": "11:19:11",
+    "level": 2,
+    "levelStr": "info",
+    "text": "You must be pretty desperate if you're looking at the logs",
+  },
+  Object {
+    "datetime": 1479856752000,
+    "datetimeStr": "11:19:12",
+    "level": 0,
+    "levelStr": "error",
+    "text": "Hello world",
+  },
+  Object {
+    "datetime": 1479856752000,
+    "datetimeStr": "11:19:12",
+    "level": 1,
+    "levelStr": "warn",
+    "text": "Lovely weather we're having",
+  },
+  Object {
+    "datetime": 1479856752000,
+    "datetimeStr": "11:19:12",
+    "level": 4,
+    "levelStr": "debug",
+    "text": "That's all for now folks",
+  },
+  Object {
+    "datetime": 1479856752000,
+    "datetimeStr": "11:19:12",
+    "level": 2,
+    "levelStr": "info",
+    "text": "You must be pretty desperate if you're looking at the logs",
+  },
+  Object {
+    "datetime": 1479856752000,
+    "datetimeStr": "11:19:12",
+    "level": 0,
+    "levelStr": "error",
+    "text": "Hello world",
+  },
+  Object {
+    "datetime": 1479856752000,
+    "datetimeStr": "11:19:12",
+    "level": 1,
+    "levelStr": "warn",
+    "text": "Lovely weather we're having",
+  },
+  Object {
+    "datetime": 1479856752000,
+    "datetimeStr": "11:19:12",
+    "level": 4,
+    "levelStr": "debug",
+    "text": "That's all for now folks",
+  },
+  Object {
+    "datetime": 1479856752000,
+    "datetimeStr": "11:19:12",
+    "level": 2,
+    "levelStr": "info",
+    "text": "You must be pretty desperate if you're looking at the logs",
+  },
+]
+`;

@@ -12,6 +12,18 @@ export const spinner = {
   float: 'right'
 }
 
+export const loadSplash = {
+  height: '100vh', // TODO check support for vh
+  display: 'flex',
+  'align-items': 'center',
+  'justify-content': 'center'
+}
+
+export const loadSplashItem = {
+  'max-width': '50%',
+  'flex': 0
+}
+
 export default {
   ':global(.sk-circle:before)': {
     background: '#FFFFFF'
