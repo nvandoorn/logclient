@@ -4,12 +4,10 @@ import { Grid, Row, Col } from 'react-bootstrap'
 import Q from 'q'
 import Spinner from 'react-spinkit'
 import { merge } from 'lodash/fp'
-import InputMoment from 'input-moment' // eslint-disable-line
 import { get as axiosGet, post, put } from 'axios' // eslint-disable-line
 import { getJoinedRoutes } from '../../helpers'
 
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css'
-import '../../../node_modules/input-moment/dist/input-moment.css'
 import { container, spinner, loadSplash, loadSplashItem } from './layout.css'
 
 import Loglines from '../components/loglines/loglines'
@@ -94,7 +92,7 @@ const Layout = createReactClass({
           <Row>
             <Col sm={3}>
               <div className={container}>
-                <Controls onChange={e => { this.query(e.id, e.value) }} values={this.params} />
+                <Controls onChange={e => { this.query(e.id, e.value) }} />
               </div>
               <div className={container}>
                 <Sidebar logfiles={this.state.files} onClick={e => { this.query('key', e) }} />
