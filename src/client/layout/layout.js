@@ -33,6 +33,7 @@ const defaultState = {
 }
 
 const Layout = createReactClass({
+  displayName: 'Layout',
   params: { key: 0 },
   getInitialState: () => defaultState,
   componentWillMount () {
