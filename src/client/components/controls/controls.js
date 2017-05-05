@@ -47,7 +47,7 @@ class Controls extends Component {
         <FormGroup>
           <ControlLabel style={{display: 'block'}}>Level</ControlLabel>
           <select id='level' onChange={this.handleChange} className={input} >
-            { getLevelSelect(levels).map(k => <option value={k.value}>{k.label}</option>) }
+            { getLevelSelect(levels).map((k, i) => <option value={k.value} key={i}>{k.label}</option>) }
           </select>
         </FormGroup>
         <FieldGroup
