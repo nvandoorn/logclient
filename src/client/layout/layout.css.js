@@ -9,7 +9,10 @@ export const container = {
 }
 
 export const spinner = {
-  float: 'right'
+  float: 'right',
+  '& > :global(.sk-circle:before)': {
+    background: '#FFFFFF'
+  }
 }
 
 export const loadSplash = {
@@ -22,10 +25,4 @@ export const loadSplash = {
 export const loadSplashItem = {
   'max-width': '50%',
   'flex': 0
-}
-
-export default {
-  ':global(.sk-circle:before)': {
-    background: '#FFFFFF'
-  }
 }
