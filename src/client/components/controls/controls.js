@@ -1,6 +1,7 @@
-import React, { Component } from 'react'
-import { FormGroup, ControlLabel, FormControl, HelpBlock, OverlayTrigger, Popover } from 'react-bootstrap'
-import InputMoment from 'input-moment' // eslint-disable-line
+import React from 'react'
+import createReactClass from 'create-react-class'
+import { FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap'
+import DatePicker from '../datepicker/datepicker'
 import moment from 'moment'
 
 import { levels } from '../../../constants'
@@ -15,32 +16,14 @@ const FieldGroup = ({onChange, id, label, help, ...props }) => // eslint-disable
     {help && <HelpBlock>{help}</HelpBlock>}
   </FormGroup>
 
-function DatePicker (props) {
-  const pickerPopover = (
-    <Popover title='Select Date and Time'>
-      <InputMoment moment={props.moment} />
-    </Popover>
-  )
-  return (
-    <OverlayTrigger trigger='click' placement='right' overlay={pickerPopover}>
-      <FieldGroup {...props} />
-    </OverlayTrigger>
-  )
-}
-
 const getLevelSelect = levelEnum => Object.keys(levelEnum).map(k => ({ value: levelEnum[k], label: k }))
 
-class Controls extends Component {
-  constructor (props) {
-    super(props)
-    this.handleChange = this.handleChange.bind(this)
-    this.state = { moment: moment() }
-  }
-
+const Controls = createReactClass({
+  displayName: 'Controls',
+  getInitialState: () => ({ moment: moment() }),
   handleChange (e) {
     this.props.onChange(e.target)
-  }
-
+  },
   render () {
     return (
       <div>
@@ -72,6 +55,6 @@ class Controls extends Component {
       </div>
     )
   }
-}
+})
 
 export default Controls
