@@ -106,18 +106,15 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: 'style!css-loader'
+        loader: 'style-loader!css-loader'
       },
       {
         test: /\.css\.js$/,
-        loader: 'style!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
+        loader: 'style-loader!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
       },
       {
         test: /\.css(\.js)?$/,
-        loader: 'postcss-loader',
-        options: {
-          plugins: () => [require('postcss-nesting')]
-        }
+        loader: 'postcss-loader'
       },
       {
         test: /\.css\.js$/,
@@ -147,7 +144,6 @@ module.exports = {
       // Remember to add the new extension(s) to the "url" loader exclusion list.
     ]
   },
-
   // We use PostCSS for autoprefixing only.
   postcss: function () {
     return [
