@@ -4,7 +4,7 @@ exports[`should render correctly 1`] = `
 <ul
   className={
     Object {
-      "list-style-type": "none",
+      "listStyleType": "none",
       "margin": 0,
       "padding": 0,
     }
@@ -22,8 +22,8 @@ exports[`should render correctly 1`] = `
       className={
         Object {
           "display": "inline-block",
-          "font-size": "14px",
-          "margin-right": "20px",
+          "fontSize": "14px",
+          "marginRight": "20px",
         }
       }
     >
@@ -36,7 +36,7 @@ exports[`should render correctly 1`] = `
         className={
           Object {
             "color": "#58B3FC",
-            "font-weight": 0,
+            "fontWeight": 0,
           }
         }
       >
@@ -47,7 +47,7 @@ exports[`should render correctly 1`] = `
       className={
         Object {
           "display": "inline-block",
-          "vertical-align": "top",
+          "verticalAlign": "top",
         }
       }
     >
