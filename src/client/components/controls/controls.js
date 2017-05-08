@@ -20,9 +20,19 @@ const getLevelSelect = levelEnum => Object.keys(levelEnum).map(k => ({ value: le
 
 const Controls = createReactClass({
   displayName: 'Controls',
-  getInitialState: () => ({ moment: moment() }),
+  getInitialState: () => ({
+    moment: moment(),
+    showStartdt: false,
+    showEnddt: false
+  }),
   handleChange (e) {
     this.props.onChange(e.target)
+  },
+  toggleStartdt () {
+    this.setState({ showStartdt: !this.state.showStartdt })
+  },
+  toggleEnddt () {
+    this.setState({ showEnddt: !this.state.showEnddt })
   },
   render () {
     return (
@@ -39,13 +49,8 @@ const Controls = createReactClass({
           type='number'
           label='Page Size'
         />
-        <DatePicker
-          moment={this.state.moment}
-          onChange={this.handleChange}
-          id='startdt'
-          type='text'
-          label='Start Date'
-        />
+        <button onClick={this.toggleStartdt}>Show me the dates Bob!</button>
+        { this.state.showStartdt ? <DatePicker moment={this.state.moment} /> : null }
         <FieldGroup
           onChange={this.handleChange}
           id='enddt'
