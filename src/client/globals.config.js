@@ -1,13 +1,21 @@
 // TODO figure out why import/export is borked in this file
 const levels = require('../constants').levels
 
-exports.colours = {
+const colours = {
+  blue: '#58B3FC',
+  lightBlue: '#51F2FC',
+  teal: '#34989F',
+  orange: '#F0C850',
+  red: '#F35656'
+}
+
+exports.colours = Object.assign({
   loglevels: [
-    { level: levels.debug, colour: '#34989F' },
-    { level: levels.info, colour: '#58B3FC' },
-    { level: levels.warn, colour: '#F0C850' },
-    { level: levels.error, colour: '#F35656' },
-    { level: levels.verbose, colour: '#51F2FC' }
+    { level: levels.debug, colour: colours.teal },
+    { level: levels.info, colour: colours.blue },
+    { level: levels.warn, colour: colours.orange },
+    { level: levels.error, colour: colours.red },
+    { level: levels.verbose, colour: colours.lightBlue }
   ],
   background: {
     main: '#40454E',
@@ -16,7 +24,7 @@ exports.colours = {
   text: {
     main: '#FFFFFF'
   }
-}
+}, colours)
 
 exports.sizes = {
   padding: '20px',
