@@ -7,17 +7,7 @@
 
 ![slask demo](/images/slask-demo.gif "slask demo")
 
-A simple web based client to view and filter logs. This project was originally implemented using server side view rendering and hacked together XHR requests to update the front-end in real time. Currently transitioning to a React based front-end with a RESTful API.
-
-## TODO
-- Implement config interface
-- Implement logfile directory interface
-- Integrate front-end with API
-- Rethink route handling on the front-end (React router)
-- Improve front-end request handling (possible Redux longterm)
-- Write front-end tests and increase server test coverage
-- Include more API call examples in readme
-- Server side config validation (probably JSON schema)
+Install slask on whatever machine contains your log files. slask is designed with remote systems debugging in mind. Developing some automation equipment using a Linux based single board computer? Install slask on your single board computer to effortlessly view logs without having to use SFTP or SSH.
 
 ## Running This Project
 - Running the dev environment: `npm run dev`
