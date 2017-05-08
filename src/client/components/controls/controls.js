@@ -40,7 +40,7 @@ const Controls = createReactClass({
         <FormGroup>
           <ControlLabel style={{display: 'block'}}>Level</ControlLabel>
           <select id='level' onChange={this.handleChange} className={input} >
-            { getLevelSelect(levels).map((k, i) => <option value={k.value} key={i}>{k.label}</option>) }
+            { getLevelSelect(levels).reverse().map((k, i) => <option value={k.value} key={i}>{k.label}</option>) }
           </select>
         </FormGroup>
         <FieldGroup
@@ -49,14 +49,20 @@ const Controls = createReactClass({
           type='number'
           label='Page Size'
         />
-        <button onClick={this.toggleStartdt}>Show me the dates Bob!</button>
+        <FieldGroup
+          onFocus={this.toggleStartdt}
+          onBlur={this.toggleStartdt}
+          type='text'
+          label='Start Date'
+        />
         { this.state.showStartdt ? <DatePicker moment={this.state.moment} /> : null }
         <FieldGroup
-          onChange={this.handleChange}
-          id='enddt'
+          onFocus={this.toggleEnddt}
+          onBlur={this.toggleEnddt}
           type='text'
           label='End Date'
         />
+        { this.state.showEnddt ? <DatePicker moment={this.state.moment} /> : null }
       </div>
     )
   }
