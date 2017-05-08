@@ -3,13 +3,13 @@ import { levels } from '../../../../constants'
 
 export const left = {
   display: 'inline-block',
-  'margin-right': sizes.margin,
-  'font-size': '14px'
+  marginRight: sizes.margin,
+  fontSize: '14px'
 }
 
 export const text = {
   display: 'inline-block',
-  'vertical-align': 'top'
+  verticalAlign: 'top'
 }
 
 export const line = {
@@ -18,7 +18,7 @@ export const line = {
 }
 
 const levelStyle = level => ({
-  'font-weight': levels.error,
+  fontWeight: levels.error,
   color: colours.loglevels.find(k => k.level === level).colour
 })
 
