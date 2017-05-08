@@ -87,6 +87,7 @@
     "react-nanobar": "^1.0.0",
     "react-spinkit": "^2.1.1",
     "react-test-renderer": "^15.4.2",
+    "react-transition-group": "^1.1.3",
     "recursive-readdir": "2.1.0",
     "request": "^2.81.0",
     "serve-favicon": "~2.3.0",
