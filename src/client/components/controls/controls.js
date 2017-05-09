@@ -22,14 +22,15 @@ const Controls = createReactClass({
   displayName: 'Controls',
   getInitialState: () => ({
     moment: moment(),
-    showStartdt: false,
+    showStartdt: true,
     showEnddt: false
   }),
   handleChange (e) {
     this.props.onChange(e.target)
   },
   toggleStartdt () {
-    this.setState({ showStartdt: !this.state.showStartdt })
+    // TODO put this back
+    // this.setState({ showStartdt: !this.state.showStartdt })
   },
   toggleEnddt () {
     this.setState({ showEnddt: !this.state.showEnddt })
@@ -54,8 +55,9 @@ const Controls = createReactClass({
           onBlur={this.toggleStartdt}
           type='text'
           label='Start Date'
+          value={this.state.moment._d}
         />
-        { this.state.showStartdt ? <DatePicker moment={this.state.moment} /> : null }
+        { this.state.showStartdt ? <DatePicker moment={this.state.moment} onChange={e => { this.setState({ moment: e }) }} /> : null }
         <FieldGroup
           onFocus={this.toggleEnddt}
           onBlur={this.toggleEnddt}
