@@ -1,5 +1,5 @@
-import createReactClass from 'create-react-class'
-import React from 'react'
+import React, { Component }from 'react'
+import autobind from 'autobind-decorator'
 import { Grid, Row, Col } from 'react-bootstrap'
 import Q from 'q'
 import Spinner from 'react-spinkit'
@@ -32,10 +32,13 @@ const defaultState = {
   loading: false
 }
 
-const Layout = createReactClass({
-  displayName: 'Layout',
-  params: { key: 0 },
-  getInitialState: () => defaultState,
+@autobind
+class Layout extends Component {
+  constructor (props) {
+    super(props)
+    this.params = { key: 0 }
+    this.state = defaultState
+  }
   componentWillMount () {
     Q.fcall(this.updateConfig)
     .then(this.updateDirectory)
@@ -44,23 +47,23 @@ const Layout = createReactClass({
     })
     .then(() => this.updateLoglines(this.params))
     .done(() => { setTimeout(() => { this.setState({ ready: true }) }, LOAD_DELAY_MS) })
-  },
+  }
   query (key, value) {
     this.updateLoglines(this.setParams(key, value))
-  },
+  }
   setParams (key, value) {
     this.params = merge(this.params, { [key]: value })
     return this.params
-  },
+  }
   updateLoglines (params) {
     return this.updateState(joinedRoutes.file, 'loglines', params)
-  },
+  }
   updateDirectory () {
     return this.updateState(joinedRoutes.directory, 'files', {})
-  },
+  }
   updateConfig () {
     return this.updateState(joinedRoutes.config, 'config', {})
-  },
+  }
   updateState (route, stateKey, params) {
     this.setState({ loading: true })
     return new Promise((resolve, reject) => {
@@ -78,7 +81,7 @@ const Layout = createReactClass({
         reject(err)
       })
     })
-  },
+  }
   render () {
     return (
       <div>
@@ -110,6 +113,6 @@ const Layout = createReactClass({
       </div>
     )
   }
-})
+}
 
 export default Layout

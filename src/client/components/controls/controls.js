@@ -1,5 +1,5 @@
-import React from 'react'
-import createReactClass from 'create-react-class'
+import React, { Component } from 'react'
+import autobind from 'autobind-decorator'
 import { FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap'
 import DatePicker from '../datepicker/datepicker'
 import moment from 'moment'
@@ -18,23 +18,26 @@ const FieldGroup = ({onChange, id, label, help, ...props }) => // eslint-disable
 
 const getLevelSelect = levelEnum => Object.keys(levelEnum).map(k => ({ value: levelEnum[k], label: k }))
 
-const Controls = createReactClass({
-  displayName: 'Controls',
-  getInitialState: () => ({
-    moment: moment(),
-    showStartdt: true,
-    showEnddt: false
-  }),
+@autobind
+class Controls extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      moment: moment(),
+      showStartdt: true,
+      showEnddt: false
+    }
+  }
   handleChange (e) {
     this.props.onChange(e.target)
-  },
+  }
   toggleStartdt () {
     // TODO put this back
     // this.setState({ showStartdt: !this.state.showStartdt })
-  },
+  }
   toggleEnddt () {
     this.setState({ showEnddt: !this.state.showEnddt })
-  },
+  }
   render () {
     return (
       <div>
@@ -68,6 +71,6 @@ const Controls = createReactClass({
       </div>
     )
   }
-})
+}
 
 export default Controls

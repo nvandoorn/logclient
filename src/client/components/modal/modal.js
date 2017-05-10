@@ -1,18 +1,22 @@
-import React from 'react'
-import createReactClass from 'create-react-class'
+import React, { Component } from 'react'
+import autobind from 'autobind-decorator'
 import { Modal as BModal, Button } from 'react-bootstrap'
 
-const Modal = createReactClass({
-  getInitialState: () => ({ showModal: this.props.show }),
+@autobind
+class Modal extends Component {
+  constructor () {
+    super(props)
+    this.state = { showModal: this.props.show }
+  }
   close () {
     this.setState({ showModal: false })
-  },
+  }
   open () {
     this.setState({ showModal: true })
-  },
+  }
   componentWillReceiveProps () {
     this.setState({ showModal: this.props.state })
-  },
+  }
   render () {
     return (
       <div>
@@ -27,6 +31,6 @@ const Modal = createReactClass({
       </div>
     )
   }
-})
+}
 
 export default Modal
