@@ -4,7 +4,7 @@ import { Modal as BModal, Button } from 'react-bootstrap'
 
 @autobind
 class Modal extends Component {
-  constructor () {
+  constructor (props) {
     super(props)
     this.state = { showModal: this.props.show }
   }

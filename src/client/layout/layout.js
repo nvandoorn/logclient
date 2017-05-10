@@ -1,4 +1,4 @@
-import React, { Component }from 'react'
+import React, { Component } from 'react'
 import autobind from 'autobind-decorator'
 import { Grid, Row, Col } from 'react-bootstrap'
 import Q from 'q'

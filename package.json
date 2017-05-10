@@ -108,6 +108,7 @@
     "winston": "^2.3.0"
   },
   "standard": {
+    "parser": "babel-eslint",
     "ignore": [
       "build"
     ]

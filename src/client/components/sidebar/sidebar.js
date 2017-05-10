@@ -10,6 +10,7 @@ const SidebarItem = ({name, isActive, onClick, reqKey}) =>
 class Sidebar extends Component {
   constructor (props) {
     super(props)
+    this.state = {}
   }
   handleClick (key) {
     this.props.onClick(key)
