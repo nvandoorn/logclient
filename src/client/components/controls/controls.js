@@ -6,7 +6,6 @@ import moment from 'moment'
 
 import { levels } from '../../../constants'
 
-import '../../../../node_modules/input-moment/dist/input-moment.css'
 import { input } from './controls.css'
 
 const FieldGroup = ({onChange, id, label, help, ...props }) => // eslint-disable-line
@@ -60,7 +59,7 @@ class Controls extends Component {
           label='Start Date'
           value={this.state.moment._d}
         />
-        { this.state.showStartdt ? <DatePicker moment={this.state.moment} onChange={e => { this.setState({ moment: e }) }} /> : null }
+        { this.state.showStartdt ? <DatePicker moment={this.state.moment} onClick={e => { this.setState({ moment: this.state.moment.date(e) }) }} /> : null }
         <FieldGroup
           onFocus={this.toggleEnddt}
           onBlur={this.toggleEnddt}
