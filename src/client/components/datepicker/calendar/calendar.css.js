@@ -29,7 +29,8 @@ export const table = {
   borderCollapse: 'separate',
   '& td': {
     padding: sizes.calendar.padding
-  }
+  },
+  alignSelf: 'center'
 }
 
 export const days = {
