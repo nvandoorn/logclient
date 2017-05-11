@@ -2,7 +2,7 @@ import React from 'react'
 import moment from 'moment'
 import { range, chunk } from 'lodash'
 
-import { day, prevMonth, nextMonth, daysOfWeek, table} from './calendar.css'
+import { day, prevMonth, nextMonth, daysOfWeek, table } from './calendar.css'
 
 const DaysOfWeek = props =>
   <thead {...props}><tr>{ moment.weekdays().map((k, i) => <td key={i}>{k.slice(0, 3)}</td>) }</tr></thead>
@@ -21,7 +21,7 @@ function makeDayGrid (m) {
 
   // Elements
   const prevMonthDays = range(firstDayOfMonth).reverse()
-    .map(k => <PrevMonthDay key={`prev-${k}`} i={nDaysPrevMonth - k}/>)
+    .map(k => <PrevMonthDay key={`prev-${k}`} i={nDaysPrevMonth - k} />)
   const thisMonthDays = range(daysInMonth).map(k => <Day i={k + 1} key={k} className='' />)
   const nextMonthDays = range(7 - ((prevMonthDays.length + thisMonthDays.length) % 7))
     .map(k => <NextMonthDay key={`next-${k}`} i={k + 1} />)
@@ -32,7 +32,7 @@ function makeDayGrid (m) {
 const Calendar = props =>
   <div>
     <table className={table}>
-      <DaysOfWeek className={daysOfWeek}/>
+      <DaysOfWeek className={daysOfWeek} />
       { makeDayGrid(moment('Jan 2017')) }
     </table>
   </div>

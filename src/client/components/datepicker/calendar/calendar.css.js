@@ -21,7 +21,7 @@ export const table = {
   }
 }
 
-export const days ={
+export const days = {
   '& > tr > td:nth-child(even)': {
     background: colours.background.main
   }
