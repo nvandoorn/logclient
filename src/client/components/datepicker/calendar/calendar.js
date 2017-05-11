@@ -7,7 +7,7 @@ import { day, prevMonth, nextMonth, daysOfWeek, table, active } from './calendar
 const DaysOfWeek = props =>
   <thead {...props}><tr>{ moment.weekdays().map((k, i) => <td key={i}>{k.slice(0, 3)}</td>) }</tr></thead>
 
-const Day = ({i, classNames=[], onClick=()=>{}}) =>
+const Day = ({i, classNames = [], onClick = () => {}}) =>
   <td className={`${day} ${classNames.join(' ')}`} onClick={() => { onClick(i) }}>{i}</td>
 
 const rowify = days => chunk(days, 7).map(k => <tr>{k}</tr>)
