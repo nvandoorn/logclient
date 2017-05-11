@@ -9,6 +9,12 @@
 
 Install slask on whatever machine contains your log files. slask is designed with remote systems debugging in mind. Developing some automation equipment using a Linux based single board computer? Install slask on your single board computer to effortlessly view logs without having to use SFTP or SSH.
 
+## Active Work Show and Tell
+### [#5](https://github.com/nvandoorn/slask/issues/5) Implement datetime pickers
+![Datepicker](/images/datepicker.gif "Datepicker")
+
+Datetime picker as of commit [d2edd05](https://github.com/nvandoorn/slask/commit/d8505e81b28205d865adaba255e7fcae2277a957)
+
 ## Running This Project
 - Running the dev environment: `npm run dev`
 - Running the dev environment in debug mode: `npm run dev-debug`
