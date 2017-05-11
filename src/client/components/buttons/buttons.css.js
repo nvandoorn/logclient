@@ -7,5 +7,5 @@ const base = Object.assign({
 
 export const round = Object.assign({
   background: colours.blue,
-  borderRadius: '50%',
+  borderRadius: '50%'
 }, base)
