@@ -94,7 +94,7 @@ class Layout extends Component {
         { this.state.ready
         ? <Grid>
           <Row>
-            <Col sm={3}>
+            <Col sm={4}>
               <div className={container}>
                 <Controls onChange={e => { this.query(e.id, e.value) }} />
               </div>
@@ -102,7 +102,7 @@ class Layout extends Component {
                 <Sidebar logfiles={this.state.files} onClick={e => { this.query('key', e) }} />
               </div>
             </Col>
-            <Col sm={9}>
+            <Col sm={8}>
               <div className={container}>
                 { this.state.loading ? <Spinner spinnerName='circle' className={spinner} noFadeIn /> : null }
                 <Loglines loglines={this.state.loglines} />
