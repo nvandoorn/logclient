@@ -37,6 +37,12 @@ class Controls extends Component {
   toggleEnddt () {
     this.setState({ showEnddt: !this.state.showEnddt })
   }
+  setDate (e) {
+    this.setState({ moment: this.state.moment.date(e) })
+  }
+  setMonth (e) {
+    this.setState({ moment: this.state.moment.month(e) })
+  }
   render () {
     return (
       <div>
@@ -59,7 +65,7 @@ class Controls extends Component {
           label='Start Date'
           value={this.state.moment._d}
         />
-        { this.state.showStartdt ? <DatePicker moment={this.state.moment} onClick={e => { this.setState({ moment: this.state.moment.date(e) }) }} /> : null }
+        { this.state.showStartdt ? <DatePicker moment={this.state.moment} onClick={this.setDate} setMonth={this.setMonth} /> : null }
         <FieldGroup
           onFocus={this.toggleEnddt}
           onBlur={this.toggleEnddt}
