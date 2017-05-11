@@ -2,6 +2,7 @@ import React from 'react'
 import moment from 'moment'
 import { range, chunk } from 'lodash'
 
+
 import { day, prevMonth, nextMonth, daysOfWeek, table, active } from './calendar.css'
 
 const DaysOfWeek = props =>
@@ -32,11 +33,9 @@ function makeDayGrid (m, onClick) {
 }
 
 const Calendar = props =>
-  <div>
-    <table className={table}>
-      <DaysOfWeek className={daysOfWeek} />
-      { makeDayGrid(props.moment, props.onClick) }
-    </table>
-  </div>
+  <table className={table}>
+    <DaysOfWeek className={daysOfWeek} />
+    { makeDayGrid(props.moment, props.onClick) }
+  </table>
 
 export default Calendar
