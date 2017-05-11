@@ -70,7 +70,6 @@
     "heap": "^0.2.6",
     "html-webpack-plugin": "2.24.0",
     "http-proxy-middleware": "0.17.3",
-    "input-moment": "^0.3.2",
     "jest": "^19.0.2",
     "json-loader": "0.5.4",
     "json-subset": "^1.0.2",
