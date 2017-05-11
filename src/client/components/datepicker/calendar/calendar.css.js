@@ -5,17 +5,28 @@ export const day = {
   verticalAlign: 'middle',
   textAlign: 'center',
   borderRadius: sizes.calendar.borderRadius,
-  border: sizes.calendar.border,
+  border: `${sizes.calendar.border} transparent`,
   '&:hover': {
-    borderColor: colours.blue
+    borderColor: colours.blue,
+    cursor: 'pointer'
   }
 }
 
-export const prevMonth = {}
+export const prevMonth = {
+  color: colours.text.muted
+}
 
-export const nextMonth = {}
+export const nextMonth = {
+  color: colours.text.muted
+}
+
+export const active = {
+  color: colours.background.accent,
+  background: colours.blue
+}
 
 export const table = {
+  borderCollapse: 'separate',
   '& td': {
     padding: sizes.calendar.padding
   }
