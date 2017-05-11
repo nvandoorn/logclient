@@ -25,7 +25,7 @@ exports.colours = Object.assign({
   },
   text: {
     main: '#FFFFFF',
-    muted: '#CCCCCC'
+    muted: '#8C8C8C'
   }
 }, colours)
 
