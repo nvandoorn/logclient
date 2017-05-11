@@ -1,11 +1,11 @@
 import React from 'react'
-import InputMoment from 'input-moment'
+import Calendar from './calendar/calendar'
 
 import { datePicker } from './datepicker.css'
 
 const DatePicker = props =>
   <div className={datePicker}>
-    <InputMoment moment={props.moment} onChange={props.onChange} />
+    <Calendar />
   </div>
 
 export default DatePicker
