@@ -24,7 +24,8 @@ function makeDayGrid (m, onClick) {
   const prevMonthDays = range(firstDayOfMonth).reverse()
     .map(k => <Day classNames={[prevMonth]} key={`prev-${k}`} i={nDaysPrevMonth - k} />)
   const thisMonthDays = range(daysInMonth).map(k => <Day onClick={onClick} i={k + 1} key={k} classNames={k + 1 === selectedDay ? [active] : []} />)
-  const nextMonthDays = range(7 - ((prevMonthDays.length + thisMonthDays.length) % 7))
+  const nDaysNextMonth = 7 - ((prevMonthDays.length + thisMonthDays.length) % 7)
+  const nextMonthDays = range(nDaysNextMonth < 7 ? nDaysNextMonth : 0)
     .map(k => <Day classNames={[nextMonth]} key={`next-${k}`} i={k + 1} />)
 
   // Join and return in tbody
