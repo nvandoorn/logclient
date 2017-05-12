@@ -22,7 +22,8 @@ class Controls extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      moment: moment(),
+      startMoment: moment(),
+      endMoment: moment(),
       showStartdt: true,
       showEnddt: false
     }
@@ -37,12 +38,13 @@ class Controls extends Component {
   toggleEnddt () {
     this.setState({ showEnddt: !this.state.showEnddt })
   }
-  setDate (e) {
-    this.setState({ moment: this.state.moment.date(e) })
+  updateStartMoment (moment) {
+    this.setState({ startMoment: moment })
   }
-  setMonth (e) {
-    this.setState({ moment: this.state.moment.month(e) })
+  updateEndMoment (moment) {
+    this.setState({ endMoment: moment })
   }
+
   render () {
     return (
       <div>
@@ -63,16 +65,18 @@ class Controls extends Component {
           onBlur={this.toggleStartdt}
           type='text'
           label='Start Date'
-          value={this.state.moment._d}
+          value={this.state.startMoment._d}
+          readOnly
         />
-        { this.state.showStartdt ? <DatePicker moment={this.state.moment} onClick={this.setDate} setMonth={this.setMonth} /> : null }
+        { this.state.showStartdt ? <DatePicker moment={this.state.startMoment} onChange={this.updateStartMoment}/> : null }
         <FieldGroup
           onFocus={this.toggleEnddt}
           onBlur={this.toggleEnddt}
           type='text'
           label='End Date'
+          readOnly
         />
-        { this.state.showEnddt ? <DatePicker moment={this.state.moment} /> : null }
+        { this.state.showEnddt ? <DatePicker moment={this.state.endMoment} onChange={this.updateEndMoment}/> : null }
       </div>
     )
   }
