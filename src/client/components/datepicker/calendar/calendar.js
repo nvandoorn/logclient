@@ -10,7 +10,8 @@ const DaysOfWeek = props =>
 const Day = ({i, classNames = [], onClick = () => {}}) =>
   <td className={`${day} ${classNames.join(' ')}`} onClick={() => { onClick(i) }}>{i}</td>
 
-const rowify = days => chunk(days, 7).map(k => <tr>{k}</tr>)
+const rowify = days => chunk(days, 7).map((k, i) => <tr key={i}>{k}</tr>)
+const oRange = n => range(1, n + 1) // offset range
 
 function makeDayGrid (m, onClick) {
   // Details about this moment to generate grid
@@ -21,12 +22,12 @@ function makeDayGrid (m, onClick) {
   const selectedDay = m.date()
 
   // Elements
-  const prevMonthDays = range(firstDayOfMonth).reverse()
+  const prevMonthDays = oRange(firstDayOfMonth).reverse()
     .map(k => <Day classNames={[prevMonth]} key={`prev-${k}`} i={nDaysPrevMonth - k} />)
-  const thisMonthDays = range(daysInMonth).map(k => <Day onClick={onClick} i={k + 1} key={k} classNames={k + 1 === selectedDay ? [active] : []} />)
+  const thisMonthDays = oRange(daysInMonth).map(k => <Day onClick={onClick} i={k} key={k} classNames={k === selectedDay ? [active] : []} />)
   const nDaysNextMonth = 7 - ((prevMonthDays.length + thisMonthDays.length) % 7)
-  const nextMonthDays = range(nDaysNextMonth < 7 ? nDaysNextMonth : 0)
-    .map(k => <Day classNames={[nextMonth]} key={`next-${k}`} i={k + 1} />)
+  const nextMonthDays = oRange(nDaysNextMonth < 7 ? nDaysNextMonth : 0)
+    .map(k => <Day classNames={[nextMonth]} key={`next-${k}`} i={k} />)
 
   // Join and return in tbody
   return <tbody>{ rowify([].concat(prevMonthDays, thisMonthDays, nextMonthDays)) }</tbody>
