@@ -68,7 +68,7 @@ class Controls extends Component {
           value={this.state.startMoment._d}
           readOnly
         />
-        { this.state.showStartdt ? <DatePicker moment={this.state.startMoment} onChange={this.updateStartMoment}/> : null }
+        { this.state.showStartdt ? <DatePicker moment={this.state.startMoment} onChange={this.updateStartMoment} /> : null }
         <FieldGroup
           onFocus={this.toggleEnddt}
           onBlur={this.toggleEnddt}
@@ -76,7 +76,7 @@ class Controls extends Component {
           label='End Date'
           readOnly
         />
-        { this.state.showEnddt ? <DatePicker moment={this.state.endMoment} onChange={this.updateEndMoment}/> : null }
+        { this.state.showEnddt ? <DatePicker moment={this.state.endMoment} onChange={this.updateEndMoment} /> : null }
       </div>
     )
   }
